@@ -1,0 +1,35 @@
+to matrix :rows :columns :cellSize
+    make "maxX :rows * :cellSize / 2
+    make "maxY :columns * :cellSize / 2
+    for [i :maxX -:maxX -:cellSize] [
+        pu setxy -:maxY :i
+        pd setxy :maxY :i
+    ]
+    for [i -:maxY :maxY :cellSize] [
+        pu setxy :i :maxX
+        pd setxy :i -:maxX
+    ]
+end
+
+to toggle
+    setpos mousepos
+    ifelse pixel = [255 255 255] [
+        setfc "Black
+    ] [
+        ifelse pixel = [0 0 0] [
+            setfc "White
+        ] [
+            stop
+        ]
+    ]
+    fill
+end
+
+ht
+setpc [1 1 1]
+matrix 16 16 25
+pu
+bk 1
+setfc [254 254 254]
+fill
+mouseon [toggle] [] [] [] []
