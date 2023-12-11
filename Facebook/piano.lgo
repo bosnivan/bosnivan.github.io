@@ -1,0 +1,72 @@
+make "width 30   ; white key width, black is 2/3 width
+make "height 120 ; white key height, black is 2/3 height
+make "notes {48 50 52 53 55 57 59 60 62 64 65 67 69 71 72}
+
+to draw_piano
+    ht
+    draw_black_keys
+    draw_white_keys
+    pu
+    setx xcor + 1 setfc [254 254 254] fill
+end
+
+to draw_black_keys
+    pu setx -1 * (15 * :width / 2 - :width / 3 * 2) pd
+    repeat 2 [
+        draw_black_key
+        pu setx xcor + :width pd
+        draw_black_key
+        pu setx xcor + 2 * :width pd
+        draw_black_key
+        pu setx xcor + :width pd
+        draw_black_key
+        pu setx xcor + :width pd
+        draw_black_key
+        pu setx xcor + 2 * :width pd
+    ]
+end
+
+to draw_black_key
+    repeat 2 [fd :height / 3 * 2 rt 90 fd :width / 3 * 2 rt 90]
+    setxy xcor + 1 ycor + 1 fill setxy xcor - 1 ycor - 1
+end
+
+to draw_white_keys
+    pu setxy -1 * 15 * :width / 2 -1 * :height / 3 pd
+    repeat 15 [
+        draw_white_key
+        setx xcor + :width
+    ]
+end
+
+to draw_white_key
+    repeat 2 [fd :height rt 90 fd :width rt 90]
+end
+
+to note_on
+    setpos mousepos
+    if pixel = [254 254 254] [stop]
+    make "key (int (xcor + 15 * :width / 2) / :width) + 1
+    make "note item :key :notes
+    if pixel = [0 0 0] [
+        ifelse xcor < (:key * :width - 16 * :width / 2) [
+            make "note :note - 1
+        ] [
+            make "note :note + 1
+        ]
+    ]
+    midimessage (list 144 :note 127)
+end
+
+to note_off
+    midimessage (list 128 :note 0)
+end
+
+
+to startup
+    draw_piano
+    mouseon [note_on] [note_off] [] [] []
+    print midiopen
+end
+
+make "startup [startup]
