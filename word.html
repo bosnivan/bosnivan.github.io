@@ -9,11 +9,28 @@
       font-family: sans-serif;
 	  font-size: 2em;
       display: flex;
+	  align-items: center;
       justify-content: center;
-      align-items: center;
       min-height: 100vh;
       margin: 0;
     }
+	@media (prefers-color-scheme: dark) {
+      body {
+		background: #121212;
+		color: #ededed;
+	  }
+	}
+	@media (prefers-color-scheme: light) {
+	  body {
+		background: #fff;
+		color: #000;
+	  }
+	}
+	div {
+	  -webkit-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	}
   </style>
 </head>
 <body>
