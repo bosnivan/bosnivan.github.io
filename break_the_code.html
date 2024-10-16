@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="hr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+				-webkit-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            .question {
+                cursor: pointer;
+            }
+            @media (prefers-color-scheme: dark) {
+                body {
+                    background: #121212;
+                    color: #ededed;
+                }
+            }
+            @media (prefers-color-scheme: light) {
+                body {
+                    background: #fff;
+                    color: #000;
+                }
+            }
+        </style>
+        <title>Break the Code</title>
+    </head>
+    <body>
+        <h1>Break the Code</h1>
+        <div id="questions"></div>
+
+        <script>
+            const questions = [
+                "Gdje se nalazi 0?",
+                "Gdje se nalazi 1 ili 2?",
+                "Gdje se nalazi 3 ili 4?",
+                "Gdje se nalazi 6 ili 7?",
+                "Gdje se nalazi 8 ili 9?",
+                "Koliko imaš plavih brojeva?",
+                "Koliki je zbroj plavih brojeva?",
+                "Koliko imaš crvenih brojeva?",
+                "Koliki je zbroj crvenih brojeva?",
+                "Koliko imaš neparnih brojeva?",
+                "Koliko imaš parnih brojeva?",
+                "Koliki je zbroj prva 3 broja?",
+                "Koliki je zbroj srednja 3 broja?",
+                "Koliki je zbroj zadnja 3 broja?",
+                "Gdje se nalaze susjedi iste boje?",
+                "Koliko imaš parova istih brojeva?",
+                "Gdje se nalaze brojevi u nizu?",
+                "[SVI] Koliko je zbroj svih brojeva?",
+                "[SVI] Je li srednji broj veći od 4?",
+                "[SVI] Koja je razlika najvećeg i najmanjeg broja?",
+                "Gdje se nalazi 5?",
+            ];
+
+            function getRandomQuestion() {
+                const randomIndex = Math.floor(Math.random() * questions.length);
+                return questions.splice(randomIndex, 1)[0];
+            }
+
+            function displayRandomQuestions() {
+                const questionsDiv = document.getElementById("questions");
+                questionsDiv.innerHTML = "";
+                for (let i = 0; i < 6; i++) {
+                    const question = getRandomQuestion();
+                    const questionElement = document.createElement("p");
+                    questionElement.classList.add("question");
+                    questionElement.textContent = question;
+                    questionElement.onclick = () => replaceQuestion(questionElement);
+                    questionsDiv.appendChild(questionElement);
+                }
+            }
+
+            function replaceQuestion(questionElement) {
+                const newQuestion = getRandomQuestion();
+                questionElement.textContent = newQuestion;
+            }
+
+            displayRandomQuestions();
+        </script>
+    </body>
+</html>
