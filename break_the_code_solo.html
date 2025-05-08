@@ -127,11 +127,11 @@
 
         .number-tile {
             display: inline-block;
-            padding: 8px 12px;
-            margin: 3px;
+            padding: 4px 6px;
+            margin: 2px;
             border-radius: 4px;
             font-weight: bold;
-            min-width: 35px;
+            min-width: 30px;
             text-align: center;
             border: 1px solid #ccc;
             cursor: pointer;
@@ -610,7 +610,7 @@
         function sortCode(code) {
             // Sorts by value first, then original index (if available) or color
             return code.sort((a, b) => {
-                /*const valA = Array.isArray(a) ? a[VALUE] : a.value;
+                const valA = Array.isArray(a) ? a[VALUE] : a.value;
                 const valB = Array.isArray(b) ? b[VALUE] : b.value;
                 const colorA = Array.isArray(a) ? a[COLOR] : a.color;
                 const colorB = Array.isArray(b) ? b[COLOR] : b.color;
@@ -630,13 +630,7 @@
                 if (indexA !== -1 && indexB !== -1) {
                     return indexA - indexB;
                 }
-                return 0; // Should not be reached for distinct tiles*/
-                const indexA = Array.isArray(a) ? a[INDEX] : -1; // Use -1 if index not present
-                const indexB = Array.isArray(b) ? b[INDEX] : -1;
-                if (indexA !== -1 && indexB !== -1) {
-                    return indexA - indexB;
-                }
-                return 0; // Should not be reached for distinct tiles*/
+                return 0; // Should not be reached for distinct tiles
             });
         }
 
