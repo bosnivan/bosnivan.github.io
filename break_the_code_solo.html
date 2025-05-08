@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Break the Code</title>
+    <style>
+        body {
+            font-family: sans-serif, Arial;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-display {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+            background-color: #e9f5ff;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 35px;
+            /* Ensure space even when empty */
+        }
+
+        .tile {
+            display: inline-block;
+            padding: 0px 5px;
+            border-radius: 4px;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+            border: 1px solid #ccc;
+            vertical-align: middle;
+            /* Align tiles nicely */
+
+        }
+
+        .tile-B {
+            /* Black */
+            background-color: #333;
+            color: #fff;
+            border-color: #000;
+        }
+
+        .tile-W {
+            /* White */
+            background-color: #fff;
+            color: #333;
+            border-color: #aaa;
+        }
+
+        .tile-5 {
+            /* 5 */
+            background-color: #ddd;
+            color: #3cae63;
+            border-color: #888;
+        }
+
+        #game-log {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 15px;
+            height: 200px;
+            overflow-y: scroll;
+            background-color: #fdfdfd;
+            font-size: 0.9em;
+        }
+
+        #questions-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #questions-list li {
+            background: #f0f0f0;
+            margin-bottom: 5px;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        #questions-list li:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* --- Guess Input Area --- */
+        .guess-input-area {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .number-row {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .number-tile {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 3px;
+            border-radius: 4px;
+            font-weight: bold;
+            min-width: 35px;
+            text-align: center;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            user-select: none;
+            /* Prevent text selection */
+        }
+
+        .number-tile:hover {
+            border-color: #888;
+        }
+
+        .number-tile:active {
+            transform: scale(0.95);
+        }
+
+        .number-tile.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+            background-color: #e0e0e0 !important;
+            /* Override B/W */
+            color: #888 !important;
+            transform: none;
+            /* Prevent active scale when disabled */
+        }
+
+        #selected-guess-display {
+            margin-top: 15px;
+            min-height: 40px;
+            /* Ensure space */
+            background-color: #e9f5ff;
+            /* Match other displays */
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .guess-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .guess-buttons button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .guess-buttons button#submit-guess-button {
+            background-color: #5cb85c;
+            color: white;
+            border-color: #4cae4c;
+        }
+
+        .guess-buttons button#submit-guess-button:disabled {
+            background-color: #d8d8d8;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .guess-buttons button#clear-guess-button {
+            background-color: #f0ad4e;
+            color: white;
+            border-color: #eea236;
+        }
+
+        /* --- End Guess Input Area --- */
+
+        .debug-info {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .message {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+
+        .message-player {
+            background-color: #dff0d8;
+            border-left: 3px solid #5cb85c;
+        }
+
+        .message-computer {
+            background-color: #fcf8e3;
+            border-left: 3px solid #f0ad4e;
+        }
+
+        .message-info {
+            background-color: #d9edf7;
+            border-left: 3px solid #5bc0de;
+        }
+
+        .message-error {
+            background-color: #f2dede;
+            border-left: 3px solid #d9534f;
+        }
+
+        #end-game-overlay {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #end-game-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #end-game-box button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Break the Code</h1>
+
+        <div id="player-code-area">
+            <h2>Your Code</h2>
+            <div id="player-code-display" class="code-display"></div>
+        </div>
+        <div id="computer-code-area" style="display: none;">
+            <h2>Computer's Code</h2>
+            <div id="computer-code-display" class="code-display"></div>
+        </div>
+        <button id="toggle-debug" style="margin-bottom: 10px;">Show Computer's Code</button>
+
+        <div id="questions-list">
+            <h3>Ask a question:</h3>
+            <ul><!-- Questions will appear here... --></ul>
+        </div>
+
+        <div id="game-log">
+            <p><em>Game log will appear here...</em></p>
+        </div>
+
+        <div class="guess-input-area">
+            <h3>Make a guess:</h3>
+            <div id="number-selection">
+                <div id="black-numbers" class="number-row"></div>
+                <div id="white-numbers" class="number-row"></div>
+            </div>
+            <div id="selected-guess-display" class="code-display"></div>
+            <div class="guess-buttons">
+                <button id="submit-guess-button" disabled>Submit</button>
+                <button id="clear-guess-button">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="end-game-overlay">
+        <div id="end-game-box">
+            <h2 id="end-game-title">Game Over!</h2>
+            <p id="end-game-message"></p>
+            <p id="end-game-stats"></p>
+            <button onclick="location.reload()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const INDEX = 0;
+        const VALUE = 1;
+        const COLOR = 2;
+
+        const BLACK = 0;
+        const WHITE = 1;
+        const JOKER = 2;
+
+        const NORMAL = 1;
+        const DOUBLE = 2;
+        const SHARED = 3;
+
+        const TRANS_MAP = { "0": "a", "1": "b", "2": "c", "3": "d", "4": "e" };
+
+        let tiles = [
+            [0, 0, BLACK], [1, 0, WHITE],
+            [2, 1, BLACK], [3, 1, WHITE],
+            [4, 2, BLACK], [5, 2, WHITE],
+            [6, 3, BLACK], [7, 3, WHITE],
+            [8, 4, BLACK], [9, 4, WHITE],
+            [10, 5, JOKER], [11, 5, JOKER],
+            [12, 6, BLACK], [13, 6, WHITE],
+            [14, 7, BLACK], [15, 7, WHITE],
+            [16, 8, BLACK], [17, 8, WHITE],
+            [18, 9, BLACK], [19, 9, WHITE],
+        ];
+
+        let questions = [
+            [NORMAL, "Where is 0?", ["find_zero"]],
+            [DOUBLE, "Where is 1 or 2?", ["find_one", "find_two"], ["Where is 1?", "Where is 2?"]],
+            [DOUBLE, "Where is 3 or 4?", ["find_three", "find_four"], ["Where is 3?", "Where is 4?"]],
+            [NORMAL, "Where is 5?", ["find_five"]],
+            [DOUBLE, "Where is 6 or 7?", ["find_six", "find_seven"], ["Where is 6?", "Where is 7?"]],
+            [DOUBLE, "Where is 8 or 9?", ["find_eight", "find_nine"], ["Where is 8?", "Where is 9?"]],
+            [NORMAL, "How many black tiles do you have?", ["count_black"]],
+            [NORMAL, "What is the sum of your black tiles?", ["sum_black"]],
+            [NORMAL, "How many white tiles do you have?", ["count_white"]],
+            [NORMAL, "What is the sum of your white tiles?", ["sum_white"]],
+            [NORMAL, "How many odd numbers do you have?", ["count_odd"]],
+            [NORMAL, "How many even numbers do you have?", ["count_even"]],
+            [NORMAL, "What is the sum of your three left tiles?", ["sum_left_tiles"]],
+            [NORMAL, "What is the sum of your three middle tiles?", ["sum_middle_tiles"]],
+            [NORMAL, "What is the sum of your three right tiles?", ["sum_right_tiles"]],
+            [NORMAL, "Where do you have neighboring tiles of the same color?", ["find_color_groups"]],
+            [NORMAL, "How many pairs of the same number do you have?", ["count_pairs"]],
+            [NORMAL, "Where do you have tiles in sequential order?", ["find_sequences"]],
+            [SHARED, "[Shared] What is the sum of all your tiles?", ["sum_all"]],
+            [SHARED, "[Shared] Is the middle tile greater than 4?", ["is_middle_gt_four"]],
+            [SHARED, "[Shared] What is the difference between the largest and smallest numbers?", ["find_largest_smallest_difference"]],
+        ];
+
+        let playerCode = [];
+        let computerCode = [];
+        let allPossibleCodes = [];
+        let possiblePlayerCodes = [];
+        let possibleComputerCodes = [];
+        let availableQuestions = [];
+        let activeQuestionsList = [];
+
+        let playerCounter = 0;
+        let computerCounter = 0;
+        let computerIsPlaying = true;
+        let startTime = null;
+        let playerTurn = true;
+        let waitingForSubQuestion = false;
+        let currentQuestionData = null;
+        let currentGuess = [];
+        let numberTileElements = {};
+
+        const playerCodeDisplay = document.getElementById("player-code-display");
+        const computerCodeDisplay = document.getElementById("computer-code-display");
+        const computerCodeArea = document.getElementById("computer-code-area");
+        const questionsListElement = document.getElementById("questions-list").querySelector("ul");
+        const gameLog = document.getElementById("game-log");
+        const toggleDebugButton = document.getElementById("toggle-debug");
+        const endGameOverlay = document.getElementById("end-game-overlay");
+        const endGameTitle = document.getElementById("end-game-title");
+        const endGameMessage = document.getElementById("end-game-message");
+        const endGameStats = document.getElementById("end-game-stats");
+        const blackNumbersContainer = document.getElementById("black-numbers");
+        const whiteNumbersContainer = document.getElementById("white-numbers");
+        const selectedGuessDisplay = document.getElementById("selected-guess-display");
+        const submitGuessButton = document.getElementById("submit-guess-button");
+        const clearGuessButton = document.getElementById("clear-guess-button");
+
+        const questionFunctions = {
+            find_value: (code, value) => {
+                const result = [];
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                const sortedCode = sortCode(standardCode);
+                for (let i = 0; i < sortedCode.length; i++) {
+                    if (sortedCode[i][VALUE] === value) {
+                        result.push(i);
+                    }
+                }
+                return result;
+            },
+            find_zero: (code) => questionFunctions.find_value(code, 0),
+            find_one: (code) => questionFunctions.find_value(code, 1),
+            find_two: (code) => questionFunctions.find_value(code, 2),
+            find_three: (code) => questionFunctions.find_value(code, 3),
+            find_four: (code) => questionFunctions.find_value(code, 4),
+            find_five: (code) => questionFunctions.find_value(code, 5),
+            find_six: (code) => questionFunctions.find_value(code, 6),
+            find_seven: (code) => questionFunctions.find_value(code, 7),
+            find_eight: (code) => questionFunctions.find_value(code, 8),
+            find_nine: (code) => questionFunctions.find_value(code, 9),
+            count_color: (code, color) => {
+                let count = 0;
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                for (let i = 0; i < standardCode.length; i++) {
+                    if (standardCode[i][VALUE] !== 5 && standardCode[i][COLOR] === color) {
+                        count++;
+                    }
+                }
+                return count;
+            },
+            count_black: (code) => questionFunctions.count_color(code, BLACK),
+            count_white: (code) => questionFunctions.count_color(code, WHITE),
+            sum_color: (code, color) => {
+                let sum = 0;
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                for (let i = 0; i < standardCode.length; i++) {
+                    if (standardCode[i][VALUE] !== 5 && standardCode[i][COLOR] === color) {
+                        sum += standardCode[i][VALUE];
+                    }
+                }
+                return sum;
+            },
+            sum_black: (code) => questionFunctions.sum_color(code, BLACK),
+            sum_white: (code) => questionFunctions.sum_color(code, WHITE),
+            count_parity: (code, remainder) => {
+                let count = 0;
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                for (let i = 0; i < standardCode.length; i++) {
+                    if (standardCode[i][VALUE] % 2 === remainder) {
+                        count++;
+                    }
+                }
+                return count;
+            },
+            count_odd: (code) => questionFunctions.count_parity(code, 1),
+            count_even: (code) => questionFunctions.count_parity(code, 0),
+            sum_tiles_slice: (code, start, end) => {
+                let sum = 0;
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                const sortedCode = sortCode(standardCode.slice());
+                for (let i = start; i < end; i++) {
+                    if (sortedCode[i]) {
+                        sum += sortedCode[i][VALUE];
+                    }
+                }
+                return sum;
+            },
+            sum_left_tiles: (code) => questionFunctions.sum_tiles_slice(code, 0, 3),
+            sum_middle_tiles: (code) => questionFunctions.sum_tiles_slice(code, 1, 4),
+            sum_right_tiles: (code) => questionFunctions.sum_tiles_slice(code, 2, 5),
+            find_color_groups: (code) => {
+                const groups = [];
+                let currentGroup = null;
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                const sortedCode = sortCode(standardCode.slice());
+                for (let i = 0; i < sortedCode.length - 1; i++) {
+                    if (sortedCode[i][VALUE] === 5 || sortedCode[i + 1][VALUE] === 5) {
+                        currentGroup = null;
+                        continue;
+                    }
+                    if (sortedCode[i][COLOR] === sortedCode[i + 1][COLOR]) {
+                        if (currentGroup === null) {
+                            currentGroup = [i];
+                            groups.push(currentGroup);
+                        }
+                        if (!currentGroup.includes(i + 1)) {
+                            currentGroup.push(i + 1);
+                        }
+                    } else {
+                        currentGroup = null;
+                    }
+                }
+                return groups.filter((g) => g.length > 1);
+            },
+            count_pairs: (code) => {
+                let count = 0;
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                const sortedCode = sortCode(standardCode.slice());
+                for (let i = 0; i < sortedCode.length - 1; i++) {
+                    if (sortedCode[i][VALUE] === sortedCode[i + 1][VALUE]) {
+                        count++;
+                    }
+                }
+                return count;
+            },
+            find_sequences: (code) => {
+                const sequences = [];
+                let currentSequence = null;
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                const sortedCode = sortCode(standardCode.slice());
+                for (let i = 0; i < sortedCode.length - 1; i++) {
+                    if (sortedCode[i][VALUE] === sortedCode[i + 1][VALUE] - 1) {
+                        if (currentSequence === null) {
+                            currentSequence = [i];
+                            sequences.push(currentSequence);
+                        }
+                        if (!currentSequence.includes(i + 1)) {
+                            currentSequence.push(i + 1);
+                        }
+                    } else {
+                        currentSequence = null;
+                    }
+                }
+                return sequences.filter((s) => s.length > 1);
+            },
+            sum_all: (code) => {
+                let sum = 0;
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                for (let i = 0; i < standardCode.length; i++) {
+                    sum += standardCode[i][VALUE];
+                }
+                return sum;
+            },
+            is_middle_gt_four: (code) => {
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                const sortedCode = sortCode(standardCode.slice());
+                return sortedCode.length > 2 && sortedCode[2][VALUE] > 4;
+            },
+            find_largest_smallest_difference: (code) => {
+                const standardCode = code.map((tile) => (Array.isArray(tile) ? tile : [-1, tile.value, tile.color]));
+                const sortedCode = sortCode(standardCode.slice());
+                return sortedCode.length === 5 ? sortedCode[4][VALUE] - sortedCode[0][VALUE] : 0;
+            },
+        };
+
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function combinations(arr, k) {
+            const result = [];
+
+            function backtrack(start, currentCombo) {
+                if (currentCombo.length === k) {
+                    // --- Check for the specific Joker condition ---
+                    let hasJokerA = false;
+                    let hasJokerB = false;
+                    for (const tile of currentCombo) {
+                        // Check specifically for Joker A [10, 5, JOKER]
+                        if (tile[INDEX] === 10 && tile[VALUE] === 5 && tile[COLOR] === 2) {
+                            hasJokerA = true;
+                        }
+                        // Check specifically for Joker B [11, 5, JOKER]
+                        if (tile[INDEX] === 11 && tile[VALUE] === 5 && tile[COLOR] === 2) {
+                            hasJokerB = true;
+                        }
+                        // Optimization: if both are found, no need to check further for this combo
+                        if (hasJokerA && hasJokerB) {
+                            break;
+                        }
+                    }
+
+                    // Condition to *exclude* a combination:
+                    // It has Joker B ([11, 5, JOKER]) BUT NOT Joker A ([10, 5, JOKER])
+                    if (hasJokerB && !hasJokerA) {
+                        return; // Skip adding this combination
+                    }
+                    // --- End check ---
+
+                    // If the exclusion condition wasn't met, add the combination
+                    result.push([...currentCombo]);
+                    return;
+                }
+
+                // Optimization: Check if it's even possible to reach k items
+                // (arr.length - i) is the number of remaining items including the current one
+                // (k - currentCombo.length) is the number of items still needed
+                if (arr.length - start < k - currentCombo.length) {
+                    return; // Not enough elements left
+                }
+
+
+                for (let i = start; i < arr.length; i++) {
+                    currentCombo.push(arr[i]);
+                    backtrack(i + 1, currentCombo);
+                    currentCombo.pop();
+                }
+            }
+
+            backtrack(0, []);
+            return result;
+        }
+
+        function sortCode(code) {
+            // Sorts by value first, then original index (if available) or color
+            return code.sort((a, b) => {
+                /*const valA = Array.isArray(a) ? a[VALUE] : a.value;
+                const valB = Array.isArray(b) ? b[VALUE] : b.value;
+                const colorA = Array.isArray(a) ? a[COLOR] : a.color;
+                const colorB = Array.isArray(b) ? b[COLOR] : b.color;
+                const indexA = Array.isArray(a) ? a[INDEX] : -1; // Use -1 if index not present
+                const indexB = Array.isArray(b) ? b[INDEX] : -1;
+
+                if (valA !== valB) {
+                    return valA - valB;
+                }
+                // If values are equal (especially for 5s, or potential duplicates in guesses)
+                // Sort by color (e.g., Black 5 before White 5 if both selected)
+                // If colors are also the same (shouldn't happen for valid guesses but handle defensively)
+                // Use index as a last resort tie-breaker if available
+                if (colorA !== colorB) {
+                    return colorA - colorB; // BLACK (0) < WHITE (1) < JOKER (2)
+                }
+                if (indexA !== -1 && indexB !== -1) {
+                    return indexA - indexB;
+                }
+                return 0; // Should not be reached for distinct tiles*/
+                const indexA = Array.isArray(a) ? a[INDEX] : -1; // Use -1 if index not present
+                const indexB = Array.isArray(b) ? b[INDEX] : -1;
+                if (indexA !== -1 && indexB !== -1) {
+                    return indexA - indexB;
+                }
+                return 0; // Should not be reached for distinct tiles*/
+            });
+        }
+
+        function codeToText(code) {
+            if (!code || code.length === 0) return "";
+            // Handle both array format [INDEX, VALUE, COLOR] and object format {value, color}
+            return code
+                .map((tileData) => {
+                    const value = Array.isArray(tileData) ? tileData[VALUE] : tileData.value;
+                    const color = Array.isArray(tileData) ? tileData[COLOR] : tileData.color;
+
+                    const tileClass = color === BLACK ? "tile-B" : color === WHITE ? "tile-W" : "tile-5"; // Class for styling
+                    return `<span class="tile ${tileClass}">${value}</span>`;
+                })
+                .join(" ");
+        }
+
+        function codesMatch(code1, code2) {
+            // Handles comparison between full tiles [INDEX, VALUE, COLOR]
+            // and guess tiles [-1, VALUE, COLOR] or {value, color} objects.
+            if (!code1 || !code2 || code1.length !== 5 || code2.length !== 5) return false;
+
+            // Sort both codes before comparison to ensure order doesn't matter
+            const sortedCode1 = sortCode(code1.slice());
+            const sortedCode2 = sortCode(code2.slice());
+
+            for (let i = 0; i < 5; i++) {
+                const val1 = Array.isArray(sortedCode1[i]) ? sortedCode1[i][VALUE] : sortedCode1[i].value;
+                const color1 = Array.isArray(sortedCode1[i]) ? sortedCode1[i][COLOR] : sortedCode1[i].color;
+                const val2 = Array.isArray(sortedCode2[i]) ? sortedCode2[i][VALUE] : sortedCode2[i].value;
+                const color2 = Array.isArray(sortedCode2[i]) ? sortedCode2[i][COLOR] : sortedCode2[i].color;
+
+                if (val1 !== val2 || color1 !== color2) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function addLogMessage(text, type = "info") {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", `message-${type}`);
+            messageDiv.innerHTML = text; // Use innerHTML to render potential tile spans
+            const placeholder = gameLog.querySelector("p em");
+            if (placeholder) placeholder.parentElement.remove();
+            gameLog.appendChild(messageDiv);
+            gameLog.scrollTop = gameLog.scrollHeight;
+        }
+
+        function normalizeAnswer(answer) {
+            if (!Array.isArray(answer)) {
+                return answer; // Return primitives as is
+            }
+            if (answer.length === 0) {
+                return []; // Return empty array as is
+            }
+
+            // Check if it's an array of arrays (like groups)
+            if (Array.isArray(answer[0])) {
+                // Sort inner arrays numerically, then sort outer array based on stringified inner arrays
+                return answer
+                    .map((inner) => [...inner].sort((a, b) => a - b)) // Sort inner numerically
+                    .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))); // Sort outer
+            }
+            // Check if it's an array of numbers (like indices)
+            else if (typeof answer[0] === "number") {
+                // Sort numerically
+                return [...answer].sort((a, b) => a - b);
+            }
+
+            // Otherwise, return a copy (though this case might not occur with current questions)
+            return [...answer];
+        }
+
+        function answersAreEqual(answer1, answer2) {
+            const norm1 = normalizeAnswer(answer1);
+            const norm2 = normalizeAnswer(answer2);
+            return JSON.stringify(norm1) === JSON.stringify(norm2);
+        }
+
+        function executeQuestion(funcName, code) {
+            if (questionFunctions[funcName]) {
+                // Functions now handle sorting and different code formats internally
+                return questionFunctions[funcName](code);
+            } else {
+                return null;
+            }
+        }
+
+        function answerToText(answer) {
+            const normalized = normalizeAnswer(answer); // Use normalized form for consistent display
+            if (Array.isArray(normalized)) {
+                if (normalized.length === 0) return "N/A";
+                if (Array.isArray(normalized[0])) {
+                    // Array of arrays (groups/sequences)
+                    const answers = normalized.map((innerArray) => innerArray.map((i) => TRANS_MAP[i.toString()] || i.toString()).join(""));
+                    return answers.join(", ") || "N/A";
+                } else {
+                    // Simple array (indices)
+                    const answerText = normalized.map((i) => TRANS_MAP[i.toString()] || i.toString()).join("");
+                    return answerText || "N/A";
+                }
+            } else if (typeof normalized === "boolean") {
+                return normalized ? "Yes" : "No";
+            } else if (normalized === null || normalized === undefined) {
+                return "N/A";
+            } else {
+                return normalized.toString();
+            }
+        }
+
+        function createNumberTiles() {
+            blackNumbersContainer.innerHTML = "";
+            whiteNumbersContainer.innerHTML = "";
+            numberTileElements = {}; // Reset lookup
+
+            // Black Row (0-4, 5, 6-9)
+            for (let i = 0; i <= 9; i++) {
+                const tile = document.createElement("span");
+                tile.classList.add("number-tile", "tile-B");
+                tile.dataset.value = i;
+                tile.dataset.color = "B"; // Store B/W/J as string initially
+                if (i === 5) {
+                    tile.textContent = "5"; // Black 5
+                    tile.classList.remove("tile-B"); // Remove black style for unique 5
+                    tile.style.borderColor = "#555"; // Give it a border
+                    tile.dataset.color = "J"; // Joker representation
+                } else {
+                    tile.textContent = `${i}`;
+                }
+                tile.addEventListener("click", handleNumberClick);
+                blackNumbersContainer.appendChild(tile);
+                numberTileElements[`B${i}`] = tile; // Store reference
+            }
+
+            // White Row (0-4, 5, 6-9)
+            for (let i = 0; i <= 9; i++) {
+                const tile = document.createElement("span");
+                tile.classList.add("number-tile", "tile-W");
+                tile.dataset.value = i;
+                tile.dataset.color = "W"; // Store B/W/J as string initially
+                if (i === 5) {
+                    tile.textContent = "5"; // White 5
+                    tile.classList.remove("tile-W"); // Remove white style for unique 5
+                    tile.style.borderColor = "#555"; // Give it a border
+                    tile.dataset.color = "J"; // Joker representation
+                } else {
+                    tile.textContent = `${i}`;
+                }
+                tile.addEventListener("click", handleNumberClick);
+                whiteNumbersContainer.appendChild(tile);
+                numberTileElements[`W${i}`] = tile; // Store reference
+            }
+            // Add special handling for the two 5s keys
+            numberTileElements["J5_B"] = numberTileElements["B5"];
+            numberTileElements["J5_W"] = numberTileElements["W5"];
+            delete numberTileElements["B5"];
+            delete numberTileElements["W5"];
+        }
+
+        function handleNumberClick(event) {
+            if (!playerTurn || currentGuess.length >= 5 || event.target.classList.contains("disabled")) {
+                return; // Don't select if not player's turn, guess full, or tile disabled
+            }
+
+            const tileElement = event.target;
+            const value = parseInt(tileElement.dataset.value, 10);
+            const colorStr = tileElement.dataset.color; // 'B', 'W', or 'J' for 5
+
+            let color;
+            let tileKey; // Key to disable the tile in numberTileElements
+
+            if (colorStr === "J") {
+                // It's a 5
+                color = JOKER;
+                // Need to know if it came from the "black" row or "white" row visually
+                if (tileElement.parentElement.id === "black-numbers") {
+                    tileKey = "J5_B";
+                } else {
+                    tileKey = "J5_W";
+                }
+            } else if (colorStr === "B") {
+                color = BLACK;
+                tileKey = `B${value}`;
+            } else {
+                // colorStr === 'W'
+                color = WHITE;
+                tileKey = `W${value}`;
+            }
+
+            currentGuess.push({ value: value, color: color });
+            currentGuess = sortCode(currentGuess); // Keep the selection sorted visually
+
+            // Disable the clicked tile
+            tileElement.classList.add("disabled");
+
+            updateSelectedGuessDisplay();
+            updateSubmitButtonState();
+        }
+
+        function updateSelectedGuessDisplay() {
+            // Display the sorted current guess
+            selectedGuessDisplay.innerHTML = codeToText(currentGuess);
+        }
+
+        function handleClearGuess() {
+            currentGuess = [];
+            selectedGuessDisplay.innerHTML = "";
+            // Re-enable all number tiles
+            for (const key in numberTileElements) {
+                numberTileElements[key].classList.remove("disabled");
+            }
+            updateSubmitButtonState();
+        }
+
+        function updateSubmitButtonState() {
+            submitGuessButton.disabled = currentGuess.length !== 5 || !playerTurn;
+        }
+
+        function setupGame() {
+            shuffle(tiles);
+            playerCode = sortCode(tiles.slice(0, 5));
+            computerCode = sortCode(tiles.slice(5, 10));
+
+            allPossibleCodes = combinations(tiles, 5).map((code) => sortCode(code));
+            let playerTileIndices = new Set(playerCode.map((t) => t[INDEX]));
+            if ((playerTileIndices.has(10) && !playerTileIndices.has(11)) || (!playerTileIndices.has(10) && playerTileIndices.has(11))) {
+                playerTileIndices.delete(10);
+                playerTileIndices.delete(11);
+            }
+            let computerTileIndices = new Set(computerCode.map((t) => t[INDEX]));
+            if ((computerTileIndices.has(10) && !computerTileIndices.has(11)) || (!computerTileIndices.has(10) && computerTileIndices.has(11))) {
+                computerTileIndices.delete(10);
+                computerTileIndices.delete(11);
+            }
+
+            possiblePlayerCodes = allPossibleCodes.filter((code) => !code.some((tile) => computerTileIndices.has(tile[INDEX])));
+            possibleComputerCodes = allPossibleCodes.filter((code) => !code.some((tile) => playerTileIndices.has(tile[INDEX])));
+
+            availableQuestions = [...questions];
+            shuffle(availableQuestions);
+
+            playerCounter = 0;
+            computerCounter = 0; // Reset computer finish turn
+            computerIsPlaying = true; // Computer starts actively playing
+            playerTurn = true;
+            waitingForSubQuestion = false;
+            currentQuestionData = null;
+            startTime = new Date();
+            currentGuess = [];
+
+            playerCodeDisplay.innerHTML = codeToText(playerCode);
+            computerCodeDisplay.innerHTML = codeToText(computerCode);
+            computerCodeArea.style.display = "none";
+            gameLog.innerHTML = "<p><em>Answers will be shown here.</em></p>";
+            updateActiveQuestionsList();
+            createNumberTiles();
+            handleClearGuess();
+        }
+
+        function updateActiveQuestionsList() {
+            // Keep this function exactly as it was in your provided code snippet.
+            // ... (Insert the unchanged updateActiveQuestionsList function here) ...
+            activeQuestionsList = availableQuestions.slice(0, 6);
+            questionsListElement.innerHTML = ""; // Clear existing list
+
+            if (waitingForSubQuestion && currentQuestionData) {
+                // Show sub-question choices
+                questionsListElement.innerHTML = `
+                    <li><strong>Select variation for: ${currentQuestionData.originalText}</strong></li>
+                    <li data-subindex="0">${currentQuestionData.question[3][0]}</li>
+                    <li data-subindex="1">${currentQuestionData.question[3][1]}</li>
+                 `;
+                questionsListElement.querySelectorAll("li[data-subindex]").forEach((li) => {
+                    li.addEventListener("click", handleSubQuestionChoiceClick); // Use specific handler
+                });
+            } else if (activeQuestionsList.length === 0 && playerTurn) {
+                // Only show guess prompt if player's turn
+                questionsListElement.innerHTML = "<li>No more questions available. Make your guess!</li>";
+            } else if (activeQuestionsList.length === 0 && !playerTurn && computerIsPlaying) { // Computer needs questions only if still playing
+                questionsListElement.innerHTML = "<li>No more questions available.</li>";
+            } else if (activeQuestionsList.length === 0 && !playerTurn && !computerIsPlaying) { // Computer finished, has no actions
+                questionsListElement.innerHTML = "<li>Computer has finished. Your turn.</li>";
+            } else {
+                activeQuestionsList.forEach((q, index) => {
+                    const li = document.createElement("li");
+                    li.dataset.index = index; // Store index for lookup
+                    li.textContent = `${q[1]}`;
+                    // Only allow clicking questions if computer is also playing, or if it's player's turn anyway
+                    if (playerTurn || computerIsPlaying) {
+                        li.addEventListener("click", handleQuestionClick); // Add listener here
+                    } else {
+                        li.style.cursor = 'default'; // Indicate non-clickable if computer finished and it's computer's "turn"
+                        li.style.backgroundColor = '#e9e9e9';
+                    }
+                    questionsListElement.appendChild(li);
+                });
+            }
+        }
+
+        function handleQuestionClick(event) {
+            if (!playerTurn || waitingForSubQuestion) return;
+            const index = parseInt(event.target.dataset.index, 10);
+            processPlayerAction({ type: "question", index: index });
+        }
+
+        function handleSubQuestionChoiceClick(event) {
+            if (!playerTurn || !waitingForSubQuestion) return;
+            const subIndex = parseInt(event.target.dataset.subindex, 10);
+            processPlayerAction({ type: "subquestion", index: subIndex });
+        }
+
+        function checkComputerGuess() {
+            // Returns true if computer is still playing actively, false otherwise
+            if (!computerIsPlaying) return false; // Already finished
+
+            if (possiblePlayerCodes.length === 0) {
+                addLogMessage("Computer has no possible player codes left! This indicates a logic flaw.", "error");
+                computerIsPlaying = false; // Stop computer to prevent further errors
+                computerCounter = playerCounter || 1; // Record turn when error occurred
+                return false; // Computer stopped playing
+            }
+
+            if (possiblePlayerCodes.length === 1) {
+                const deducedCode = possiblePlayerCodes[0];
+                if (codesMatch(deducedCode, playerCode)) {
+                    addLogMessage(`Computer deduced your code: ${codeToText(playerCode)}`, "computer");
+                    computerIsPlaying = false;
+                    // Record the turn number. Use playerCounter + 1 because this check happens during the computer's processing of its turn.
+                    computerCounter = playerCounter + 1;
+                    // DO NOT CALL endGame() here
+                    return false; // Computer stopped playing actively
+                } else {
+                    addLogMessage(`Computer deduced WRONG code: ${codeToText(deducedCode)}. Your code: ${codeToText(playerCode)}`, "error");
+                    computerIsPlaying = false;
+                    computerCounter = playerCounter + 1; // Record turn when error occurred
+                    return false; // Computer stopped playing
+                }
+            }
+
+            return true; // Computer is still playing actively
+        }
+
+        function selectBestQuestion(currentActiveQuestions) {
+            // Keep this function exactly as it was in your provided code snippet.
+            // ... (Insert the unchanged selectBestQuestion function here) ...
+            let bestRank = Infinity; // Initialize high
+            let bestQuestionData = null;
+            let evaluatedQuestions = 0;
+
+            // Consider only the questions currently shown (top 6 or fewer)
+            const questionsToConsider = currentActiveQuestions;
+
+            for (const question of questionsToConsider) {
+                const type = question[0];
+                const funcNames = question[2];
+                const subQuestions = question[3];
+
+                if (type === NORMAL || type === SHARED) {
+                    const funcName = funcNames[0];
+                    const isShared = type === SHARED;
+                    const playerAnswer = executeQuestion(funcName, playerCode); // Get the real answer
+                    // Calculate rank: How many possible codes give this same answer?
+                    // Filter only from the current possibilities
+                    const rank = possiblePlayerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), playerAnswer)).length;
+
+                    // Ensure rank is not compared against total possibilities if it's 0
+                    const currentPossibilityCount = possiblePlayerCodes.length;
+                    const effectiveRank = rank;// === 0 ? currentPossibilityCount + 1 : rank; // Treat 0 matches as worse than any match
+
+
+                    evaluatedQuestions++;
+
+                    if (effectiveRank < bestRank) {
+                        bestRank = effectiveRank;
+                        bestQuestionData = { question, funcName, isShared };
+                    } else if (effectiveRank === bestRank && Math.random() < 0.5) {
+                        // Randomly pick between equally ranked questions
+                        bestQuestionData = { question, funcName, isShared };
+                    }
+                } else {
+                    // DOUBLE
+                    for (let i = 0; i < 2; i++) {
+                        const funcName = funcNames[i];
+                        const playerAnswer = executeQuestion(funcName, playerCode);
+                        const rank = possiblePlayerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), playerAnswer)).length;
+                        const currentPossibilityCount = possiblePlayerCodes.length;
+                        const effectiveRank = rank;// === 0 ? currentPossibilityCount + 1 : rank;
+
+                        evaluatedQuestions++;
+
+                        if (effectiveRank < bestRank) {
+                            bestRank = effectiveRank;
+                            bestQuestionData = { question, funcName, isShared: false, subIndex: i };
+                        } else if (effectiveRank === bestRank && Math.random() < 0.5) {
+                            bestQuestionData = { question, funcName, isShared: false, subIndex: i };
+                        }
+                    }
+                }
+            }
+            return bestQuestionData;
+        }
+
+        function computerTurn() {
+
+            // If computer is no longer playing, immediately pass turn back
+            if (!computerIsPlaying) {
+                addLogMessage("Computer has finished. Passing turn.", "computer");
+                playerTurn = true;
+                updateActiveQuestionsList();
+                return;
+            }
+
+            // Give browser a moment to update UI before potential heavy computation
+            setTimeout(() => {
+
+                // Computer first checks if it can deduce the code
+                // checkComputerGuess now returns false if computer stops playing
+                if (!checkComputerGuess()) {
+                    // Computer deduced code or error occurred. Turn ends, pass back to player.
+                    playerTurn = true;
+                    updateActiveQuestionsList();
+                    return;
+                }
+
+                // If still playing, select the best question
+                const bestQuestionData = selectBestQuestion(activeQuestionsList);
+
+                if (!bestQuestionData) {
+                    addLogMessage("Computer has no effective questions to ask or questions ran out. Passing turn.", "computer");
+                    playerTurn = true;
+                    updateActiveQuestionsList();
+                    return;
+                }
+
+                const { question, funcName, isShared } = bestQuestionData;
+                const questionText = bestQuestionData.subIndex !== undefined ? question[3][bestQuestionData.subIndex] : question[1].replace("[Shared] ", "");
+
+                // Remove the chosen question from the main list
+                const questionIndexInAvailable = availableQuestions.findIndex((q) => q === question);
+                if (questionIndexInAvailable > -1) {
+                    availableQuestions.splice(questionIndexInAvailable, 1);
+                }
+
+                // 1. "Ask" Player (get answer and filter computer's possibilities for player code)
+                const playerAnswer = executeQuestion(funcName, playerCode);
+                const playerAnswerText = answerToText(playerAnswer);
+
+                possiblePlayerCodes = possiblePlayerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), playerAnswer));
+
+                addLogMessage(`Computer asks: <b>${questionText}</b><br>Your answer: <b>${playerAnswerText}</b> (PC: ${possiblePlayerCodes.length})`, "computer");
+
+                // 2. Check AGAIN if computer can deduce/guess player code NOW after filtering
+                if (!checkComputerGuess()) {
+                    // Computer deduced code or error occurred after asking. Turn ends, pass back to player.
+                    playerTurn = true;
+                    updateActiveQuestionsList();
+                    return;
+                }
+
+                // 3. Handle Shared Question aspect (if applicable AND computer is still actively playing)
+                // No need to check computerIsPlaying again here, as the check above would have returned if false
+                if (isShared) {
+                    const computerAnswer = executeQuestion(funcName, computerCode);
+                    const computerAnswerText = answerToText(computerAnswer);
+
+                    possibleComputerCodes = possibleComputerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), computerAnswer));
+
+                    addLogMessage(`Shared question also applies to you.<br>Computer's answer: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
+                    // It's technically possible the shared info makes the player code obvious, but computer only checks at start/after asking.
+                    // We won't add another checkComputerGuess here for simplicity.
+                }
+
+                // Check if questions exhausted during computer's turn
+                if (availableQuestions.length === 0) { // No need to check computerIsPlaying, done above
+                    addLogMessage("No more questions left for anyone. Make your final guess!", "info");
+                }
+
+                // End computer turn - pass back to player
+                playerTurn = true;
+                updateActiveQuestionsList();
+
+            }, 50); // Small delay for UI redraw
+        }
+
+        function processPlayerAction(action) {
+            if (!playerTurn) return;
+
+            let turnEnded = false; // Flag if player action leads to computer turn or end
+
+            if (action.type === "subquestion") {
+                if (!waitingForSubQuestion) return;
+
+                const subIndex = action.index;
+                const question = currentQuestionData.question;
+                const funcName = question[2][subIndex];
+                const questionText = question[3][subIndex];
+
+                waitingForSubQuestion = false;
+                const originalQuestion = currentQuestionData.question;
+                currentQuestionData = null;
+
+                playerCounter++;
+                const computerAnswer = executeQuestion(funcName, computerCode);
+                const computerAnswerText = answerToText(computerAnswer);
+
+                possibleComputerCodes = possibleComputerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), computerAnswer));
+                addLogMessage(`You ask: <b>${questionText}</b><br>Computer answers: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
+
+                const questionIndexInAvailable = availableQuestions.findIndex((q) => q === originalQuestion);
+                if (questionIndexInAvailable > -1) availableQuestions.splice(questionIndexInAvailable, 1);
+
+                updateActiveQuestionsList();
+                turnEnded = true; // Asking a question ends player's action phase
+
+            } else if (action.type === "question") {
+                if (waitingForSubQuestion) return;
+                const questionIndex = action.index;
+                if (questionIndex < 0 || questionIndex >= activeQuestionsList.length) return;
+
+                const question = activeQuestionsList[questionIndex];
+                const type = question[0];
+
+                if (type === DOUBLE) {
+                    waitingForSubQuestion = true;
+                    currentQuestionData = { question: question, originalText: question[1] };
+                    updateActiveQuestionsList(); // Show sub-choices
+                    return; // Wait for next input (sub-choice click)
+                }
+
+                playerCounter++;
+                const funcName = question[2][0];
+                const isShared = type === SHARED;
+                let questionText = question[1].replace("[Shared] ", "");
+
+                const computerAnswer = executeQuestion(funcName, computerCode);
+                const computerAnswerText = answerToText(computerAnswer);
+                possibleComputerCodes = possibleComputerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), computerAnswer));
+                addLogMessage(`You ask: <b>${questionText}</b><br>Computer answers: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
+
+                const questionIndexInAvailable = availableQuestions.findIndex((q) => q === question);
+                if (questionIndexInAvailable > -1) availableQuestions.splice(questionIndexInAvailable, 1);
+
+                if (isShared && computerIsPlaying) { // Only apply shared if computer is still in the game
+                    const playerAnswer = executeQuestion(funcName, playerCode);
+                    possiblePlayerCodes = possiblePlayerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), playerAnswer));
+                    addLogMessage(`Shared question also applies to computer. (PC: ${possiblePlayerCodes.length})`, "computer");
+                    // Don't need to checkComputerGuess here, let computer do it on its turn start
+                }
+
+                updateActiveQuestionsList();
+                turnEnded = true; // Asking a question ends player's action phase
+            }
+
+            // --- After Player Action Logic ---
+            if (turnEnded) {
+                if (availableQuestions.length === 0) {
+                    addLogMessage("No more questions. Make your guess!", "info");
+                    // Player keeps the turn
+                    playerTurn = true;
+                } else if (computerIsPlaying) {
+                    // Pass turn to computer only if it's still playing
+                    playerTurn = false;
+                    computerTurn();
+                } else {
+                    // Computer already finished, player keeps the turn
+                    playerTurn = true;
+                }
+            }
+        }
+
+        function handleSubmitGuess() {
+            if (currentGuess.length !== 5 || !playerTurn) return;
+
+            const formattedGuess = currentGuess.map((tile) => [-1, tile.value, tile.color]);
+            const sortedFormattedGuess = sortCode(formattedGuess);
+
+            playerCounter++;
+
+            if (codesMatch(sortedFormattedGuess, computerCode)) {
+                addLogMessage(`Player guess: ${codeToText(sortedFormattedGuess)} → Correct!`, "player");
+                endGame(true); // Player wins, game ends immediately
+            } else {
+                addLogMessage(`Player guess: ${codeToText(sortedFormattedGuess)} → Incorrect.`, "player");
+                handleClearGuess(); // Clear selection for next guess/turn
+
+                if (availableQuestions.length === 0) {
+                    // Player guessed wrong AND no questions left - Player loses
+                    addLogMessage("Wrong guess, and no questions left!", "error");
+                    endGame(false);
+                } else if (computerIsPlaying) {
+                    // Pass turn to computer if it's still playing
+                    playerTurn = false;
+                    computerTurn();
+                } else {
+                    // Computer already finished, player keeps the turn
+                    playerTurn = true;
+                }
+            }
+        }
+
+        function endGame(playerWon) {
+            playerTurn = false; // Stop further actions
+            const endTime = new Date();
+            const playTime = Math.round((endTime - startTime) / 1000);
+            const playTimeMinutes = Math.floor(playTime / 60);
+            const playTimeSeconds = playTime % 60;
+
+            let title = "";
+            let message = "";
+            let stats = "";
+
+            const compCodeText = codeToText(computerCode);
+            const playerCodeText = codeToText(playerCode);
+
+            stats = `Play time: ${playTimeMinutes} min ${playTimeSeconds} sec`;
+
+            if (playerWon) {
+                // Player guessed correctly
+                if (computerIsPlaying || playerCounter <= computerCounter) {
+                    title = "Win!";
+                } else {
+                    title = "Loss!";
+                }
+                message = `You found the code in ${playerCounter} turn(s).`;
+                if (!computerIsPlaying && computerCounter > 0) { // Computer finished previously
+                    message += `<br>The computer found your code in ${computerCounter} turn(s).`;
+                } else { // Computer hadn't finished yet
+                    message += "<br>The computer didn't find your code.";
+                }
+            } else {
+                // Player lost (wrong guess with no questions left, or computer error state handled here)
+                if (!computerIsPlaying && computerCounter > 0) {
+                    title = "Loss!";
+                } else {
+                    title = "Draw!";
+                }
+                if (!computerIsPlaying && computerCounter > 0) { // Computer had already finished correctly
+                    message = `The computer found your code in ${computerCounter} turn(s).`;
+                    message += `<br>Your final guess was incorrect.<br>The computer's code was ${compCodeText}.`;
+                } else { // Computer didn't finish OR player lost due to error/no questions
+                    message = `You didn't find the code. The correct code was: ${compCodeText}.`;
+                    if (!computerIsPlaying && computerCounter === 0) { // Should only happen on error
+                        message += "<br>The computer encountered an error.";
+                    } else { // Computer never finished
+                        message += "<br>The computer did not find your code either.";
+                    }
+                }
+            }
+
+            endGameTitle.textContent = title;
+            endGameMessage.innerHTML = message;
+            endGameStats.innerHTML = stats;
+
+            computerCodeDisplay.innerHTML = compCodeText;
+            computerCodeArea.style.display = "block";
+            endGameOverlay.style.display = "flex";
+        }
+
+
+        submitGuessButton.addEventListener("click", handleSubmitGuess);
+        clearGuessButton.addEventListener("click", handleClearGuess);
+        toggleDebugButton.addEventListener("click", () => {
+            toggleDebugButton.style.display = "none";
+            const compArea = document.getElementById("computer-code-area");
+            computerCodeDisplay.innerHTML = codeToText(computerCode);
+            compArea.style.display = "block";
+        });
+
+
+        document.addEventListener("DOMContentLoaded", setupGame);
+    </script>
+</body>
+
+</html>
