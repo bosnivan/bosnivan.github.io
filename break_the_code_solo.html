@@ -12,7 +12,7 @@
             padding: 20px;
             background-color: #f4f4f4;
             color: #333;
-            user-select: none;
+			user-select: none;
         }
 
         .container {
@@ -1084,15 +1084,7 @@
 
                 addLogMessage(`Computer asks: <b>${questionText}</b><br>Your answer: <b>${playerAnswerText}</b> (PC: ${possiblePlayerCodes.length})`, "computer");
 
-                // 2. Check AGAIN if computer can deduce/guess player code NOW after filtering
-                if (!checkComputerGuess()) {
-                    // Computer deduced code or error occurred after asking. Turn ends, pass back to player.
-                    playerTurn = true;
-                    updateActiveQuestionsList();
-                    return;
-                }
-
-                // 3. Handle Shared Question aspect (if applicable AND computer is still actively playing)
+                // 2. Handle Shared Question aspect (if applicable AND computer is still actively playing)
                 // No need to check computerIsPlaying again here, as the check above would have returned if false
                 if (isShared) {
                     const computerAnswer = executeQuestion(funcName, computerCode);
@@ -1104,9 +1096,11 @@
                     // It's technically possible the shared info makes the player code obvious, but computer only checks at start/after asking.
                     // We won't add another checkComputerGuess here for simplicity.
                 }
-
-                // Check if questions exhausted during computer's turn
-                if (availableQuestions.length === 0) { // No need to check computerIsPlaying, done above
+				
+                if (!checkComputerGuess()) {
+                    // Computer deduced code or error occurred after asking. Turn ends, pass back to player.
+					addLogMessage(`This is your last chance to win.`, "info");
+                } else if (availableQuestions.length === 0) {
                     addLogMessage("No more questions left for anyone. Make your final guess!", "info");
                 }
 
