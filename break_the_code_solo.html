@@ -1082,7 +1082,8 @@
 
                 possiblePlayerCodes = possiblePlayerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), playerAnswer));
 
-                addLogMessage(`Computer asks: <b>${questionText}</b><br>Your answer: <b>${playerAnswerText}</b> (PC: ${possiblePlayerCodes.length})`, "computer");
+                //addLogMessage(`Computer asks: <b>${questionText}</b><br>Your answer: <b>${playerAnswerText}</b> (PC: ${possiblePlayerCodes.length})`, "computer");
+				addLogMessage(`Computer asks: <b>${questionText}</b><br>Your answer: <b>${playerAnswerText}</b>`, "computer");
 
                 // 2. Handle Shared Question aspect (if applicable AND computer is still actively playing)
                 // No need to check computerIsPlaying again here, as the check above would have returned if false
@@ -1092,8 +1093,9 @@
 
                     possibleComputerCodes = possibleComputerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), computerAnswer));
 
-                    addLogMessage(`Shared question also applies to you.<br>Computer's answer: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
-                    // It's technically possible the shared info makes the player code obvious, but computer only checks at start/after asking.
+                    //addLogMessage(`Shared question also applies to you.<br>Computer's answer: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
+                    addLogMessage(`Shared question also applies to you.<br>Computer's answer: <b>${computerAnswerText}</b>`, "player");
+					// It's technically possible the shared info makes the player code obvious, but computer only checks at start/after asking.
                     // We won't add another checkComputerGuess here for simplicity.
                 }
 				
@@ -1133,7 +1135,8 @@
                 const computerAnswerText = answerToText(computerAnswer);
 
                 possibleComputerCodes = possibleComputerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), computerAnswer));
-                addLogMessage(`You ask: <b>${questionText}</b><br>Computer answers: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
+                //addLogMessage(`You ask: <b>${questionText}</b><br>Computer's answer: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
+				addLogMessage(`You ask: <b>${questionText}</b><br>Computer's answer: <b>${computerAnswerText}</b>`, "player");
 
                 const questionIndexInAvailable = availableQuestions.findIndex((q) => q === originalQuestion);
                 if (questionIndexInAvailable > -1) availableQuestions.splice(questionIndexInAvailable, 1);
@@ -1164,16 +1167,19 @@
                 const computerAnswer = executeQuestion(funcName, computerCode);
                 const computerAnswerText = answerToText(computerAnswer);
                 possibleComputerCodes = possibleComputerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), computerAnswer));
-                addLogMessage(`You ask: <b>${questionText}</b><br>Computer answers: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
+                //addLogMessage(`You ask: <b>${questionText}</b><br>Computer's answer: <b>${computerAnswerText}</b> (PC: ${possibleComputerCodes.length})`, "player");
+				addLogMessage(`You ask: <b>${questionText}</b><br>Computer's answer: <b>${computerAnswerText}</b>`, "player");
 
                 const questionIndexInAvailable = availableQuestions.findIndex((q) => q === question);
                 if (questionIndexInAvailable > -1) availableQuestions.splice(questionIndexInAvailable, 1);
 
                 if (isShared && computerIsPlaying) { // Only apply shared if computer is still in the game
                     const playerAnswer = executeQuestion(funcName, playerCode);
+					const playerAnswerText = answerToText(playerAnswer);
                     possiblePlayerCodes = possiblePlayerCodes.filter((code) => answersAreEqual(executeQuestion(funcName, code), playerAnswer));
-                    addLogMessage(`Shared question also applies to computer. (PC: ${possiblePlayerCodes.length})`, "computer");
-                    // Don't need to checkComputerGuess here, let computer do it on its turn start
+                    //addLogMessage(`Shared question also applies to computer. (PC: ${possiblePlayerCodes.length})`, "computer");
+                    addLogMessage(`Shared question also applies to computer.<br>Your answer: <b>${playerAnswerText}</b>`, "computer");
+					// Don't need to checkComputerGuess here, let computer do it on its turn start
                 }
 
                 updateActiveQuestionsList();
