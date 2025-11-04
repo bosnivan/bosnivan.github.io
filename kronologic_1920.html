@@ -2,1093 +2,1287 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kronologic: Paris 1920</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Georgia', serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kronologic: Paris 1920</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Georgia", serif;
+    }
 
-        body {
-            background-color: #F8F3EA;
-            color: #4A2B2E;
-            line-height: 1.6;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    body {
+      background-color: #f8f3ea;
+      color: #4a2b2e;
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #9D1C2F;
-        }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #9d1c2f;
+    }
 
-        h1 {
-            color: #9D1C2F;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+    h1 {
+      color: #9d1c2f;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      line-height: normal;
+    }
 
-        h2 {
-            color: #9D1C2F;
-            margin: 20px 0 10px;
-        }
+    h2 {
+      color: #9d1c2f;
+      margin-bottom: 10px;
+      line-height: normal;
+    }
 
-        h3 {
-            color: #7B1627;
-            margin: 15px 0 10px;
-        }
+    h3 {
+      color: #7b1627;
+      margin: 20px 0 10px;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-        .card {
-            background-color: #FFFFFF;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+    .card {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
 
-        .btn {
-            background-color: #C22F43;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-            margin: 5px;
-        }
+    .btn {
+      background-color: #c22f43;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
 
-        .btn:hover {
-            background-color: #9D1C2F;
-        }
+    .btn:hover {
+      background-color: #9d1c2f;
+    }
 
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 10px 0;
-        }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-        .hidden {
-            display: none;
-        }
+    .btn-group .btn {
+      text-align: center;
+      min-width: 200px;
+      box-sizing: border-box;
+      flex: 1;
+    }
 
-        .info-box {
-            background-color: #FDF9F4;
-            border-left: 4px solid #C22F43;
-            padding: 15px;
-            margin: 15px 0;
-        }
+    #submit-investigation {
+      width: 100%;
+      margin-top: 10px;
+    }
 
-        .investigation-area {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    #back-to-scenarios {
+      margin-top: 20px;
+    }
 
-        .investigation-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            margin: 15px 0;
-        }
+    .hidden {
+      display: none;
+    }
 
-        .investigation-form select,
-        .investigation-form input {
-            padding: 8px;
-            border: 1px solid #C22F43;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
+    .info-box {
+      background-color: #fdf9f4;
+      border-left: 4px solid #c22f43;
+      padding: 15px;
+      margin: 15px 0;
+    }
 
-        .investigation-history {
-            background-color: #FDF9F4;
-            border: 1px solid #9D1C2F;
-            border-radius: 4px;
-            padding: 15px;
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
+    .investigation-area {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-        .history-toggle {
-            background: none;
-            border: none;
-            color: #C22F43;
-            cursor: pointer;
-            font-size: 0.9rem;
-            text-decoration: underline;
-        }
+    .investigation-area .btn-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .history-entry {
-            padding: 8px;
-            border-bottom: 1px solid #E0D6C2;
-            margin-bottom: 5px;
-        }
+    .investigation-area .btn-group button {
+      flex: none;
+    }
 
-        .history-entry:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
+    .investigation-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: start;
+      margin: 15px 0;
+      max-width: fit-content;
+    }
 
-        .history-investigation {
-            font-weight: bold;
-            color: #9D1C2F;
-        }
+    .investigation-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .history-result {
-            margin-left: 10px;
-        }
-    </style>
+    .investigation-row label {
+      width: 80px;
+    }
+
+    .investigation-row select {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #c22f43;
+      border-radius: 4px;
+      font-size: 1rem;
+      min-width: 190px;
+      max-width: 190px;
+    }
+
+    @media (max-width: 350px) {
+      .investigation-form {
+        gap: 20px;
+      }
+
+      .investigation-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+      }
+
+      .investigation-row label {
+        width: auto;
+        line-height: normal;
+      }
+
+      .investigation-row select {
+        width: 100%;
+      }
+    }
+
+    #time-investigation {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #time-investigation.hidden {
+      display: none;
+    }
+
+    @media (max-width: 350px) {
+      #time-investigation .investigation-row:nth-of-type(2) label {
+        margin-top: 10px;
+      }
+    }
+
+    .investigation-history {
+      background-color: #fdf9f4;
+      border: 1px solid #9d1c2f;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .investigation-options #character-select {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 350px) {
+      .investigation-options #character-select {
+        margin-top: 0px;
+      }
+
+      #character-investigation .investigation-row:nth-of-type(2) label {
+        margin-top: 20px;
+      }
+    }
+
+    .history-toggle {
+      background: none;
+      border: none;
+      color: #c22f43;
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+
+    .history-entry {
+      padding: 8px;
+      border-bottom: 1px solid #e0d6c2;
+      margin-bottom: 5px;
+    }
+
+    .history-entry:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .history-investigation {
+      font-weight: bold;
+      color: #9d1c2f;
+    }
+
+    .history-result {
+      margin-left: 10px;
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <h1>Kronologic: Paris 1920</h1>
-    </header>
+  <header>
+    <h1>Kronologic: Paris 1920</h1>
+  </header>
 
-    <div class="container">
-        <!-- Scenario Selection -->
-        <div id="scenario-selection" class="card">
-            <h2>Select a Scenario</h2>
-            <div class="btn-group" id="scenario-buttons"></div>
-        </div>
-
-        <!-- Scenario Description -->
-        <div id="scenario-description" class="card hidden">
-            <h2 id="scenario-title"></h2>
-            <div class="info-box" id="scenario-desc"></div>
-            <div class="info-box" id="scenario-mystery"></div>
-            <div class="info-box" id="scenario-clarifications"></div>
-            <h3>Select an Investigation</h3>
-            <div class="btn-group" id="investigation-buttons"></div>
-            <button id="back-to-scenarios" class="btn">Back to Scenarios</button>
-        </div>
-
-        <!-- Investigation Area -->
-        <div id="investigation-area" class="card hidden">
-            <h2 id="investigation-title"></h2>
-            <div id="investigation-goal"></div>
-            <div class="info-box" id="investigation-setup"></div>
-            <div class="investigation-area">
-                <div class="investigation-form">
-                    <label for="investigation-type">Investigate:</label>
-                    <select id="investigation-type">
-                        <option value="time">Location + Time</option>
-                        <option value="character">Location + Character</option>
-                    </select>
-                    <div id="time-investigation" class="investigation-options">
-                        <label for="time-location">Location:</label>
-                        <select id="time-location">
-                            <option value="ST">The Stage</option>
-                            <option value="GS">The Grand Staircase</option>
-                            <option value="DH">The Danse Hall</option>
-                            <option value="MH">The Music Hall</option>
-                            <option value="GF">The Grand Foyer</option>
-                            <option value="GA">The Gallery</option>
-                        </select>
-                        <label for="time-select">Time:</label>
-                        <select id="time-select">
-                            <option value="1">Time 1</option>
-                            <option value="2">Time 2</option>
-                            <option value="3">Time 3</option>
-                            <option value="4">Time 4</option>
-                            <option value="5">Time 5</option>
-                            <option value="6">Time 6</option>
-                        </select>
-                    </div>
-                    <div id="character-investigation" class="investigation-options hidden">
-                        <label for="character-location">Location:</label>
-                        <select id="character-location">
-                            <option value="ST">The Stage</option>
-                            <option value="GS">The Grand Staircase</option>
-                            <option value="DH">The Danse Hall</option>
-                            <option value="MH">The Music Hall</option>
-                            <option value="GF">The Grand Foyer</option>
-                            <option value="GA">The Gallery</option>
-                        </select>
-                        <label for="character-select">Character:</label>
-                        <select id="character-select">
-                            <option value="A">The Adventurer</option>
-                            <option value="B">The Baroness</option>
-                            <option value="C">The Chauffeur</option>
-                            <option value="D">The Detective</option>
-                            <option value="J">The Journalist</option>
-                            <option value="S">The Servant</option>
-                        </select>
-                    </div>
-                    <button id="submit-investigation" class="btn">Submit Investigation</button>
-                </div>
-                <div id="investigation-result" class="info-box hidden">
-                    <h3 id="investigation-name"></h3>
-                    <p id="shared-info"></p>
-                    <p id="private-info"></p>
-                </div>
-
-                <!-- Investigation History -->
-                <div class="investigation-history">
-                    <h3>
-                        History (<span id="score">0</span>)
-                        <button id="toggle-history" class="history-toggle">Hide</button>
-                    </h3>
-                    <div id="history-entries"></div>
-                </div>
-                <div class="btn-group">
-                    <button id="end-investigation" class="btn">End Investigation</button>
-                    <button id="back-to-investigations" class="btn">Back to Investigations</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- End Investigation -->
-        <div id="end-investigation-screen" class="card hidden">
-            <h2>Investigation Complete</h2>
-            <h3>Solution:</h3>
-            <div class="info-box">
-                <p id="solution-text"></p>
-            </div>
-            <p>Congratulations, if you deduced it correctly.</p>
-            <div id="rank-display"></div>
-            <div class="btn-group">
-                <button id="new-investigation" class="btn">New Investigation</button>
-                <button id="back-to-scenarios-end" class="btn">Back to Scenarios</button>
-            </div>
-        </div>
+  <div class="container">
+    <!-- Scenario Selection -->
+    <div id="scenario-selection" class="card">
+      <h2>Select a Scenario</h2>
+      <div class="btn-group" id="scenario-buttons"></div>
     </div>
 
-    <script>
-        // Game data
-        const scenarios = [
-            {
-                "title": "Scenario I - Poison in High Society",
-                "description": "The 17th of October, 1922, early in the morning, the famous Detective Denis was found dead in his bed, obviously poisoned! The day before, he was investigating at the Paris Opera where a charity gala was taking place. Trace his evening, as well as the suspects in this investigation, to identify the assassin.",
-                "mystery": "The assassin had to be alone with Detective to poison him. Who poisoned the Detective? In what location? What time?",
-                "clarifications": "In this scenario, use all of the Time placards and Character placards. Each Character must move at each Time, and always to an adjacent Location. No Character stays in the same Location two Times consecutively. All Characters are present at each Time. The Detective was also on the move at all Times of the evening, since he was not found dead until the next morning at home.",
-                "investigations": [
-                    {
-                        "title": "Investigation 1",
-                        "level": "*",
-                        "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Music Hall, The Chauffeur at The Grand Foyer, The Detective at The Gallery, The Journalist at The Grand Foyer, The Servant at The Danse Hall",
-                        "solution": "Who: The Adventurer - Where: The Danse Hall - When: Time 5",
-                        "score": [7, 13],
-                        "locations": {
-                            "ST": ["x1", "J", "A", "x1", "2", "x0", "x1", "x1", "2", "+", "x3", "6", "x1", "D", "x1", "x2", "x2", "5", "3", "x1", "+", "D", "x0", "S"],
-                            "GS": ["x0", "S", "C", "x0", "5", "x0", "x0", "x1", "+", "2", "x1", "+", "x1", "+", "x2", "x0", "x0", "+", "5", "x1", "+", "C", "x2", "+"],
-                            "DH": ["x1", "A", "+", "x1", "+", "x1", "x1", "x1", "5", "+", "x0", "3", "x0", "J", "x2", "x1", "x2", "6", "+", "x0", "+", "+", "x0", "D"],
-                            "MH": ["x0", "+", "D", "x1", "+", "x2", "x1", "x1", "3", "+", "x1", "4", "x1", "A", "x0", "x3", "x1", "+", "2", "x1", "+", "S", "x0", "A"],
-                            "GF": ["x2", "C", "B", "x1", "4", "x2", "x2", "x1", "+", "5", "x0", "+", "x1", "S", "x1", "x0", "x0", "3", "6", "x1", "+", "+", "x3", "C"],
-                            "GA": ["x2", "+", "S", "x2", "6", "x1", "x1", "x1", "+", "6", "x1", "+", "x2", "C", "x0", "x0", "x1", "4", "4", "x2", "+", "J", "x1", "B"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 2",
-                        "level": "**",
-                        "setup": "Time 1) The Adventurer at The Grand Staircase, The Baroness at The Danse Hall, The Chauffeur at The Gallery, The Detective at The Music Hall, The Journalist at The Gallery, The Servant at The Grand Foyer",
-                        "solution": "Who: The Chauffeur - Where: The Stage - When: Time 4",
-                        "score": [9, 15],
-                        "locations": {
-                            "ST": ["x1", "A", "D", "x2", "2", "x0", "x1", "x1", "5", "2", "x3", "4", "x2", "C", "x3", "x2", "x2", "5", "5", "x2", "+", "D", "x3", "A"],
-                            "GS": ["x1", "+", "B", "x0", "4", "x1", "x1", "x1", "+", "+", "x1", "+", "x1", "+", "x0", "x1", "x0", "3", "2", "x1", "+", "S", "x0", "J"],
-                            "DH": ["x1", "+", "+", "x2", "+", "x1", "x1", "x0", "6", "+", "x0", "3", "x0", "A", "x0", "x1", "x1", "6", "+", "x1", "+", "+", "x0", "D"],
-                            "MH": ["x0", "+", "A", "x0", "+", "x1", "x0", "x0", "4", "+", "x0", "+", "x1", "+", "x0", "x1", "x1", "+", "+", "x0", "+", "+", "x0", "+"],
-                            "GF": ["x1", "+", "+", "x1", "+", "x1", "x1", "x2", "+", "+", "x1", "6", "x0", "D", "x0", "x0", "x1", "2", "3", "x0", "+", "J", "x0", "S"],
-                            "GA": ["x2", "B", "J", "x1", "3", "x2", "x2", "x2", "2", "3", "x1", "5", "x2", "S", "x3", "x1", "x1", "4", "4", "x2", "+", "A", "x3", "B"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 3",
-                        "level": "**",
-                        "setup": "Time 1) The Adventurer at The Danse Hall, The Baroness at The Grand Foyer, The Chauffeur at The Grand Staircase, The Detective at The Stage, The Journalist at The Music Hall, The Servant at The Danse Hall",
-                        "solution": "Who: The Baroness - Where: The Grand Staircase - When: Time 5",
-                        "score": [8, 14],
-                        "locations": {
-                            "ST": ["x2", "J", "A", "x2", "+", "x1", "x2", "x2", "6", "2", "x1", "+", "x1", "S", "x1", "x2", "x1", "3", "6", "x0", "+", "C", "x1", "S"],
-                            "GS": ["x0", "B", "+", "x0", "2", "x0", "x1", "x0", "+", "+", "x1", "3", "x0", "+", "x2", "x0", "x2", "+", "+", "x2", "+", "B", "x0", "D"],
-                            "DH": ["x1", "C", "S", "x0", "+", "x2", "x2", "x2", "3", "3", "x1", "+", "x1", "+", "x1", "x2", "x0", "2", "4", "x0", "+", "J", "x2", "C"],
-                            "MH": ["x2", "S", "C", "x2", "+", "x1", "x0", "x2", "2", "4", "x2", "+", "x1", "C", "x1", "x1", "x0", "6", "2", "x0", "+", "A", "x2", "+"],
-                            "GF": ["x0", "+", "+", "x1", "3", "x1", "x1", "x0", "+", "+", "x0", "6", "x0", "D", "x0", "x0", "x1", "+", "+", "x2", "+", "+", "x0", "B"],
-                            "GA": ["x1", "A", "B", "x1", "6", "x1", "x0", "x0", "5", "+", "x1", "4", "x3", "B", "x1", "x1", "x2", "4", "+", "x2", "+", "D", "x1", "+"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 4",
-                        "level": "**",
-                        "setup": "Time 1) The Adventurer at The Stage, The Detective at The Grand Staircase, The Journalist at The Gallery",
-                        "solution": "Who: The Journalist - Where: The Gallery - When: Time 4",
-                        "score": [9, 15],
-                        "locations": {
-                            "ST": ["x0", "D", "S", "x0", "2", "x1", "x1", "x2", "+", "+", "x2", "3", "x1", "+", "x1", "x1", "x2", "+", "2", "x1", "+", "B", "x0", "D"],
-                            "GS": ["x2", "C", "B", "x1", "4", "x1", "x2", "x0", "+", "3", "x0", "+", "x1", "J", "x1", "x0", "x1", "3", "+", "x1", "+", "+", "x2", "J"],
-                            "DH": ["x0", "S", "+", "x0", "+", "x0", "x2", "x2", "5", "+", "x0", "+", "x0", "+", "x2", "x2", "x0", "+", "3", "x0", "+", "+", "x0", "A"],
-                            "MH": ["x0", "+", "A", "x3", "1", "x2", "x0", "x2", "4", "+", "x1", "6", "x1", "A", "x0", "x3", "x1", "+", "6", "x1", "S", "A", "x0", "+"],
-                            "GF": ["x2", "J", "C", "x1", "6", "x0", "x0", "x0", "+", "2", "x2", "+", "x1", "B", "x1", "x0", "x0", "2", "+", "x1", "+", "J", "x2", "+"],
-                            "GA": ["x2", "B", "J", "x1", "5", "x2", "x1", "x0", "+", "1", "x1", "2", "x2", "C", "x1", "x0", "x2", "4", "+", "x2", "C", "D", "x2", "B"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 5",
-                        "level": "***",
-                        "setup": "Time 1) The Baroness at The Grand Foyer, The Chauffeur at The Stage, The Journalist at The Grand Foyer",
-                        "solution": "Who: The Chauffeur - Where: The Danse Hall - When: Time 6",
-                        "score": [12, 18],
-                        "locations": {
-                            "ST": ["x1", "C", "S", "x1", "+", "x1", "x1", "x3", "2", "5", "x3", "2", "x1", "S", "x2", "x1", "x1", "5", "2", "x0", "+", "D", "x3", "C"],
-                            "GS": ["x1", "+", "B", "x1", "4", "x0", "x1", "x0", "+", "+", "x1", "+", "x1", "B", "x0", "x0", "x0", "3", "+", "x3", "+", "B", "x0", "J"],
-                            "DH": ["x0", "A", "D", "x2", "+", "x2", "x2", "x3", "1", "2", "x1", "6", "x1", "D", "x2", "x3", "x2", "+", "5", "x0", "S", "C", "x2", "A"],
-                            "MH": ["x1", "D", "A", "x2", "+", "x1", "x1", "x0", "6", "4", "x0", "1", "x2", "J", "x1", "x2", "x3", "6", "+", "x0", "D", "+", "x1", "D"],
-                            "GF": ["x1", "B", "+", "x0", "5", "x2", "x1", "x0", "+", "+", "x0", "+", "x0", "+", "x1", "x0", "x0", "+", "+", "x3", "+", "+", "x0", "B"],
-                            "GA": ["x2", "+", "J", "x0", "+", "x0", "x0", "x0", "+", "+", "x1", "+", "x1", "+", "x0", "x0", "x0", "4", "+", "x0", "+", "J", "x0", "+"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 1",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Grand Foyer, The Chauffeur at The Grand Foyer, The Detective at The Grand Staircase, The Journalist at The Stage, The Servant at The Danse Hall",
-                        "solution": "Who: The Chauffeur - Where: The Gallery - When: Time 6",
-                        "score": [9, 16],
-                        "locations": {
-                            "ST": ["x2", "J", "A", "x0", "+", "x1", "x0", "x1", "2", "5", "x2", "+", "x1", "+", "x2", "x2", "x0", "5", "2", "x0", "+", "A", "x1", "+"],
-                            "GS": ["x1", "S", "B", "x1", "4", "x1", "x1", "x1", "+", "+", "x1", "+", "x1", "B", "x1", "x0", "x1", "3", "5", "x3", "+", "B", "x0", "J"],
-                            "DH": ["x1", "+", "+", "x2", "+", "x1", "x0", "x1", "6", "+", "x0", "+", "x0", "A", "x0", "x1", "x0", "6", "+", "x0", "+", "+", "x0", "+"],
-                            "MH": ["x0", "A", "+", "x0", "+", "x1", "x1", "x0", "5", "+", "x0", "+", "x0", "+", "x1", "x3", "x0", "+", "+", "x0", "+", "+", "x0", "A"],
-                            "GF": ["x0", "D", "S", "x1", "3", "x2", "x3", "x2", "+", "3", "x0", "3", "x1", "S", "x1", "x0", "x2", "+", "4", "x2", "+", "+", "x2", "B"],
-                            "GA": ["x2", "B", "D", "x2", "5", "x0", "x1", "x1", "+", "4", "x3", "2", "x3", "D", "x1", "x0", "x3", "4", "3", "x1", "+", "J", "x3", "S"]
-                        }
+    <!-- Scenario Description -->
+    <div id="scenario-description" class="card hidden">
+      <h2 id="scenario-title"></h2>
+      <div class="info-box" id="scenario-desc"></div>
+      <div class="info-box" id="scenario-mystery"></div>
+      <div class="info-box" id="scenario-clarifications"></div>
+      <h3>Select an Investigation</h3>
+      <div class="btn-group" id="investigation-buttons"></div>
+      <button id="back-to-scenarios" class="btn">Back to Scenarios</button>
+    </div>
 
-                    },
-                    {
-                        "title": "Extra Investigation 2",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Danse Hall, The Chauffeur at The Music Hall, The Detective at The Grand Foyer, The Journalist at The Gallery, The Servant at The Stage",
-                        "solution": "Who: The Journalist - Where: The Grand Staircase - When: Time 6",
-                        "score": [9, 17],
-                        "locations": {
-                            "ST": ["x0", "B", "S", "x2", "2", "x2", "x0", "x2", "6", "6", "x2", "+", "x1", "C", "x1", "x2", "x0", "+", "4", "x2", "+", "C", "x2", "+"],
-                            "GS": ["x2", "+", "J", "x2", "+", "x0", "x0", "x0", "+", "4", "x1", "4", "x3", "D", "x0", "x0", "x3", "4", "+", "x0", "+", "D", "x1", "+"],
-                            "DH": ["x0", "S", "+", "x0", "3", "x1", "x2", "x2", "5", "+", "x1", "+", "x0", "+", "x2", "x2", "x0", "+", "5", "x2", "+", "S", "x0", "B"],
-                            "MH": ["x0", "+", "B", "x1", "4", "x1", "x1", "x2", "4", "+", "x1", "+", "x2", "S", "x0", "x2", "x0", "+", "6", "x1", "+", "A", "x1", "S"],
-                            "GF": ["x1", "+", "+", "x0", "+", "x1", "x0", "x0", "+", "+", "x1", "+", "x0", "+", "x0", "x0", "x1", "2", "+", "x0", "+", "J", "x0", "+"],
-                            "GA": ["x3", "C", "+", "x1", "6", "x1", "x3", "x0", "+", "5", "x0", "5", "x0", "B", "x3", "x0", "x2", "3", "+", "x1", "+", "+", "x2", "C"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 3",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Stage, The Chauffeur at The Stage, The Detective at The Danse Hall, The Journalist at The Grand Staircase, The Servant at The Music Hall",
-                        "solution": "Who: The Servant - Where: The Music Hall - When: Time 5",
-                        "score": [10, 17],
-                        "locations": {
-                            "ST": ["x2", "B", "C", "x3", "3", "x2", "x3", "x2", "2", "6", "x1", "6", "x2", "C", "x2", "x1", "x2", "5", "6", "x3", "+", "A", "x3", "J"],
-                            "GS": ["x1", "+", "+", "x0", "+", "x1", "x0", "x0", "+", "+", "x0", "+", "x0", "+", "x0", "x0", "x0", "+", "+", "x0", "+", "+", "x0", "+"],
-                            "DH": ["x0", "A", "D", "x0", "+", "x1", "x2", "x1", "5", "3", "x1", "4", "x1", "+", "x1", "x2", "x2", "+", "2", "x0", "+", "S", "x1", "A"],
-                            "MH": ["x2", "D", "A", "x3", "4", "x2", "x1", "x3", "6", "2", "x3", "2", "x3", "B", "x2", "x3", "x2", "4", "3", "x3", "+", "B", "x1", "S"],
-                            "GF": ["x0", "+", "+", "x0", "+", "x0", "x0", "x0", "+", "+", "x0", "+", "x0", "+", "x0", "x0", "x0", "+", "+", "x0", "+", "+", "x0", "+"],
-                            "GA": ["x1", "C", "+", "x0", "+", "x0", "x0", "x0", "+", "5", "x1", "+", "x0", "+", "x1", "x0", "x0", "2", "+", "x0", "+", "J", "x1", "+"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 4",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Music Hall, The Chauffeur at The Gallery, The Detective at The Grand Foyer, The Journalist at The Music Hall, The Servant at The Grand Staircase",
-                        "solution": "Who: The Chauffeur - Where: The Grand Staircase - When: Time 6",
-                        "score": [10, 17],
-                        "locations": {
-                            "ST": ["x2", "S", "+", "x3", "6", "x0", "x0", "x1", "6", "+", "x2", "+", "x0", "A", "x1", "x1", "x0", "6", "5", "x2", "+", "B", "x0", "+"],
-                            "GS": ["x0", "+", "+", "x2", "+", "x1", "x3", "x2", "3", "3", "x1", "2", "x0", "D", "x0", "x1", "x2", "+", "3", "x0", "+", "D", "x2", "C"],
-                            "DH": ["x1", "+", "J", "x0", "4", "x0", "x0", "x0", "+", "+", "x0", "+", "x2", "+", "x0", "x0", "x0", "4", "+", "x1", "+", "+", "x0", "+"],
-                            "MH": ["x3", "B", "+", "x1", "3", "x2", "x2", "x1", "+", "+", "x0", "+", "x0", "S", "x2", "x0", "x0", "5", "6", "x3", "+", "+", "x0", "B"],
-                            "GF": ["x0", "+", "D", "x0", "+", "x1", "x0", "x1", "2", "4", "x3", "4", "x3", "+", "x0", "x2", "x2", "+", "2", "x0", "+", "C", "x2", "+"],
-                            "GA": ["x0", "D", "S", "x0", "+", "x2", "x1", "x1", "5", "5", "x0", "3", "x1", "+", "x3", "x2", "x2", "+", "4", "x0", "+", "+", "x2", "D"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 5",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Grand Staircase, The Baroness at The Grand Staircase, The Chauffeur at The Gallery, The Detective at The Grand Foyer, The Journalist at The Gallery, The Servant at The Stage",
-                        "solution": "Who: The Adventurer - Where: The Gallery - When: Time 6",
-                        "score": [10, 17],
-                        "locations": {
-                            "ST": ["x0", "+", "+", "x1", "3", "x1", "x2", "x2", "+", "+", "x0", "+", "x0", "B", "x0", "x0", "x0", "+", "3", "x2", "+", "+", "x0", "S"],
-                            "GS": ["x3", "A", "C", "x3", "+", "x2", "x0", "x1", "5", "2", "x3", "4", "x3", "C", "x1", "x2", "x2", "6", "6", "x1", "+", "J", "x3", "+"],
-                            "DH": ["x0", "+", "B", "x0", "4", "x0", "x0", "x1", "+", "+", "x1", "+", "x1", "+", "x0", "x0", "x0", "+", "2", "x1", "+", "S", "x0", "+"],
-                            "MH": ["x0", "B", "+", "x0", "5", "x0", "x0", "x0", "+", "+", "x0", "+", "x0", "+", "x1", "x0", "x0", "+", "+", "x1", "+", "+", "x0", "+"],
-                            "GF": ["x1", "S", "A", "x0", "+", "x1", "x1", "x1", "4", "5", "x1", "5", "x1", "+", "x3", "x2", "x2", "3", "5", "x0", "+", "A", "x1", "J"],
-                            "GA": ["x2", "J", "S", "x2", "2", "x2", "x3", "x1", "3", "3", "x1", "3", "x1", "D", "x1", "x2", "x2", "5", "4", "x1", "+", "B", "x2", "C"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 6",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Danse Hall, The Baroness at The Grand Staircase, The Chauffeur at The Grand Foyer, The Detective at The Gallery, The Journalist at The Grand Staircase, The Servant at The Grand Foyer",
-                        "solution": "Who: The Servant - Where: The Grand Foyer - When: Time 6",
-                        "score": [10, 18],
-                        "locations": {
-                            "ST": ["x1", "+", "+", "x2", "+", "x0", "x0", "x0", "6", "+", "x1", "+", "x0", "J", "x0", "x2", "x0", "6", "+", "x0", "+", "A", "x0", "+"],
-                            "GS": ["x1", "D", "+", "x0", "5", "x2", "x1", "x1", "+", "2", "x1", "5", "x0", "+", "x3", "x0", "x2", "+", "5", "x2", "+", "C", "x1", "D"],
-                            "DH": ["x0", "+", "A", "x0", "+", "x1", "x0", "x0", "4", "+", "x0", "+", "x1", "+", "x0", "x2", "x0", "+", "+", "x0", "+", "+", "x0", "+"],
-                            "MH": ["x0", "A", "+", "x0", "+", "x0", "x1", "x0", "5", "+", "x0", "+", "x0", "+", "x1", "x2", "x0", "+", "+", "x0", "+", "+", "x0", "A"],
-                            "GF": ["x2", "C", "J", "x2", "4", "x2", "x2", "x3", "+", "3", "x3", "4", "x3", "D", "x1", "x0", "x3", "2", "3", "x2", "+", "B", "x3", "S"],
-                            "GA": ["x2", "J", "S", "x2", "6", "x1", "x2", "x2", "+", "4", "x1", "+", "x2", "C", "x1", "x0", "x1", "3", "2", "x2", "+", "S", "x2", "B"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 7",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Grand Staircase, The Chauffeur at The Music Hall, The Detective at The Grand Foyer, The Journalist at The Gallery, The Servant at The Gallery",
-                        "solution": "Who: The Servant - Where: The Grand Staircase - When: Time 6",
-                        "score": [10, 18],
-                        "locations": {
-                            "ST": ["x0", "A", "+", "x0", "+", "x1", "x1", "x0", "5", "2", "x1", "+", "x0", "+", "x1", "x3", "x0", "+", "+", "x0", "+", "C", "x1", "A"],
-                            "GS": ["x2", "B", "J", "x2", "5", "x1", "x1", "x2", "+", "4", "x3", "4", "x3", "D", "x1", "x0", "x3", "2", "2", "x3", "+", "D", "x1", "B"],
-                            "DH": ["x0", "+", "+", "x1", "+", "x0", "x0", "x0", "6", "+", "x0", "+", "x0", "A", "x0", "x1", "x0", "+", "+", "x0", "+", "+", "x0", "+"],
-                            "MH": ["x0", "+", "+", "x0", "+", "x1", "x0", "x0", "2", "+", "x1", "+", "x0", "+", "x0", "x1", "x0", "+", "+", "x0", "+", "A", "x1", "+"],
-                            "GF": ["x1", "C", "S", "x0", "+", "x1", "x1", "x1", "+", "5", "x0", "5", "x1", "+", "x3", "x0", "x3", "5", "4", "x0", "+", "+", "x1", "D"],
-                            "GA": ["x3", "S", "B", "x3", "2", "x2", "x3", "x3", "4", "3", "x1", "+", "x2", "B", "x1", "x1", "x0", "6", "5", "x3", "+", "B", "x2", "S"]
-                        }
-                    }
-                ]
-            },
-            {
-                "title": "Scenario II - The Phantom of the Opera",
-                "description": "Several dramatic accidents has occurred at the Opera. The collapse of the great chandelier in the gallery and the recent discovery of the cadaver of a young stagehand have fueled a crazy rumour: it must be the work of the Phantom of the Opera ... It's up to you to unmask this phantom.",
-                "mystery": "The Phantom is very discreet. This is the only Character who will be alone in a room at every Time in the evening. Who is the Phantom?",
-                "clarifications": "In this scenario, use all of the Time placards and Character placards. Each Character must move at each Time, and always to an adjacent Location. No Character stays in the same Location two Times consecutively. All Characters are present at each Time.",
-                "investigations": [
-                    {
-                        "title": "Investigation 1",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Stage, The Chauffeur at The Grand Foyer, The Detective at The Danse Hall, The Journalist at The Grand Staircase, The Servant at The Music Hall",
-                        "solution": "Who: The Servant",
-                        "score": [15, 22],
-                        "locations": {
-                            "ST": ["x0", "C", "D", "x1", "+", "x1", "x0", "x1", "+", "5", "x1", "2", "x1", "S", "x1", "x0", "x2", "+", "6", "x1", "+", "D", "x1", "+"],
-                            "GS": ["x2", "B", "A", "x2", "3", "x1", "x2", "x0", "4", "2", "x1", "6", "x1", "A", "x1", "x2", "x1", "3", "+", "x2", "+", "C", "x1", "J"],
-                            "DH": ["x0", "+", "S", "x0", "+", "x1", "x1", "x2", "+", "+", "x1", "3", "x1", "+", "x0", "x0", "x2", "+", "2", "x0", "+", "S", "x0", "D"],
-                            "MH": ["x0", "S", "+", "x1", "+", "x1", "x1", "x3", "+", "6", "x0", "+", "x0", "C", "x1", "x0", "x0", "+", "5", "x0", "+", "+", "x1", "S"],
-                            "GF": ["x2", "J", "B", "x1", "4", "x1", "x1", "x0", "2", "3", "x2", "+", "x1", "B", "x1", "x1", "x0", "2", "+", "x2", "+", "A", "x2", "C"],
-                            "GA": ["x2", "A", "C", "x1", "2", "x1", "x1", "x0", "3", "4", "x1", "5", "x2", "J", "x2", "x3", "x1", "4", "+", "x1", "+", "B", "x1", "A"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 2",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Danse Hall, The Chauffeur at The Grand Foyer, The Detective at The Grand Staircase, The Journalist at The Gallery, The Servant at The Stage",
-                        "solution": "Who: The Detective",
-                        "score": [15, 22],
-                        "locations": {
-                            "ST": ["x2", "B", "D", "x1", "3", "x1", "x3", "x2", "5", "5", "x1", "4", "x1", "J", "x3", "x2", "x1", "2", "3", "x2", "+", "J", "x1", "A"],
-                            "GS": ["x0", "+", "+", "x1", "+", "x1", "x1", "x0", "+", "3", "x0", "6", "x0", "D", "x0", "x0", "x2", "+", "+", "x0", "+", "+", "x1", "C"],
-                            "DH": ["x2", "J", "+", "x1", "+", "x1", "x1", "x0", "2", "6", "x1", "+", "x0", "C", "x1", "x1", "x0", "3", "+", "x1", "+", "A", "x1", "J"],
-                            "MH": ["x1", "+", "B", "x1", "2", "x1", "x0", "x1", "6", "+", "x2", "+", "x2", "A", "x0", "x2", "x0", "4", "2", "x2", "+", "B", "x0", "+"],
-                            "GF": ["x0", "S", "+", "x0", "+", "x1", "x0", "x1", "+", "+", "x1", "2", "x0", "+", "x1", "x0", "x1", "+", "5", "x0", "+", "D", "x1", "+"],
-                            "GA": ["x1", "D", "C", "x2", "6", "x1", "x1", "x2", "4", "2", "x1", "3", "x3", "B", "x1", "x1", "x2", "+", "4", "x1", "+", "C", "x2", "D"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 3",
-                        "level": "****",
-                        "setup": "Time 1) The Baroness at The Grand Staircase, The Detective at The Danse Hall, The Journalist at The Music Hall",
-                        "solution": "Who: The Chauffeur",
-                        "score": [18, 25],
-                        "locations": {
-                            "ST": ["x2", "S", "C", "x1", "3", "x1", "x3", "x2", "+", "6", "x1", "3", "x1", "C", "x2", "x0", "x1", "5", "5", "x1", "C", "J", "x3", "S"],
-                            "GS": ["x0", "A", "+", "x0", "+", "x1", "x1", "x0", "5", "+", "x0", "+", "x0", "+", "x1", "x2", "x0", "+", "+", "x1", "+", "+", "x0", "A"],
-                            "DH": ["x1", "C", "+", "x1", "+", "x2", "x1", "x2", "+", "5", "x1", "+", "x0", "S", "x1", "x0", "x1", "3", "6", "x0", "S", "C", "x2", "J"],
-                            "MH": ["x2", "+", "S", "x0", "+", "x1", "x1", "x2", "+", "3", "x2", "2", "x2", "+", "x0", "x0", "x1", "4", "2", "x0", "+", "D", "x1", "C"],
-                            "GF": ["x0", "D", "A", "x1", "5", "x1", "x0", "x0", "1", "+", "x0", "5", "x1", "A", "x2", "x3", "x1", "+", "+", "x1", "A", "+", "x0", "+"],
-                            "GA": ["x1", "+", "D", "x3", "4", "x0", "x0", "x0", "2", "+", "x2", "6", "x2", "B", "x0", "x1", "x2", "6", "+", "x3", "+", "B", "x0", "+"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 4",
-                        "level": "****",
-                        "setup": "Time 1) The Chauffeur at The Danse Hall, The Detective at The Grand Staircase, The Servant at The Gallery",
-                        "solution": "Who: The Detective",
-                        "score": [18, 25],
-                        "locations": {
-                            "ST": ["x0", "+", "A", "x0", "1", "x2", "x1", "x1", "4", "2", "x2", "+", "x2", "+", "x0", "x2", "x0", "+", "2", "x2", "A", "S", "x2", "B"],
-                            "GS": ["x1", "D", "+", "x1", "+", "x1", "x1", "x0", "6", "+", "x1", "5", "x0", "A", "x1", "x1", "x3", "2", "+", "x0", "+", "J", "x0", "D"],
-                            "DH": ["x0", "S", "B", "x1", "4", "x1", "x2", "x2", "3", "+", "x0", "+", "x1", "B", "x1", "x1", "x0", "+", "5", "x2", "+", "+", "x1", "S"],
-                            "MH": ["x0", "B", "S", "x1", "2", "x0", "x1", "x2", "2", "3", "x2", "+", "x1", "S", "x1", "x1", "x0", "+", "6", "x2", "+", "A", "x1", "C"],
-                            "GF": ["x3", "+", "J", "x2", "+", "x1", "x0", "x0", "+", "6", "x1", "2", "x1", "J", "x0", "x0", "x1", "6", "+", "x0", "J", "D", "x1", "+"],
-                            "GA": ["x2", "J", "D", "x1", "+", "x1", "x1", "x1", "5", "5", "x0", "4", "x1", "D", "x3", "x1", "x2", "3", "+", "x0", "+", "+", "x1", "J"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 5",
-                        "level": "****",
-                        "setup": "Time 1) The Chauffeur at The Stage, The Detective at The Grand Foyer, The Servant at The Music Hall",
-                        "solution": "The Journalist",
-                        "score": [18, 25],
-                        "locations": {
-                            "ST": ["x0", "+", "+", "x2", "1", "x2", "x2", "x1", "6", "3", "x0", "+", "x0", "B", "x0", "x1", "x0", "+", "3", "x2", "B", "+", "x2", "S"],
-                            "GS": ["x2", "S", "J", "x1", "+", "x1", "x0", "x1", "+", "6", "x1", "2", "x1", "C", "x1", "x0", "x1", "1", "5", "x0", "J", "D", "x1", "+"],
-                            "DH": ["x0", "A", "B", "x0", "2", "x1", "x1", "x1", "3", "2", "x3", "+", "x1", "+", "x1", "x3", "x0", "+", "2", "x2", "A", "S", "x1", "A"],
-                            "MH": ["x0", "B", "A", "x0", "5", "x1", "x1", "x1", "2", "+", "x1", "+", "x1", "+", "x1", "x2", "x0", "+", "+", "x2", "+", "A", "x0", "B"],
-                            "GF": ["x2", "C", "+", "x1", "+", "x1", "x1", "x0", "+", "5", "x1", "5", "x0", "J", "x2", "x0", "x3", "6", "+", "x0", "+", "J", "x1", "D"],
-                            "GA": ["x2", "J", "C", "x2", "+", "x0", "x1", "x2", "+", "4", "x0", "6", "x3", "S", "x1", "x0", "x2", "5", "4", "x0", "+", "+", "x1", "J"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 1",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Grand Foyer, The Chauffeur at The Stage, The Detective at The Music Hall, The Journalist at The Grand Staircase, The Servant at The Danse Hall",
-                        "solution": "Who: The Chauffeur",
-                        "score": [11, 18],
-                        "locations": {
-                            "ST": ["x0", "+", "D", "x2", "+", "x1", "x0", "x1", "+", "+", "x0", "6", "x1", "D", "x0", "x0", "x2", "+", "6", "x0", "+", "+", "x1", "+"],
-                            "GS": ["x3", "J", "C", "x0", "2", "x1", "x1", "x0", "5", "4", "x2", "+", "x1", "+", "x2", "x2", "x0", "5", "+", "x1", "+", "A", "x1", "J"],
-                            "DH": ["x0", "S", "+", "x0", "+", "x1", "x1", "x3", "+", "+", "x1", "2", "x0", "+", "x1", "x0", "x1", "+", "3", "x0", "+", "D", "x0", "S"],
-                            "MH": ["x0", "D", "S", "x0", "+", "x1", "x1", "x2", "+", "+", "x1", "3", "x1", "+", "x1", "x0", "x3", "+", "2", "x0", "+", "S", "x0", "D"],
-                            "GF": ["x3", "C", "J", "x3", "6", "x1", "x1", "x0", "6", "3", "x1", "+", "x3", "J", "x1", "x2", "x0", "6", "+", "x3", "+", "J", "x2", "C"],
-                            "GA": ["x0", "B", "+", "x1", "3", "x1", "x2", "x0", "3", "6", "x1", "+", "x0", "C", "x1", "x2", "x0", "+", "+", "x2", "+", "C", "x2", "A"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 2",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Danse Hall, The Chauffeur at The Grand Foyer, The Detective at The Stage, The Journalist at The Grand Staircase, The Servant at The Music Hall",
-                        "solution": "Who: The Baroness",
-                        "score": [12, 18],
-                        "locations": {
-                            "ST": ["x0", "D", "B", "x0", "4", "x1", "x0", "x1", "+", "+", "x1", "5", "x1", "+", "x1", "x0", "x2", "+", "2", "x1", "+", "S", "x0", "+"],
-                            "GS": ["x2", "A", "S", "x1", "+", "x1", "x1", "x2", "5", "5", "x0", "+", "x2", "S", "x2", "x1", "x0", "4", "6", "x0", "+", "+", "x2", "C"],
-                            "DH": ["x0", "B", "D", "x0", "5", "x1", "x1", "x0", "+", "+", "x1", "2", "x1", "+", "x1", "x0", "x2", "+", "+", "x3", "+", "D", "x0", "B"],
-                            "MH": ["x0", "+", "+", "x1", "2", "x1", "x1", "x1", "+", "+", "x1", "3", "x0", "B", "x0", "x0", "x1", "+", "+", "x2", "+", "B", "x0", "D"],
-                            "GF": ["x2", "+", "A", "x2", "+", "x1", "x0", "x0", "2", "4", "x2", "+", "x2", "J", "x0", "x2", "x0", "2", "+", "x0", "+", "A", "x3", "+"],
-                            "GA": ["x2", "S", "+", "x2", "+", "x1", "x3", "x2", "3", "2", "x1", "6", "x0", "A", "x2", "x3", "x1", "3", "3", "x0", "+", "C", "x1", "S"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 3",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Danse Hall, The Baroness at The Grand Staircase, The Chauffeur at The Grand Foyer, The Detective at The Stage, The Journalist at The Music Hall, The Servant at The Gallery",
-                        "solution": "Who: The Baroness",
-                        "score": [11, 18],
-                        "locations": {
-                            "ST": ["x0", "D", "A", "x1", "+", "x1", "x1", "x3", "2", "5", "x2", "5", "x2", "S", "x2", "x2", "x3", "+", "4", "x0", "+", "S", "x1", "D"],
-                            "GS": ["x0", "B", "+", "x1", "5", "x1", "x1", "x0", "6", "2", "x1", "+", "x0", "A", "x1", "x1", "x0", "+", "+", "x3", "+", "C", "x1", "B"],
-                            "DH": ["x3", "+", "J", "x3", "+", "x1", "x2", "x1", "3", "6", "x1", "6", "x1", "D", "x0", "x2", "x1", "6", "3", "x0", "+", "J", "x1", "A"],
-                            "MH": ["x3", "J", "+", "x0", "+", "x1", "x1", "x0", "+", "+", "x0", "+", "x0", "+", "x1", "x0", "x0", "5", "+", "x0", "+", "+", "x0", "J"],
-                            "GF": ["x0", "+", "B", "x1", "2", "x1", "x1", "x0", "+", "3", "x1", "+", "x1", "B", "x0", "x0", "x0", "+", "+", "x3", "+", "B", "x2", "C"],
-                            "GA": ["x0", "A", "D", "x0", "+", "x1", "x0", "x2", "5", "4", "x1", "4", "x2", "+", "x2", "x1", "x2", "+", "5", "x0", "+", "D", "x1", "+"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 4",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Grand Staircase, The Baroness at The Grand Foyer, The Chauffeur at The Danse Hall, The Detective at The Music Hall, The Journalist at The Stage, The Servant at The Gallery",
-                        "solution": "Who: The Servant",
-                        "score": [12, 19],
-                        "locations": {
-                            "ST": ["x2", "J", "C", "x2", "3", "x1", "x2", "x0", "3", "2", "x1", "4", "x2", "C", "x1", "x1", "x2", "5", "+", "x1", "+", "C", "x3", "B"],
-                            "GS": ["x0", "S", "+", "x1", "6", "x1", "x0", "x2", "+", "+", "x1", "+", "x0", "B", "x1", "x1", "x0", "+", "2", "x1", "+", "S", "x0", "+"],
-                            "DH": ["x2", "C", "A", "x2", "+", "x1", "x1", "x0", "4", "5", "x1", "2", "x1", "A", "x1", "x2", "x1", "6", "+", "x0", "+", "D", "x2", "J"],
-                            "MH": ["x2", "A", "J", "x0", "+", "x1", "x2", "x0", "5", "3", "x1", "5", "x1", "+", "x2", "x1", "x3", "2", "+", "x0", "+", "J", "x1", "C"],
-                            "GF": ["x0", "B", "S", "x0", "5", "x1", "x0", "x1", "+", "+", "x0", "+", "x1", "+", "x1", "x0", "x0", "+", "4", "x2", "+", "+", "x0", "+"],
-                            "GA": ["x0", "+", "B", "x1", "2", "x1", "x1", "x3", "2", "+", "x2", "+", "x1", "S", "x0", "x1", "x0", "+", "6", "x2", "+", "A", "x0", "S"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 5",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Grand Foyer, The Chauffeur at The Stage, The Detective at The Music Hall, The Journalist at The Danse Hall, The Servant at The Grand Staircase",
-                        "solution": "Who: The Adventurer",
-                        "score": [11, 18],
-                        "locations": {
-                            "ST": ["x2", "S", "J", "x3", "+", "x1", "x1", "x1", "+", "6", "x1", "6", "x1", "J", "x1", "x0", "x2", "4", "5", "x0", "+", "D", "x3", "C"],
-                            "GS": ["x0", "B", "+", "x1", "3", "x1", "x2", "x2", "2", "+", "x1", "+", "x0", "A", "x1", "x2", "x0", "+", "3", "x2", "+", "A", "x0", "S"],
-                            "DH": ["x3", "J", "D", "x0", "+", "x1", "x1", "x0", "+", "5", "x1", "4", "x1", "+", "x2", "x0", "x1", "3", "+", "x0", "+", "C", "x2", "J"],
-                            "MH": ["x1", "D", "C", "x0", "+", "x1", "x1", "x0", "+", "4", "x1", "5", "x1", "+", "x1", "x0", "x3", "2", "+", "x0", "+", "J", "x1", "D"],
-                            "GF": ["x0", "+", "A", "x1", "6", "x1", "x0", "x0", "4", "+", "x0", "+", "x1", "B", "x0", "x1", "x0", "+", "+", "x2", "+", "+", "x0", "+"],
-                            "GA": ["x0", "A", "S", "x1", "4", "x1", "x1", "x3", "3", "+", "x2", "+", "x2", "S", "x1", "x3", "x0", "+", "4", "x2", "+", "S", "x0", "A"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 6",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Grand Staircase, The Chauffeur at The Grand Foyer, The Detective at The Stage, The Journalist at The Danse Hall, The Servant at The Gallery",
-                        "solution": "Who: The Servant",
-                        "score": [11, 18],
-                        "locations": {
-                            "ST": ["x2", "B", "J", "x2", "5", "x1", "x1", "x0", "6", "3", "x0", "+", "x1", "A", "x1", "x1", "x1", "6", "+", "x1", "+", "+", "x1", "C"],
-                            "GS": ["x0", "S", "D", "x0", "+", "x1", "x0", "x1", "+", "+", "x0", "4", "x1", "+", "x1", "x0", "x1", "+", "5", "x1", "+", "+", "x0", "+"],
-                            "DH": ["x3", "J", "A", "x1", "+", "x1", "x1", "x0", "4", "4", "x1", "+", "x2", "C", "x1", "x2", "x0", "5", "+", "x0", "+", "A", "x2", "J"],
-                            "MH": ["x1", "C", "+", "x0", "+", "x1", "x1", "x0", "5", "5", "x1", "+", "x0", "+", "x2", "x3", "x0", "2", "+", "x0", "+", "J", "x1", "A"],
-                            "GF": ["x0", "D", "S", "x1", "3", "x1", "x2", "x3", "+", "+", "x1", "3", "x1", "S", "x1", "x0", "x2", "+", "2", "x1", "+", "S", "x1", "D"],
-                            "GA": ["x0", "+", "B", "x2", "2", "x1", "x1", "x2", "+", "2", "x3", "2", "x1", "D", "x0", "x0", "x2", "+", "3", "x3", "+", "C", "x1", "S"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 7",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Grand Foyer, The Baroness at The Grand Staircase, The Chauffeur at The Gallery, The Detective at The Music Hall, The Journalist at The Danse Hall, The Servant at The Stage",
-                        "solution": "Who: The Detective",
-                        "score": [12, 19],
-                        "locations": {
-                            "ST": ["x2", "J", "C", "x1", "+", "x1", "x1", "x1", "+", "4", "x1", "2", "x1", "D", "x1", "x0", "x2", "3", "+", "x0", "+", "D", "x1", "J"],
-                            "GS": ["x0", "A", "+", "x2", "3", "x1", "x2", "x2", "2", "6", "x1", "+", "x0", "B", "x2", "x2", "x0", "+", "3", "x3", "+", "A", "x1", "B"],
-                            "DH": ["x2", "D", "J", "x0", "+", "x1", "x1", "x0", "+", "+", "x0", "3", "x1", "+", "x1", "x0", "x2", "4", "+", "x0", "+", "+", "x0", "D"],
-                            "MH": ["x1", "+", "D", "x0", "+", "x1", "x0", "x0", "+", "+", "x1", "4", "x1", "+", "x0", "x0", "x2", "2", "+", "x0", "+", "J", "x0", "+"],
-                            "GF": ["x0", "+", "B", "x0", "2", "x1", "x1", "x0", "3", "2", "x2", "+", "x1", "+", "x0", "x2", "x0", "+", "+", "x2", "+", "C", "x1", "A"],
-                            "GA": ["x1", "C", "A", "x3", "5", "x1", "x1", "x3", "4", "3", "x1", "+", "x2", "A", "x2", "x2", "x0", "6", "6", "x1", "+", "S", "x3", "C"]
-                        }
-                    }
-                ]
-            },
-            {
-                "title": "Scenario III - The Singer's Jewels",
-                "description": "The opera singer Emme Calvé performs at the Paris Opera. A famous soprano, she wears a magnificent diamond necklace, which catches the eye of thieves throughout Paris. On the evening of the 14th of April, a team of burglars, disguised as guests, steals the necklace and passes it from hand to hand to cover their tracks.",
-                "mystery": "At Time 1, the necklace was seen in the Dance Hall. It was stolen by the first character who is found alone in this room. This person departs with the jewelry. Later, each time the holder of the necklace is with only one other Character, the jewels change hands; however, if this Character is alone, or if there are 3 or more Characters in the same place, the holder keeps the necklace. Who has the jewels at Time 6? In which Location should the police intervene at the end of the evening?",
-                "clarifications": "In this scenario, use all of the Time placards and Character placards. Each Character must move at each Time, and always to an adjacent Location. No Character stays in the same Location two Times consecutively. All Characters are present at each Time. The Detective was also on the move at all Times of the evening, since he was not found dead until the next morning at home.",
-                "investigations": [
-                    {
-                        "title": "Investigation 1",
-                        "level": "***",
-                        "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Grand Staircase, The Chauffeur at The Stage, The Detective at The Grand Staircase, The Journalist at The Gallery, The Servant at The Danse Hall",
-                        "solution": "Who: The Chauffeur - Where: The Grand Foyer",
-                        "score": [12, 18],
-                        "locations": {
-                            "ST": ["x2", "+", "S", "x2", "3", "x2", "x1", "x3", "+", "4", "x2", "4", "x3", "J", "x0", "x1", "x1", "2", "6", "x1", "+", "S", "x2", "B"],
-                            "GS": ["x0", "+", "+", "x2", "+", "x2", "x1", "x0", "6", "+", "x0", "6", "x0", "A", "x0", "x2", "x2", "+", "+", "x1", "+", "+", "x0", "A"],
-                            "DH": ["x1", "S", "B", "x1", "6", "x1", "x0", "x2", "+", "2", "x1", "+", "x2", "B", "x1", "x0", "x0", "4", "5", "x2", "+", "C", "x1", "+"],
-                            "MH": ["x2", "J", "+", "x0", "5", "x0", "x2", "x0", "+", "3", "x0", "+", "x0", "+", "x2", "x0", "x0", "3", "+", "x1", "+", "+", "x1", "J"],
-                            "GF": ["x0", "+", "A", "x1", "+", "x0", "x0", "x0", "4", "6", "x1", "2", "x1", "C", "x0", "x1", "x1", "+", "+", "x0", "+", "D", "x1", "+"],
-                            "GA": ["x1", "A", "+", "x0", "2", "x1", "x2", "x1", "2", "5", "x2", "5", "x0", "+", "x3", "x2", "x2", "+", "3", "x1", "+", "B", "x1", "S"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 2",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Grand Staircase, The Baroness at The Grand Foyer, The Chauffeur at The Stage, The Detective at The Gallery, The Journalist at The Grand Staircase, The Servant at The Gallery",
-                        "solution": "Who: The Servant - Where: The Grand Foyer",
-                        "score": [18, 25],
-                        "locations": {
-                            "ST": ["x1", "+", "D", "x3", "4", "x1", "x2", "x0", "+", "3", "x1", "6", "x2", "C", "x0", "x0", "x3", "3", "+", "x2", "+", "D", "x3", "J"],
-                            "GS": ["x1", "+", "S", "x1", "2", "x2", "x1", "x2", "6", "+", "x2", "+", "x1", "A", "x0", "x3", "x0", "+", "4", "x1", "+", "S", "x0", "A"],
-                            "DH": ["x2", "+", "J", "x1", "+", "x0", "x1", "x0", "+", "4", "x0", "3", "x2", "J", "x0", "x0", "x1", "6", "+", "x0", "+", "+", "x1", "D"],
-                            "MH": ["x1", "J", "+", "x0", "+", "x0", "x0", "x0", "+", "5", "x1", "5", "x0", "+", "x3", "x0", "x1", "5", "+", "x0", "+", "C", "x2", "+"],
-                            "GF": ["x0", "A", "+", "x1", "+", "x1", "x1", "x2", "5", "+", "x0", "+", "x0", "S", "x1", "x1", "x0", "+", "6", "x1", "+", "+", "x0", "S"],
-                            "GA": ["x1", "B", "A", "x0", "5", "x2", "x1", "x2", "2", "+", "x2", "+", "x1", "+", "x2", "x2", "x1", "2", "5", "x2", "+", "A", "x0", "B"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 3",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Chauffeur at The Gallery, The Detective at The Grand Staircase",
-                        "solution": "Who: The Adventurer - Where: The Stage",
-                        "score": [16, 22],
-                        "locations": {
-                            "ST": ["x3", "S", "A", "x1", "1", "x2", "x2", "x2", "4", "5", "x1", "+", "x1", "A", "x3", "x2", "x0", "5", "3", "x1", "J", "C", "x2", "S"],
-                            "GS": ["x0", "+", "+", "x1", "+", "x1", "x1", "x0", "+", "+", "x0", "6", "x0", "D", "x0", "x0", "x3", "+", "+", "x0", "+", "+", "x0", "D"],
-                            "DH": ["x1", "A", "C", "x2", "5", "x1", "x1", "x1", "5", "6", "x0", "+", "x1", "C", "x2", "x1", "x0", "6", "1", "x2", "S", "+", "x2", "B"],
-                            "MH": ["x2", "+", "B", "x2", "2", "x0", "x1", "x2", "+", "3", "x3", "+", "x2", "B", "x0", "x0", "x0", "2", "6", "x3", "+", "S", "x1", "C"],
-                            "GF": ["x0", "+", "D", "x0", "+", "x0", "x0", "x0", "2", "+", "x2", "2", "x1", "+", "x0", "x1", "x2", "+", "+", "x0", "+", "D", "x0", "+"],
-                            "GA": ["x0", "D", "S", "x0", "+", "x2", "x1", "x1", "3", "+", "x0", "5", "x1", "+", "x1", "x2", "x1", "+", "4", "x0", "+", "+", "x1", "A"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 4",
-                        "level": "****",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Chauffeur at The Grand Staircase, The Detective at The Grand Staircase",
-                        "solution": "Who: The Adventurer - Where: The Grand Staircase",
-                        "score": [16, 22],
-                        "locations": {
-                            "ST": ["x2", "D", "S", "x1", "5", "x1", "x2", "x2", "+", "3", "x2", "3", "x2", "C", "x2", "x0", "x2", "2", "2", "x2", "B", "S", "x2", "D"],
-                            "GS": ["x0", "+", "A", "x1", "+", "x2", "x0", "x0", "4", "+", "x0", "+", "x1", "A", "x0", "x2", "x1", "+", "+", "x0", "+", "+", "x1", "+"],
-                            "DH": ["x0", "+", "C", "x1", "4", "x0", "x0", "x1", "+", "4", "x1", "+", "x2", "S", "x0", "x0", "x0", "+", "6", "x2", "+", "B", "x1", "+"],
-                            "MH": ["x0", "C", "D", "x1", "3", "x1", "x2", "x3", "+", "5", "x0", "4", "x1", "B", "x2", "x0", "x1", "+", "5", "x2", "S", "+", "x1", "B"],
-                            "GF": ["x1", "+", "+", "x1", "+", "x0", "x0", "x0", "2", "+", "x1", "+", "x0", "J", "x0", "x1", "x0", "6", "+", "x0", "+", "A", "x0", "+"],
-                            "GA": ["x3", "A", "+", "x1", "+", "x2", "x2", "x0", "5", "2", "x2", "2", "x0", "D", "x2", "x3", "x2", "5", "+", "x0", "J", "D", "x1", "A"]
-                        }
-                    },
-                    {
-                        "title": "Investigation 5",
-                        "level": "*****",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Grand Staircase, The Servant at The Music Hall",
-                        "solution": "Who: The Baroness - Where: The Grand Foyer",
-                        "score": [20, 26],
-                        "locations": {
-                            "ST": ["x2", "D", "+", "x1", "+", "x1", "x2", "x2", "+", "5", "x1", "3", "x0", "S", "x3", "x0", "x3", "5", "6", "x0", "D", "S", "x1", "D"],
-                            "GS": ["x0", "A", "+", "x0", "5", "x1", "x1", "x0", "2", "+", "x1", "+", "x0", "+", "x2", "x2", "x0", "+", "+", "x3", "+", "A", "x0", "B"],
-                            "DH": ["x1", "+", "D", "x1", "+", "x1", "x1", "x0", "+", "3", "x0", "4", "x1", "J", "x0", "x0", "x1", "6", "+", "x0", "C", "+", "x2", "C"],
-                            "MH": ["x0", "+", "C", "x0", "+", "x1", "x0", "x1", "+", "4", "x2", "2", "x1", "+", "x0", "x0", "x1", "+", "+", "x0", "+", "C", "x2", "+"],
-                            "GF": ["x1", "+", "B", "x1", "4", "x1", "x1", "x1", "3", "+", "x0", "+", "x2", "B", "x0", "x1", "x0", "1", "4", "x2", "J", "+", "x0", "A"],
-                            "GA": ["x2", "S", "A", "x3", "2", "x1", "x1", "x2", "6", "6", "x2", "6", "x2", "A", "x1", "x3", "x1", "4", "5", "x1", "+", "B", "x1", "S"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 1",
-                        "level": "*****",
-                        "setup": "Time 1) The Adventurer at The Grand Foyer, The Baroness at The Gallery, The Chauffeur at The Music Hall, The Detective at The Grand Staircase, The Journalist at The Grand Staircase, The Servant at The Music Hall",
-                        "solution": "Who: The Adventurer - Where: The Grand Foyer",
-                        "score": [12, 19],
-                        "locations": {
-                            "ST": ["x0", "S", "C", "x2", "6", "x0", "x1", "x1", "+", "2", "x1", "3", "x2", "C", "x1", "x0", "x1", "+", "5", "x2", "+", "C", "x3", "D"],
-                            "GS": ["x3", "+", "+", "x1", "2", "x2", "x2", "x0", "3", "+", "x1", "+", "x0", "J", "x0", "x1", "x1", "3", "+", "x1", "+", "B", "x0", "J"],
-                            "DH": ["x0", "D", "S", "x0", "+", "x0", "x0", "x2", "+", "5", "x1", "5", "x1", "+", "x2", "x0", "x1", "+", "2", "x0", "+", "S", "x1", "+"],
-                            "MH": ["x0", "+", "D", "x2", "+", "x2", "x2", "x3", "+", "3", "x0", "6", "x1", "D", "x0", "x0", "x2", "+", "6", "x0", "+", "+", "x2", "S"],
-                            "GF": ["x2", "J", "A", "x1", "+", "x1", "x0", "x0", "4", "+", "x1", "+", "x1", "A", "x1", "x3", "x0", "5", "+", "x0", "+", "J", "x0", "+"],
-                            "GA": ["x1", "A", "J", "x0", "5", "x1", "x1", "x0", "5", "+", "x2", "2", "x1", "+", "x2", "x2", "x1", "4", "+", "x3", "+", "A", "x0", "B"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 2",
-                        "level": "*****",
-                        "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Gallery, The Chauffeur at The Grand Foyer, The Detective at The Gallery, The Journalist at The Stage, The Servant at The Grand Staircase",
-                        "solution": "Who: The Chauffeur - Where: The Grand Foyer",
-                        "score": [12, 19],
-                        "locations": {
-                            "ST": ["x1", "S", "B", "x1", "4", "x2", "x0", "x1", "5", "+", "x1", "4", "x2", "B", "x2", "x2", "x2", "+", "5", "x2", "+", "D", "x0", "+"],
-                            "GS": ["x0", "+", "+", "x0", "+", "x1", "x0", "x1", "+", "2", "x1", "+", "x0", "+", "x0", "x0", "x0", "+", "+", "x0", "+", "C", "x1", "+"],
-                            "DH": ["x3", "+", "J", "x2", "+", "x0", "x0", "x0", "+", "+", "x1", "6", "x1", "J", "x0", "x0", "x1", "6", "+", "x0", "+", "J", "x0", "+"],
-                            "MH": ["x2", "D", "+", "x2", "+", "x0", "x2", "x1", "6", "+", "x0", "3", "x0", "A", "x2", "x1", "x2", "5", "6", "x0", "+", "+", "x0", "J"],
-                            "GF": ["x0", "+", "C", "x1", "2", "x1", "x2", "x1", "3", "4", "x1", "+", "x1", "C", "x0", "x1", "x0", "+", "3", "x1", "+", "B", "x3", "S"],
-                            "GA": ["x0", "C", "S", "x0", "3", "x2", "x2", "x2", "2", "5", "x2", "+", "x2", "+", "x2", "x2", "x1", "+", "2", "x3", "+", "S", "x2", "C"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 3",
-                        "level": "*****",
-                        "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Grand Staircase, The Chauffeur at The Grand Foyer, The Detective at The Grand Foyer, The Journalist at The Stage, The Servant at The Stage",
-                        "solution": "Who: The Detective - Where: The Grand Staircase",
-                        "score": [11, 20],
-                        "locations": {
-                            "ST": ["x3", "S", "+", "x1", "5", "x2", "x2", "x2", "2", "+", "x1", "+", "x0", "J", "x2", "x1", "x0", "3", "5", "x2", "+", "A", "x0", "B"],
-                            "GS": ["x0", "A", "D", "x1", "+", "x1", "x0", "x0", "5", "2", "x2", "2", "x1", "D", "x1", "x1", "x3", "+", "+", "x1", "+", "C", "x1", "+"],
-                            "DH": ["x2", "+", "J", "x1", "+", "x0", "x1", "x2", "+", "+", "x1", "+", "x1", "S", "x0", "x0", "x0", "4", "3", "x0", "+", "J", "x0", "S"],
-                            "MH": ["x1", "J", "S", "x1", "6", "x0", "x0", "x2", "+", "+", "x1", "+", "x1", "B", "x1", "x0", "x0", "5", "2", "x1", "+", "S", "x0", "+"],
-                            "GF": ["x0", "D", "A", "x0", "+", "x2", "x2", "x0", "4", "5", "x0", "3", "x1", "+", "x2", "x1", "x3", "+", "+", "x0", "+", "+", "x3", "D"],
-                            "GA": ["x0", "+", "B", "x2", "2", "x1", "x1", "x0", "3", "6", "x1", "+", "x2", "A", "x0", "x3", "x0", "+", "+", "x2", "+", "B", "x2", "A"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 4",
-                        "level": "*****",
-                        "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Grand Staircase, The Chauffeur at The Grand Staircase, The Detective at The Music Hall, The Journalist at The Gallery, The Servant at The Music Hall",
-                        "solution": "Who: The Chauffeur - Where: The Stage",
-                        "score": [9, 17],
-                        "locations": {
-                            "ST": ["x2", "S", "J", "x1", "+", "x1", "x1", "x1", "5", "6", "x2", "4", "x2", "C", "x2", "x3", "x2", "2", "5", "x0", "+", "D", "x1", "A"],
-                            "GS": ["x0", "B", "+", "x1", "3", "x2", "x1", "x0", "+", "+", "x0", "6", "x0", "D", "x1", "x0", "x1", "+", "+", "x3", "+", "+", "x1", "B"],
-                            "DH": ["x1", "J", "A", "x0", "+", "x0", "x0", "x2", "4", "+", "x1", "+", "x2", "+", "x1", "x1", "x0", "5", "4", "x0", "+", "S", "x0", "+"],
-                            "MH": ["x2", "+", "+", "x3", "+", "x2", "x2", "x3", "6", "+", "x0", "+", "x0", "A", "x0", "x1", "x1", "6", "3", "x0", "+", "+", "x0", "J"],
-                            "GF": ["x0", "+", "B", "x1", "4", "x0", "x0", "x0", "+", "4", "x1", "+", "x2", "B", "x0", "x0", "x0", "+", "+", "x2", "+", "C", "x2", "+"],
-                            "GA": ["x1", "C", "+", "x0", "2", "x1", "x2", "x0", "2", "3", "x2", "5", "x0", "+", "x2", "x1", "x2", "+", "+", "x1", "+", "A", "x2", "D"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 5",
-                        "level": "*****",
-                        "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Stage, The Chauffeur at The Gallery, The Detective at The Grand Foyer, The Journalist at The Grand Staircase, The Servant at The Grand Staircase",
-                        "solution": "Who: The Detective - Where: The Grand Foyer",
-                        "score": [11, 18],
-                        "locations": {
-                            "ST": ["x1", "C", "+", "x1", "5", "x2", "x2", "x0", "3", "2", "x1", "+", "x0", "J", "x3", "x3", "x0", "6", "+", "x3", "+", "C", "x2", "B"],
-                            "GS": ["x2", "D", "+", "x0", "+", "x2", "x3", "x3", "+", "+", "x0", "3", "x0", "+", "x2", "x0", "x2", "3", "5", "x0", "+", "+", "x0", "J"],
-                            "DH": ["x0", "+", "+", "x1", "6", "x0", "x1", "x0", "+", "3", "x1", "+", "x0", "B", "x0", "x0", "x0", "+", "+", "x2", "+", "B", "x1", "C"],
-                            "MH": ["x0", "+", "B", "x0", "4", "x0", "x0", "x0", "+", "4", "x0", "+", "x2", "+", "x0", "x0", "x0", "+", "+", "x1", "+", "+", "x1", "+"],
-                            "GF": ["x2", "+", "D", "x1", "+", "x1", "x0", "x1", "+", "+", "x2", "4", "x2", "D", "x0", "x0", "x3", "2", "2", "x0", "+", "S", "x0", "+"],
-                            "GA": ["x1", "J", "S", "x3", "+", "x1", "x0", "x2", "4", "6", "x2", "2", "x2", "C", "x1", "x3", "x1", "5", "6", "x0", "+", "D", "x2", "+"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 6",
-                        "level": "*****",
-                        "setup": "Time 1) The Adventurer at The Grand Foyer, The Baroness at The Grand Staircase, The Chauffeur at The Stage, The Detective at The Music Hall, The Journalist at The Grand Foyer, The Servant at The Stage",
-                        "solution": "Who: The Journalist - Where: The Gallery",
-                        "score": [8, 15],
-                        "locations": {
-                            "ST": ["x0", "D", "+", "x1", "+", "x2", "x2", "x2", "+", "5", "x0", "3", "x0", "S", "x2", "x0", "x2", "+", "6", "x0", "+", "+", "x3", "C"],
-                            "GS": ["x2", "+", "J", "x1", "6", "x1", "x0", "x0", "4", "+", "x1", "+", "x2", "B", "x0", "x1", "x0", "4", "+", "x2", "+", "J", "x0", "+"],
-                            "DH": ["x0", "S", "D", "x1", "+", "x0", "x1", "x2", "+", "+", "x1", "6", "x1", "D", "x1", "x0", "x3", "+", "x", "x0", "+", "D", "x0", "S"],
-                            "MH": ["x0", "+", "S", "x1", "+", "x1", "x0", "x2", "+", "6", "x2", "+", "x1", "C", "x0", "x0", "x1", "+", "2", "x0", "+", "C", "x2", "+"],
-                            "GF": ["x2", "B", "+", "x1", "3", "x2", "x2", "x0", "6", "+", "x0", "+", "x0", "A", "x2", "x3", "x0", "5", "+", "x2", "+", "+", "x0", "A"],
-                            "GA": ["x2", "A", "B", "x1", "4", "x0", "x1", "x0", "2", "4", "x2", "+", "x2", "J", "x1", "x2", "x0", "3", "+", "x2", "+", "B", "x1", "J"]
-                        }
-                    },
-                    {
-                        "title": "Extra Investigation 7",
-                        "level": "*****",
-                        "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Gallery, The Chauffeur at The Grand Staircase, The Detective at The Gallery, The Journalist at The Grand Staircase, The Servant at The Grand Foyer",
-                        "solution": "Who: The Journalist - Where: The Grand Staircase",
-                        "score": [11, 18],
-                        "locations": {
-                            "ST": ["x0", "C", "+", "x1", "5", "x1", "x2", "x0", "3", "5", "x1", "6", "x0", "D", "x2", "x2", "x1", "+", "+", "x2", "+", "B", "x2", "C"],
-                            "GS": ["x3", "+", "J", "x1", "+", "x2", "x0", "x1", "+", "+", "x2", "2", "x2", "J", "x0", "x0", "x2", "4", "2", "x0", "+", "S", "x1", "+"],
-                            "DH": ["x0", "A", "B", "x0", "4", "x0", "x0", "x0", "5", "+", "x1", "+", "x1", "+", "x1", "x2", "x0", "+", "+", "x1", "+", "A", "x0", "+"],
-                            "MH": ["x0", "+", "A", "x2", "3", "x0", "x1", "x0", "4", "6", "x0", "+", "x1", "A", "x0", "x2", "x0", "+", "+", "x1", "+", "+", "x1", "B"],
-                            "GF": ["x2", "S", "+", "x0", "+", "x1", "x3", "x3", "+", "+", "x0", "3", "x0", "+", "x2", "x0", "x1", "5", "3", "x0", "+", "+", "x0", "J"],
-                            "GA": ["x1", "D", "C", "x2", "6", "x2", "x0", "x2", "+", "4", "x2", "5", "x2", "B", "x1", "x0", "x2", "2", "6", "x2", "+", "C", "x2", "+"]
-                        }
-                    }
-                ]
+    <!-- Investigation Area -->
+    <div id="investigation-area" class="card hidden">
+      <h2 id="investigation-title"></h2>
+      <div id="investigation-goal"></div>
+      <div class="info-box" id="investigation-setup"></div>
+      <div class="investigation-area">
+        <div class="investigation-form">
+          <div class="investigation-row">
+            <label for="investigation-type">Investigate:</label>
+            <select id="investigation-type">
+              <option value="time">Location + Time</option>
+              <option value="character">Location + Character</option>
+            </select>
+          </div>
+
+          <div id="time-investigation" class="investigation-options">
+            <div class="investigation-row">
+              <label for="time-location">Location:</label>
+              <select id="time-location">
+                <option value="ST">The Stage</option>
+                <option value="GS">The Grand Staircase</option>
+                <option value="DH">The Danse Hall</option>
+                <option value="MH">The Music Hall</option>
+                <option value="GF">The Grand Foyer</option>
+                <option value="GA">The Gallery</option>
+              </select>
+            </div>
+
+            <div class="investigation-row">
+              <label for="time-select">Time:</label>
+              <select id="time-select">
+                <option value="1">Time 1</option>
+                <option value="2">Time 2</option>
+                <option value="3">Time 3</option>
+                <option value="4">Time 4</option>
+                <option value="5">Time 5</option>
+                <option value="6">Time 6</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="character-investigation" class="investigation-options hidden">
+            <div class="investigation-row">
+              <label for="character-location">Location:</label>
+              <select id="character-location">
+                <option value="ST">The Stage</option>
+                <option value="GS">The Grand Staircase</option>
+                <option value="DH">The Danse Hall</option>
+                <option value="MH">The Music Hall</option>
+                <option value="GF">The Grand Foyer</option>
+                <option value="GA">The Gallery</option>
+              </select>
+            </div>
+
+            <div class="investigation-row">
+              <label for="character-select">Character:</label>
+              <select id="character-select">
+                <option value="A">The Adventurer</option>
+                <option value="B">The Baroness</option>
+                <option value="C">The Chauffeur</option>
+                <option value="D">The Detective</option>
+                <option value="J">The Journalist</option>
+                <option value="S">The Servant</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="submit-investigation" class="btn">
+            Submit Investigation
+          </button>
+        </div>
+        <div id="investigation-result" class="info-box hidden">
+          <h3 id="investigation-name"></h3>
+          <p id="shared-info"></p>
+          <p id="private-info"></p>
+        </div>
+
+        <!-- Investigation History -->
+        <div class="investigation-history">
+          <h3>
+            History (<span id="score">0</span>)
+            <button id="toggle-history" class="history-toggle">Hide</button>
+          </h3>
+          <div id="history-entries"></div>
+        </div>
+        <div class="btn-group">
+          <button id="end-investigation" class="btn">
+            End Investigation
+          </button>
+          <button id="back-to-investigations" class="btn">
+            Back to Investigations
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- End Investigation -->
+    <div id="end-investigation-screen" class="card hidden">
+      <h2>Investigation Complete</h2>
+      <h3>Solution:</h3>
+      <div class="info-box">
+        <p id="solution-text"></p>
+      </div>
+      <p>Congratulations, if you deduced it correctly.</p>
+      <div id="rank-display"></div>
+      <div class="btn-group">
+        <button id="new-investigation" class="btn">New Investigation</button>
+        <button id="back-to-scenarios-end" class="btn">
+          Back to Scenarios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Game data
+    const scenarios = [
+      {
+        "title": "Scenario I - Poison in High Society",
+        "description": "The 17th of October, 1922, early in the morning, the famous Detective Denis was found dead in his bed, obviously poisoned! The day before, he was investigating at the Paris Opera where a charity gala was taking place. Trace his evening, as well as the suspects in this investigation, to identify the assassin.",
+        "mystery": "The assassin had to be alone with Detective to poison him. Who poisoned the Detective? In what location? What time?",
+        "clarifications": "In this scenario, use all of the Time placards and Character placards. Each Character must move at each Time, and always to an adjacent Location. No Character stays in the same Location two Times consecutively. All Characters are present at each Time. The Detective was also on the move at all Times of the evening, since he was not found dead until the next morning at home.",
+        "investigations": [
+          {
+            "title": "Investigation 1",
+            "level": "*",
+            "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Music Hall, The Chauffeur at The Grand Foyer, The Detective at The Gallery, The Journalist at The Grand Foyer, The Servant at The Danse Hall",
+            "solution": "Who: The Adventurer - Where: The Danse Hall - When: Time 5",
+            "score": [7, 13],
+            "locations": {
+              "ST": ["x1", "J", "A", "x1", "2", "x0", "x1", "x1", "2", "+", "x3", "6", "x1", "D", "x1", "x2", "x2", "5", "3", "x1", "+", "D", "x0", "S"],
+              "GS": ["x0", "S", "C", "x0", "5", "x0", "x0", "x1", "+", "2", "x1", "+", "x1", "+", "x2", "x0", "x0", "+", "5", "x1", "+", "C", "x2", "+"],
+              "DH": ["x1", "A", "+", "x1", "+", "x1", "x1", "x1", "5", "+", "x0", "3", "x0", "J", "x2", "x1", "x2", "6", "+", "x0", "+", "+", "x0", "D"],
+              "MH": ["x0", "+", "D", "x1", "+", "x2", "x1", "x1", "3", "+", "x1", "4", "x1", "A", "x0", "x3", "x1", "+", "2", "x1", "+", "S", "x0", "A"],
+              "GF": ["x2", "C", "B", "x1", "4", "x2", "x2", "x1", "+", "5", "x0", "+", "x1", "S", "x1", "x0", "x0", "3", "6", "x1", "+", "+", "x3", "C"],
+              "GA": ["x2", "+", "S", "x2", "6", "x1", "x1", "x1", "+", "6", "x1", "+", "x2", "C", "x0", "x0", "x1", "4", "4", "x2", "+", "J", "x1", "B"]
             }
-        ];
-
-        const timePlacards = {
-            1: [5, 20],
-            2: [10, 21],
-            3: [6, 23],
-            4: [12, 2],
-            5: [14, 1],
-            6: [3, 13]
-        };
-
-        const characterPlacards = {
-            "A": [15, 8],
-            "B": [19, 4],
-            "C": [22, 9],
-            "D": [16, 11],
-            "J": [0, 17],
-            "S": [7, 18]
-        };
-
-        // Game state
-        let currentScenario = null;
-        let currentInvestigation = null;
-        let score = 0;
-        let investigationHistory = [];
-        let historyVisible = true;
-
-        // DOM elements
-        const scenarioSelection = document.getElementById('scenario-selection');
-        const scenarioDescription = document.getElementById('scenario-description');
-        const investigationArea = document.getElementById('investigation-area');
-        const investigationName = document.getElementById('investigation-name');
-        const endInvestigationScreen = document.getElementById('end-investigation-screen');
-        const historyEntries = document.getElementById('history-entries');
-        const toggleHistoryButton = document.getElementById('toggle-history');
-
-        // Initialize the game
-        function initGame() {
-            createScenarioButtons();
-
-            // Event listeners
-            document.getElementById('back-to-scenarios').addEventListener('click', showScenarioSelection);
-            document.getElementById('back-to-investigations').addEventListener('click', showInvestigationSelection);
-            document.getElementById('back-to-scenarios-end').addEventListener('click', showScenarioSelection);
-            document.getElementById('end-investigation').addEventListener('click', endInvestigation);
-            document.getElementById('new-investigation').addEventListener('click', showInvestigationSelection);
-            document.getElementById('investigation-type').addEventListener('change', toggleInvestigationType);
-            document.getElementById('submit-investigation').addEventListener('click', submitInvestigation);
-            toggleHistoryButton.addEventListener('click', toggleHistory);
-        }
-
-        // Create scenario selection buttons
-        function createScenarioButtons() {
-            const buttonsContainer = document.getElementById('scenario-buttons');
-            buttonsContainer.innerHTML = '';
-
-            scenarios.forEach((scenario, index) => {
-                const button = document.createElement('button');
-                button.className = 'btn';
-                button.textContent = scenario.title;
-                button.addEventListener('click', () => selectScenario(index));
-                buttonsContainer.appendChild(button);
-            });
-        }
-
-        // Select a scenario
-        function selectScenario(index) {
-            currentScenario = scenarios[index];
-
-            // Update UI
-            document.getElementById('scenario-title').textContent = currentScenario.title;
-            document.getElementById('scenario-desc').textContent = currentScenario.description;
-            document.getElementById('scenario-mystery').textContent = currentScenario.mystery;
-            document.getElementById('scenario-clarifications').textContent = currentScenario.clarifications;
-
-            // Create investigation buttons
-            const buttonsContainer = document.getElementById('investigation-buttons');
-            buttonsContainer.innerHTML = '';
-
-            currentScenario.investigations.forEach((investigation, idx) => {
-                const button = document.createElement('button');
-                button.className = 'btn';
-                button.textContent = `${investigation.title} (${investigation.level})`;
-                button.addEventListener('click', () => selectInvestigation(idx));
-                buttonsContainer.appendChild(button);
-            });
-
-            // Show scenario description
-            scenarioSelection.classList.add('hidden');
-            scenarioDescription.classList.remove('hidden');
-        }
-
-        // Select an investigation
-        function selectInvestigation(index) {
-            currentInvestigation = currentScenario.investigations[index];
-            score = 0;
-            investigationHistory = [];
-            updateHistoryDisplay();
-
-            // Update UI
-            document.getElementById('investigation-title').textContent = `${currentScenario.title} | ${currentInvestigation.title}`;
-            document.getElementById('investigation-goal').textContent = currentScenario.mystery;
-            document.getElementById('investigation-setup').textContent = `Starting information: ${currentInvestigation.setup}`;
-            document.getElementById('score').textContent = score;
-
-            // Reset investigation result
-            document.getElementById('investigation-result').classList.add('hidden');
-
-            // Show investigation area
-            scenarioDescription.classList.add('hidden');
-            investigationArea.classList.remove('hidden');
-        }
-
-        // Show scenario selection
-        function showScenarioSelection() {
-            scenarioDescription.classList.add('hidden');
-            investigationArea.classList.add('hidden');
-            endInvestigationScreen.classList.add('hidden');
-            scenarioSelection.classList.remove('hidden');
-        }
-
-        // Show investigation selection
-        function showInvestigationSelection() {
-            investigationArea.classList.add('hidden');
-            endInvestigationScreen.classList.add('hidden');
-            scenarioDescription.classList.remove('hidden');
-        }
-
-        // Toggle investigation type
-        function toggleInvestigationType() {
-            const investigationType = document.getElementById('investigation-type').value;
-            document.getElementById('time-investigation').classList.toggle('hidden', investigationType !== 'time');
-            document.getElementById('character-investigation').classList.toggle('hidden', investigationType !== 'character');
-        }
-
-        // Submit an investigation
-        function submitInvestigation() {
-            const investigationType = document.getElementById('investigation-type').value;
-            let placard, location, investigationText, resultText;
-
-            if (investigationType === 'time') {
-                const time = document.getElementById('time-select').value;
-                const locationCode = document.getElementById('time-location').value;
-                placard = timePlacards[parseInt(time)];
-                location = currentInvestigation.locations[locationCode];
-                investigationText = `${getLocationName(locationCode)} at Time ${time}`;
-            } else {
-                const character = document.getElementById('character-select').value;
-                const locationCode = document.getElementById('character-location').value;
-                placard = characterPlacards[character];
-                location = currentInvestigation.locations[locationCode];
-                investigationText = `${getCharacterName(character)} at ${getLocationName(locationCode)}`;
+          },
+          {
+            "title": "Investigation 2",
+            "level": "**",
+            "setup": "Time 1) The Adventurer at The Grand Staircase, The Baroness at The Danse Hall, The Chauffeur at The Gallery, The Detective at The Music Hall, The Journalist at The Gallery, The Servant at The Grand Foyer",
+            "solution": "Who: The Chauffeur - Where: The Stage - When: Time 4",
+            "score": [9, 15],
+            "locations": {
+              "ST": ["x1", "A", "D", "x2", "2", "x0", "x1", "x1", "5", "2", "x3", "4", "x2", "C", "x3", "x2", "x2", "5", "5", "x2", "+", "D", "x3", "A"],
+              "GS": ["x1", "+", "B", "x0", "4", "x1", "x1", "x1", "+", "+", "x1", "+", "x1", "+", "x0", "x1", "x0", "3", "2", "x1", "+", "S", "x0", "J"],
+              "DH": ["x1", "+", "+", "x2", "+", "x1", "x1", "x0", "6", "+", "x0", "3", "x0", "A", "x0", "x1", "x1", "6", "+", "x1", "+", "+", "x0", "D"],
+              "MH": ["x0", "+", "A", "x0", "+", "x1", "x0", "x0", "4", "+", "x0", "+", "x1", "+", "x0", "x1", "x1", "+", "+", "x0", "+", "+", "x0", "+"],
+              "GF": ["x1", "+", "+", "x1", "+", "x1", "x1", "x2", "+", "+", "x1", "6", "x0", "D", "x0", "x0", "x1", "2", "3", "x0", "+", "J", "x0", "S"],
+              "GA": ["x2", "B", "J", "x1", "3", "x2", "x2", "x2", "2", "3", "x1", "5", "x2", "S", "x3", "x1", "x1", "4", "4", "x2", "+", "A", "x3", "B"]
             }
-            investigationName.textContent = investigationText;
-
-            // Get results
-            const sharedInfo = location[placard[0]];
-            const privateInfo = location[placard[1]] !== '+' ? location[placard[1]] : 'go again';
-
-            // Update UI with results
-            document.getElementById('shared-info').textContent = `Shared information: ${sharedInfo}`;
-            document.getElementById('private-info').textContent = `Private information: ${privateInfo}`;
-            document.getElementById('investigation-result').classList.remove('hidden');
-
-            // Add to history
-            resultText = `Shared: ${sharedInfo}, Private: ${privateInfo}`;
-            investigationHistory.unshift({
-                investigation: investigationText,
-                result: resultText
-            });
-            updateHistoryDisplay();
-
-            // Update score
-            score++;
-            document.getElementById('score').textContent = score;
-        }
-
-        // Toggle history visibility
-        function toggleHistory() {
-            historyVisible = !historyVisible;
-            historyEntries.style.display = historyVisible ? 'block' : 'none';
-            toggleHistoryButton.textContent = historyVisible ? 'Hide' : 'Show';
-        }
-
-        // Update history display
-        function updateHistoryDisplay() {
-            historyEntries.innerHTML = '';
-
-            if (investigationHistory.length === 0) {
-                historyEntries.innerHTML = '<p>No questions yet. Ask a question to see history.</p>';
-                return;
+          },
+          {
+            "title": "Investigation 3",
+            "level": "**",
+            "setup": "Time 1) The Adventurer at The Danse Hall, The Baroness at The Grand Foyer, The Chauffeur at The Grand Staircase, The Detective at The Stage, The Journalist at The Music Hall, The Servant at The Danse Hall",
+            "solution": "Who: The Baroness - Where: The Grand Staircase - When: Time 5",
+            "score": [8, 14],
+            "locations": {
+              "ST": ["x2", "J", "A", "x2", "+", "x1", "x2", "x2", "6", "2", "x1", "+", "x1", "S", "x1", "x2", "x1", "3", "6", "x0", "+", "C", "x1", "S"],
+              "GS": ["x0", "B", "+", "x0", "2", "x0", "x1", "x0", "+", "+", "x1", "3", "x0", "+", "x2", "x0", "x2", "+", "+", "x2", "+", "B", "x0", "D"],
+              "DH": ["x1", "C", "S", "x0", "+", "x2", "x2", "x2", "3", "3", "x1", "+", "x1", "+", "x1", "x2", "x0", "2", "4", "x0", "+", "J", "x2", "C"],
+              "MH": ["x2", "S", "C", "x2", "+", "x1", "x0", "x2", "2", "4", "x2", "+", "x1", "C", "x1", "x1", "x0", "6", "2", "x0", "+", "A", "x2", "+"],
+              "GF": ["x0", "+", "+", "x1", "3", "x1", "x1", "x0", "+", "+", "x0", "6", "x0", "D", "x0", "x0", "x1", "+", "+", "x2", "+", "+", "x0", "B"],
+              "GA": ["x1", "A", "B", "x1", "6", "x1", "x0", "x0", "5", "+", "x1", "4", "x3", "B", "x1", "x1", "x2", "4", "+", "x2", "+", "D", "x1", "+"]
+            }
+          },
+          {
+            "title": "Investigation 4",
+            "level": "**",
+            "setup": "Time 1) The Adventurer at The Stage, The Detective at The Grand Staircase, The Journalist at The Gallery",
+            "solution": "Who: The Journalist - Where: The Gallery - When: Time 4",
+            "score": [9, 15],
+            "locations": {
+              "ST": ["x0", "D", "S", "x0", "2", "x1", "x1", "x2", "+", "+", "x2", "3", "x1", "+", "x1", "x1", "x2", "+", "2", "x1", "+", "B", "x0", "D"],
+              "GS": ["x2", "C", "B", "x1", "4", "x1", "x2", "x0", "+", "3", "x0", "+", "x1", "J", "x1", "x0", "x1", "3", "+", "x1", "+", "+", "x2", "J"],
+              "DH": ["x0", "S", "+", "x0", "+", "x0", "x2", "x2", "5", "+", "x0", "+", "x0", "+", "x2", "x2", "x0", "+", "3", "x0", "+", "+", "x0", "A"],
+              "MH": ["x0", "+", "A", "x3", "1", "x2", "x0", "x2", "4", "+", "x1", "6", "x1", "A", "x0", "x3", "x1", "+", "6", "x1", "S", "A", "x0", "+"],
+              "GF": ["x2", "J", "C", "x1", "6", "x0", "x0", "x0", "+", "2", "x2", "+", "x1", "B", "x1", "x0", "x0", "2", "+", "x1", "+", "J", "x2", "+"],
+              "GA": ["x2", "B", "J", "x1", "5", "x2", "x1", "x0", "+", "1", "x1", "2", "x2", "C", "x1", "x0", "x2", "4", "+", "x2", "C", "D", "x2", "B"]
+            }
+          },
+          {
+            "title": "Investigation 5",
+            "level": "***",
+            "setup": "Time 1) The Baroness at The Grand Foyer, The Chauffeur at The Stage, The Journalist at The Grand Foyer",
+            "solution": "Who: The Chauffeur - Where: The Danse Hall - When: Time 6",
+            "score": [12, 18],
+            "locations": {
+              "ST": ["x1", "C", "S", "x1", "+", "x1", "x1", "x3", "2", "5", "x3", "2", "x1", "S", "x2", "x1", "x1", "5", "2", "x0", "+", "D", "x3", "C"],
+              "GS": ["x1", "+", "B", "x1", "4", "x0", "x1", "x0", "+", "+", "x1", "+", "x1", "B", "x0", "x0", "x0", "3", "+", "x3", "+", "B", "x0", "J"],
+              "DH": ["x0", "A", "D", "x2", "+", "x2", "x2", "x3", "1", "2", "x1", "6", "x1", "D", "x2", "x3", "x2", "+", "5", "x0", "S", "C", "x2", "A"],
+              "MH": ["x1", "D", "A", "x2", "+", "x1", "x1", "x0", "6", "4", "x0", "1", "x2", "J", "x1", "x2", "x3", "6", "+", "x0", "D", "+", "x1", "D"],
+              "GF": ["x1", "B", "+", "x0", "5", "x2", "x1", "x0", "+", "+", "x0", "+", "x0", "+", "x1", "x0", "x0", "+", "+", "x3", "+", "+", "x0", "B"],
+              "GA": ["x2", "+", "J", "x0", "+", "x0", "x0", "x0", "+", "+", "x1", "+", "x1", "+", "x0", "x0", "x0", "4", "+", "x0", "+", "J", "x0", "+"]
+            }
+          },
+          {
+            "title": "Extra Investigation 1",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Grand Foyer, The Chauffeur at The Grand Foyer, The Detective at The Grand Staircase, The Journalist at The Stage, The Servant at The Danse Hall",
+            "solution": "Who: The Chauffeur - Where: The Gallery - When: Time 6",
+            "score": [9, 16],
+            "locations": {
+              "ST": ["x2", "J", "A", "x0", "+", "x1", "x0", "x1", "2", "5", "x2", "+", "x1", "+", "x2", "x2", "x0", "5", "2", "x0", "+", "A", "x1", "+"],
+              "GS": ["x1", "S", "B", "x1", "4", "x1", "x1", "x1", "+", "+", "x1", "+", "x1", "B", "x1", "x0", "x1", "3", "5", "x3", "+", "B", "x0", "J"],
+              "DH": ["x1", "+", "+", "x2", "+", "x1", "x0", "x1", "6", "+", "x0", "+", "x0", "A", "x0", "x1", "x0", "6", "+", "x0", "+", "+", "x0", "+"],
+              "MH": ["x0", "A", "+", "x0", "+", "x1", "x1", "x0", "5", "+", "x0", "+", "x0", "+", "x1", "x3", "x0", "+", "+", "x0", "+", "+", "x0", "A"],
+              "GF": ["x0", "D", "S", "x1", "3", "x2", "x3", "x2", "+", "3", "x0", "3", "x1", "S", "x1", "x0", "x2", "+", "4", "x2", "+", "+", "x2", "B"],
+              "GA": ["x2", "B", "D", "x2", "5", "x0", "x1", "x1", "+", "4", "x3", "2", "x3", "D", "x1", "x0", "x3", "4", "3", "x1", "+", "J", "x3", "S"]
             }
 
-            investigationHistory.forEach(entry => {
-                const entryElement = document.createElement('div');
-                entryElement.className = 'history-entry';
-                entryElement.innerHTML = `
+          },
+          {
+            "title": "Extra Investigation 2",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Danse Hall, The Chauffeur at The Music Hall, The Detective at The Grand Foyer, The Journalist at The Gallery, The Servant at The Stage",
+            "solution": "Who: The Journalist - Where: The Grand Staircase - When: Time 6",
+            "score": [9, 17],
+            "locations": {
+              "ST": ["x0", "B", "S", "x2", "2", "x2", "x0", "x2", "6", "6", "x2", "+", "x1", "C", "x1", "x2", "x0", "+", "4", "x2", "+", "C", "x2", "+"],
+              "GS": ["x2", "+", "J", "x2", "+", "x0", "x0", "x0", "+", "4", "x1", "4", "x3", "D", "x0", "x0", "x3", "4", "+", "x0", "+", "D", "x1", "+"],
+              "DH": ["x0", "S", "+", "x0", "3", "x1", "x2", "x2", "5", "+", "x1", "+", "x0", "+", "x2", "x2", "x0", "+", "5", "x2", "+", "S", "x0", "B"],
+              "MH": ["x0", "+", "B", "x1", "4", "x1", "x1", "x2", "4", "+", "x1", "+", "x2", "S", "x0", "x2", "x0", "+", "6", "x1", "+", "A", "x1", "S"],
+              "GF": ["x1", "+", "+", "x0", "+", "x1", "x0", "x0", "+", "+", "x1", "+", "x0", "+", "x0", "x0", "x1", "2", "+", "x0", "+", "J", "x0", "+"],
+              "GA": ["x3", "C", "+", "x1", "6", "x1", "x3", "x0", "+", "5", "x0", "5", "x0", "B", "x3", "x0", "x2", "3", "+", "x1", "+", "+", "x2", "C"]
+            }
+          },
+          {
+            "title": "Extra Investigation 3",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Stage, The Chauffeur at The Stage, The Detective at The Danse Hall, The Journalist at The Grand Staircase, The Servant at The Music Hall",
+            "solution": "Who: The Servant - Where: The Music Hall - When: Time 5",
+            "score": [10, 17],
+            "locations": {
+              "ST": ["x2", "B", "C", "x3", "3", "x2", "x3", "x2", "2", "6", "x1", "6", "x2", "C", "x2", "x1", "x2", "5", "6", "x3", "+", "A", "x3", "J"],
+              "GS": ["x1", "+", "+", "x0", "+", "x1", "x0", "x0", "+", "+", "x0", "+", "x0", "+", "x0", "x0", "x0", "+", "+", "x0", "+", "+", "x0", "+"],
+              "DH": ["x0", "A", "D", "x0", "+", "x1", "x2", "x1", "5", "3", "x1", "4", "x1", "+", "x1", "x2", "x2", "+", "2", "x0", "+", "S", "x1", "A"],
+              "MH": ["x2", "D", "A", "x3", "4", "x2", "x1", "x3", "6", "2", "x3", "2", "x3", "B", "x2", "x3", "x2", "4", "3", "x3", "+", "B", "x1", "S"],
+              "GF": ["x0", "+", "+", "x0", "+", "x0", "x0", "x0", "+", "+", "x0", "+", "x0", "+", "x0", "x0", "x0", "+", "+", "x0", "+", "+", "x0", "+"],
+              "GA": ["x1", "C", "+", "x0", "+", "x0", "x0", "x0", "+", "5", "x1", "+", "x0", "+", "x1", "x0", "x0", "2", "+", "x0", "+", "J", "x1", "+"]
+            }
+          },
+          {
+            "title": "Extra Investigation 4",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Music Hall, The Chauffeur at The Gallery, The Detective at The Grand Foyer, The Journalist at The Music Hall, The Servant at The Grand Staircase",
+            "solution": "Who: The Chauffeur - Where: The Grand Staircase - When: Time 6",
+            "score": [10, 17],
+            "locations": {
+              "ST": ["x2", "S", "+", "x3", "6", "x0", "x0", "x1", "6", "+", "x2", "+", "x0", "A", "x1", "x1", "x0", "6", "5", "x2", "+", "B", "x0", "+"],
+              "GS": ["x0", "+", "+", "x2", "+", "x1", "x3", "x2", "3", "3", "x1", "2", "x0", "D", "x0", "x1", "x2", "+", "3", "x0", "+", "D", "x2", "C"],
+              "DH": ["x1", "+", "J", "x0", "4", "x0", "x0", "x0", "+", "+", "x0", "+", "x2", "+", "x0", "x0", "x0", "4", "+", "x1", "+", "+", "x0", "+"],
+              "MH": ["x3", "B", "+", "x1", "3", "x2", "x2", "x1", "+", "+", "x0", "+", "x0", "S", "x2", "x0", "x0", "5", "6", "x3", "+", "+", "x0", "B"],
+              "GF": ["x0", "+", "D", "x0", "+", "x1", "x0", "x1", "2", "4", "x3", "4", "x3", "+", "x0", "x2", "x2", "+", "2", "x0", "+", "C", "x2", "+"],
+              "GA": ["x0", "D", "S", "x0", "+", "x2", "x1", "x1", "5", "5", "x0", "3", "x1", "+", "x3", "x2", "x2", "+", "4", "x0", "+", "+", "x2", "D"]
+            }
+          },
+          {
+            "title": "Extra Investigation 5",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Grand Staircase, The Baroness at The Grand Staircase, The Chauffeur at The Gallery, The Detective at The Grand Foyer, The Journalist at The Gallery, The Servant at The Stage",
+            "solution": "Who: The Adventurer - Where: The Gallery - When: Time 6",
+            "score": [10, 17],
+            "locations": {
+              "ST": ["x0", "+", "+", "x1", "3", "x1", "x2", "x2", "+", "+", "x0", "+", "x0", "B", "x0", "x0", "x0", "+", "3", "x2", "+", "+", "x0", "S"],
+              "GS": ["x3", "A", "C", "x3", "+", "x2", "x0", "x1", "5", "2", "x3", "4", "x3", "C", "x1", "x2", "x2", "6", "6", "x1", "+", "J", "x3", "+"],
+              "DH": ["x0", "+", "B", "x0", "4", "x0", "x0", "x1", "+", "+", "x1", "+", "x1", "+", "x0", "x0", "x0", "+", "2", "x1", "+", "S", "x0", "+"],
+              "MH": ["x0", "B", "+", "x0", "5", "x0", "x0", "x0", "+", "+", "x0", "+", "x0", "+", "x1", "x0", "x0", "+", "+", "x1", "+", "+", "x0", "+"],
+              "GF": ["x1", "S", "A", "x0", "+", "x1", "x1", "x1", "4", "5", "x1", "5", "x1", "+", "x3", "x2", "x2", "3", "5", "x0", "+", "A", "x1", "J"],
+              "GA": ["x2", "J", "S", "x2", "2", "x2", "x3", "x1", "3", "3", "x1", "3", "x1", "D", "x1", "x2", "x2", "5", "4", "x1", "+", "B", "x2", "C"]
+            }
+          },
+          {
+            "title": "Extra Investigation 6",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Danse Hall, The Baroness at The Grand Staircase, The Chauffeur at The Grand Foyer, The Detective at The Gallery, The Journalist at The Grand Staircase, The Servant at The Grand Foyer",
+            "solution": "Who: The Servant - Where: The Grand Foyer - When: Time 6",
+            "score": [10, 18],
+            "locations": {
+              "ST": ["x1", "+", "+", "x2", "+", "x0", "x0", "x0", "6", "+", "x1", "+", "x0", "J", "x0", "x2", "x0", "6", "+", "x0", "+", "A", "x0", "+"],
+              "GS": ["x1", "D", "+", "x0", "5", "x2", "x1", "x1", "+", "2", "x1", "5", "x0", "+", "x3", "x0", "x2", "+", "5", "x2", "+", "C", "x1", "D"],
+              "DH": ["x0", "+", "A", "x0", "+", "x1", "x0", "x0", "4", "+", "x0", "+", "x1", "+", "x0", "x2", "x0", "+", "+", "x0", "+", "+", "x0", "+"],
+              "MH": ["x0", "A", "+", "x0", "+", "x0", "x1", "x0", "5", "+", "x0", "+", "x0", "+", "x1", "x2", "x0", "+", "+", "x0", "+", "+", "x0", "A"],
+              "GF": ["x2", "C", "J", "x2", "4", "x2", "x2", "x3", "+", "3", "x3", "4", "x3", "D", "x1", "x0", "x3", "2", "3", "x2", "+", "B", "x3", "S"],
+              "GA": ["x2", "J", "S", "x2", "6", "x1", "x2", "x2", "+", "4", "x1", "+", "x2", "C", "x1", "x0", "x1", "3", "2", "x2", "+", "S", "x2", "B"]
+            }
+          },
+          {
+            "title": "Extra Investigation 7",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Grand Staircase, The Chauffeur at The Music Hall, The Detective at The Grand Foyer, The Journalist at The Gallery, The Servant at The Gallery",
+            "solution": "Who: The Servant - Where: The Grand Staircase - When: Time 6",
+            "score": [10, 18],
+            "locations": {
+              "ST": ["x0", "A", "+", "x0", "+", "x1", "x1", "x0", "5", "2", "x1", "+", "x0", "+", "x1", "x3", "x0", "+", "+", "x0", "+", "C", "x1", "A"],
+              "GS": ["x2", "B", "J", "x2", "5", "x1", "x1", "x2", "+", "4", "x3", "4", "x3", "D", "x1", "x0", "x3", "2", "2", "x3", "+", "D", "x1", "B"],
+              "DH": ["x0", "+", "+", "x1", "+", "x0", "x0", "x0", "6", "+", "x0", "+", "x0", "A", "x0", "x1", "x0", "+", "+", "x0", "+", "+", "x0", "+"],
+              "MH": ["x0", "+", "+", "x0", "+", "x1", "x0", "x0", "2", "+", "x1", "+", "x0", "+", "x0", "x1", "x0", "+", "+", "x0", "+", "A", "x1", "+"],
+              "GF": ["x1", "C", "S", "x0", "+", "x1", "x1", "x1", "+", "5", "x0", "5", "x1", "+", "x3", "x0", "x3", "5", "4", "x0", "+", "+", "x1", "D"],
+              "GA": ["x3", "S", "B", "x3", "2", "x2", "x3", "x3", "4", "3", "x1", "+", "x2", "B", "x1", "x1", "x0", "6", "5", "x3", "+", "B", "x2", "S"]
+            }
+          }
+        ]
+      },
+      {
+        "title": "Scenario II - The Phantom of the Opera",
+        "description": "Several dramatic accidents has occurred at the Opera. The collapse of the great chandelier in the gallery and the recent discovery of the cadaver of a young stagehand have fueled a crazy rumour: it must be the work of the Phantom of the Opera ... It's up to you to unmask this phantom.",
+        "mystery": "The Phantom is very discreet. This is the only Character who will be alone in a room at every Time in the evening. Who is the Phantom?",
+        "clarifications": "In this scenario, use all of the Time placards and Character placards. Each Character must move at each Time, and always to an adjacent Location. No Character stays in the same Location two Times consecutively. All Characters are present at each Time.",
+        "investigations": [
+          {
+            "title": "Investigation 1",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Stage, The Chauffeur at The Grand Foyer, The Detective at The Danse Hall, The Journalist at The Grand Staircase, The Servant at The Music Hall",
+            "solution": "Who: The Servant",
+            "score": [15, 22],
+            "locations": {
+              "ST": ["x0", "C", "D", "x1", "+", "x1", "x0", "x1", "+", "5", "x1", "2", "x1", "S", "x1", "x0", "x2", "+", "6", "x1", "+", "D", "x1", "+"],
+              "GS": ["x2", "B", "A", "x2", "3", "x1", "x2", "x0", "4", "2", "x1", "6", "x1", "A", "x1", "x2", "x1", "3", "+", "x2", "+", "C", "x1", "J"],
+              "DH": ["x0", "+", "S", "x0", "+", "x1", "x1", "x2", "+", "+", "x1", "3", "x1", "+", "x0", "x0", "x2", "+", "2", "x0", "+", "S", "x0", "D"],
+              "MH": ["x0", "S", "+", "x1", "+", "x1", "x1", "x3", "+", "6", "x0", "+", "x0", "C", "x1", "x0", "x0", "+", "5", "x0", "+", "+", "x1", "S"],
+              "GF": ["x2", "J", "B", "x1", "4", "x1", "x1", "x0", "2", "3", "x2", "+", "x1", "B", "x1", "x1", "x0", "2", "+", "x2", "+", "A", "x2", "C"],
+              "GA": ["x2", "A", "C", "x1", "2", "x1", "x1", "x0", "3", "4", "x1", "5", "x2", "J", "x2", "x3", "x1", "4", "+", "x1", "+", "B", "x1", "A"]
+            }
+          },
+          {
+            "title": "Investigation 2",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Danse Hall, The Chauffeur at The Grand Foyer, The Detective at The Grand Staircase, The Journalist at The Gallery, The Servant at The Stage",
+            "solution": "Who: The Detective",
+            "score": [15, 22],
+            "locations": {
+              "ST": ["x2", "B", "D", "x1", "3", "x1", "x3", "x2", "5", "5", "x1", "4", "x1", "J", "x3", "x2", "x1", "2", "3", "x2", "+", "J", "x1", "A"],
+              "GS": ["x0", "+", "+", "x1", "+", "x1", "x1", "x0", "+", "3", "x0", "6", "x0", "D", "x0", "x0", "x2", "+", "+", "x0", "+", "+", "x1", "C"],
+              "DH": ["x2", "J", "+", "x1", "+", "x1", "x1", "x0", "2", "6", "x1", "+", "x0", "C", "x1", "x1", "x0", "3", "+", "x1", "+", "A", "x1", "J"],
+              "MH": ["x1", "+", "B", "x1", "2", "x1", "x0", "x1", "6", "+", "x2", "+", "x2", "A", "x0", "x2", "x0", "4", "2", "x2", "+", "B", "x0", "+"],
+              "GF": ["x0", "S", "+", "x0", "+", "x1", "x0", "x1", "+", "+", "x1", "2", "x0", "+", "x1", "x0", "x1", "+", "5", "x0", "+", "D", "x1", "+"],
+              "GA": ["x1", "D", "C", "x2", "6", "x1", "x1", "x2", "4", "2", "x1", "3", "x3", "B", "x1", "x1", "x2", "+", "4", "x1", "+", "C", "x2", "D"]
+            }
+          },
+          {
+            "title": "Investigation 3",
+            "level": "****",
+            "setup": "Time 1) The Baroness at The Grand Staircase, The Detective at The Danse Hall, The Journalist at The Music Hall",
+            "solution": "Who: The Chauffeur",
+            "score": [18, 25],
+            "locations": {
+              "ST": ["x2", "S", "C", "x1", "3", "x1", "x3", "x2", "+", "6", "x1", "3", "x1", "C", "x2", "x0", "x1", "5", "5", "x1", "C", "J", "x3", "S"],
+              "GS": ["x0", "A", "+", "x0", "+", "x1", "x1", "x0", "5", "+", "x0", "+", "x0", "+", "x1", "x2", "x0", "+", "+", "x1", "+", "+", "x0", "A"],
+              "DH": ["x1", "C", "+", "x1", "+", "x2", "x1", "x2", "+", "5", "x1", "+", "x0", "S", "x1", "x0", "x1", "3", "6", "x0", "S", "C", "x2", "J"],
+              "MH": ["x2", "+", "S", "x0", "+", "x1", "x1", "x2", "+", "3", "x2", "2", "x2", "+", "x0", "x0", "x1", "4", "2", "x0", "+", "D", "x1", "C"],
+              "GF": ["x0", "D", "A", "x1", "5", "x1", "x0", "x0", "1", "+", "x0", "5", "x1", "A", "x2", "x3", "x1", "+", "+", "x1", "A", "+", "x0", "+"],
+              "GA": ["x1", "+", "D", "x3", "4", "x0", "x0", "x0", "2", "+", "x2", "6", "x2", "B", "x0", "x1", "x2", "6", "+", "x3", "+", "B", "x0", "+"]
+            }
+          },
+          {
+            "title": "Investigation 4",
+            "level": "****",
+            "setup": "Time 1) The Chauffeur at The Danse Hall, The Detective at The Grand Staircase, The Servant at The Gallery",
+            "solution": "Who: The Detective",
+            "score": [18, 25],
+            "locations": {
+              "ST": ["x0", "+", "A", "x0", "1", "x2", "x1", "x1", "4", "2", "x2", "+", "x2", "+", "x0", "x2", "x0", "+", "2", "x2", "A", "S", "x2", "B"],
+              "GS": ["x1", "D", "+", "x1", "+", "x1", "x1", "x0", "6", "+", "x1", "5", "x0", "A", "x1", "x1", "x3", "2", "+", "x0", "+", "J", "x0", "D"],
+              "DH": ["x0", "S", "B", "x1", "4", "x1", "x2", "x2", "3", "+", "x0", "+", "x1", "B", "x1", "x1", "x0", "+", "5", "x2", "+", "+", "x1", "S"],
+              "MH": ["x0", "B", "S", "x1", "2", "x0", "x1", "x2", "2", "3", "x2", "+", "x1", "S", "x1", "x1", "x0", "+", "6", "x2", "+", "A", "x1", "C"],
+              "GF": ["x3", "+", "J", "x2", "+", "x1", "x0", "x0", "+", "6", "x1", "2", "x1", "J", "x0", "x0", "x1", "6", "+", "x0", "J", "D", "x1", "+"],
+              "GA": ["x2", "J", "D", "x1", "+", "x1", "x1", "x1", "5", "5", "x0", "4", "x1", "D", "x3", "x1", "x2", "3", "+", "x0", "+", "+", "x1", "J"]
+            }
+          },
+          {
+            "title": "Investigation 5",
+            "level": "****",
+            "setup": "Time 1) The Chauffeur at The Stage, The Detective at The Grand Foyer, The Servant at The Music Hall",
+            "solution": "The Journalist",
+            "score": [18, 25],
+            "locations": {
+              "ST": ["x0", "+", "+", "x2", "1", "x2", "x2", "x1", "6", "3", "x0", "+", "x0", "B", "x0", "x1", "x0", "+", "3", "x2", "B", "+", "x2", "S"],
+              "GS": ["x2", "S", "J", "x1", "+", "x1", "x0", "x1", "+", "6", "x1", "2", "x1", "C", "x1", "x0", "x1", "1", "5", "x0", "J", "D", "x1", "+"],
+              "DH": ["x0", "A", "B", "x0", "2", "x1", "x1", "x1", "3", "2", "x3", "+", "x1", "+", "x1", "x3", "x0", "+", "2", "x2", "A", "S", "x1", "A"],
+              "MH": ["x0", "B", "A", "x0", "5", "x1", "x1", "x1", "2", "+", "x1", "+", "x1", "+", "x1", "x2", "x0", "+", "+", "x2", "+", "A", "x0", "B"],
+              "GF": ["x2", "C", "+", "x1", "+", "x1", "x1", "x0", "+", "5", "x1", "5", "x0", "J", "x2", "x0", "x3", "6", "+", "x0", "+", "J", "x1", "D"],
+              "GA": ["x2", "J", "C", "x2", "+", "x0", "x1", "x2", "+", "4", "x0", "6", "x3", "S", "x1", "x0", "x2", "5", "4", "x0", "+", "+", "x1", "J"]
+            }
+          },
+          {
+            "title": "Extra Investigation 1",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Grand Foyer, The Chauffeur at The Stage, The Detective at The Music Hall, The Journalist at The Grand Staircase, The Servant at The Danse Hall",
+            "solution": "Who: The Chauffeur",
+            "score": [11, 18],
+            "locations": {
+              "ST": ["x0", "+", "D", "x2", "+", "x1", "x0", "x1", "+", "+", "x0", "6", "x1", "D", "x0", "x0", "x2", "+", "6", "x0", "+", "+", "x1", "+"],
+              "GS": ["x3", "J", "C", "x0", "2", "x1", "x1", "x0", "5", "4", "x2", "+", "x1", "+", "x2", "x2", "x0", "5", "+", "x1", "+", "A", "x1", "J"],
+              "DH": ["x0", "S", "+", "x0", "+", "x1", "x1", "x3", "+", "+", "x1", "2", "x0", "+", "x1", "x0", "x1", "+", "3", "x0", "+", "D", "x0", "S"],
+              "MH": ["x0", "D", "S", "x0", "+", "x1", "x1", "x2", "+", "+", "x1", "3", "x1", "+", "x1", "x0", "x3", "+", "2", "x0", "+", "S", "x0", "D"],
+              "GF": ["x3", "C", "J", "x3", "6", "x1", "x1", "x0", "6", "3", "x1", "+", "x3", "J", "x1", "x2", "x0", "6", "+", "x3", "+", "J", "x2", "C"],
+              "GA": ["x0", "B", "+", "x1", "3", "x1", "x2", "x0", "3", "6", "x1", "+", "x0", "C", "x1", "x2", "x0", "+", "+", "x2", "+", "C", "x2", "A"]
+            }
+          },
+          {
+            "title": "Extra Investigation 2",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Danse Hall, The Chauffeur at The Grand Foyer, The Detective at The Stage, The Journalist at The Grand Staircase, The Servant at The Music Hall",
+            "solution": "Who: The Baroness",
+            "score": [12, 18],
+            "locations": {
+              "ST": ["x0", "D", "B", "x0", "4", "x1", "x0", "x1", "+", "+", "x1", "5", "x1", "+", "x1", "x0", "x2", "+", "2", "x1", "+", "S", "x0", "+"],
+              "GS": ["x2", "A", "S", "x1", "+", "x1", "x1", "x2", "5", "5", "x0", "+", "x2", "S", "x2", "x1", "x0", "4", "6", "x0", "+", "+", "x2", "C"],
+              "DH": ["x0", "B", "D", "x0", "5", "x1", "x1", "x0", "+", "+", "x1", "2", "x1", "+", "x1", "x0", "x2", "+", "+", "x3", "+", "D", "x0", "B"],
+              "MH": ["x0", "+", "+", "x1", "2", "x1", "x1", "x1", "+", "+", "x1", "3", "x0", "B", "x0", "x0", "x1", "+", "+", "x2", "+", "B", "x0", "D"],
+              "GF": ["x2", "+", "A", "x2", "+", "x1", "x0", "x0", "2", "4", "x2", "+", "x2", "J", "x0", "x2", "x0", "2", "+", "x0", "+", "A", "x3", "+"],
+              "GA": ["x2", "S", "+", "x2", "+", "x1", "x3", "x2", "3", "2", "x1", "6", "x0", "A", "x2", "x3", "x1", "3", "3", "x0", "+", "C", "x1", "S"]
+            }
+          },
+          {
+            "title": "Extra Investigation 3",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Danse Hall, The Baroness at The Grand Staircase, The Chauffeur at The Grand Foyer, The Detective at The Stage, The Journalist at The Music Hall, The Servant at The Gallery",
+            "solution": "Who: The Baroness",
+            "score": [11, 18],
+            "locations": {
+              "ST": ["x0", "D", "A", "x1", "+", "x1", "x1", "x3", "2", "5", "x2", "5", "x2", "S", "x2", "x2", "x3", "+", "4", "x0", "+", "S", "x1", "D"],
+              "GS": ["x0", "B", "+", "x1", "5", "x1", "x1", "x0", "6", "2", "x1", "+", "x0", "A", "x1", "x1", "x0", "+", "+", "x3", "+", "C", "x1", "B"],
+              "DH": ["x3", "+", "J", "x3", "+", "x1", "x2", "x1", "3", "6", "x1", "6", "x1", "D", "x0", "x2", "x1", "6", "3", "x0", "+", "J", "x1", "A"],
+              "MH": ["x3", "J", "+", "x0", "+", "x1", "x1", "x0", "+", "+", "x0", "+", "x0", "+", "x1", "x0", "x0", "5", "+", "x0", "+", "+", "x0", "J"],
+              "GF": ["x0", "+", "B", "x1", "2", "x1", "x1", "x0", "+", "3", "x1", "+", "x1", "B", "x0", "x0", "x0", "+", "+", "x3", "+", "B", "x2", "C"],
+              "GA": ["x0", "A", "D", "x0", "+", "x1", "x0", "x2", "5", "4", "x1", "4", "x2", "+", "x2", "x1", "x2", "+", "5", "x0", "+", "D", "x1", "+"]
+            }
+          },
+          {
+            "title": "Extra Investigation 4",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Grand Staircase, The Baroness at The Grand Foyer, The Chauffeur at The Danse Hall, The Detective at The Music Hall, The Journalist at The Stage, The Servant at The Gallery",
+            "solution": "Who: The Servant",
+            "score": [12, 19],
+            "locations": {
+              "ST": ["x2", "J", "C", "x2", "3", "x1", "x2", "x0", "3", "2", "x1", "4", "x2", "C", "x1", "x1", "x2", "5", "+", "x1", "+", "C", "x3", "B"],
+              "GS": ["x0", "S", "+", "x1", "6", "x1", "x0", "x2", "+", "+", "x1", "+", "x0", "B", "x1", "x1", "x0", "+", "2", "x1", "+", "S", "x0", "+"],
+              "DH": ["x2", "C", "A", "x2", "+", "x1", "x1", "x0", "4", "5", "x1", "2", "x1", "A", "x1", "x2", "x1", "6", "+", "x0", "+", "D", "x2", "J"],
+              "MH": ["x2", "A", "J", "x0", "+", "x1", "x2", "x0", "5", "3", "x1", "5", "x1", "+", "x2", "x1", "x3", "2", "+", "x0", "+", "J", "x1", "C"],
+              "GF": ["x0", "B", "S", "x0", "5", "x1", "x0", "x1", "+", "+", "x0", "+", "x1", "+", "x1", "x0", "x0", "+", "4", "x2", "+", "+", "x0", "+"],
+              "GA": ["x0", "+", "B", "x1", "2", "x1", "x1", "x3", "2", "+", "x2", "+", "x1", "S", "x0", "x1", "x0", "+", "6", "x2", "+", "A", "x0", "S"]
+            }
+          },
+          {
+            "title": "Extra Investigation 5",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Grand Foyer, The Chauffeur at The Stage, The Detective at The Music Hall, The Journalist at The Danse Hall, The Servant at The Grand Staircase",
+            "solution": "Who: The Adventurer",
+            "score": [11, 18],
+            "locations": {
+              "ST": ["x2", "S", "J", "x3", "+", "x1", "x1", "x1", "+", "6", "x1", "6", "x1", "J", "x1", "x0", "x2", "4", "5", "x0", "+", "D", "x3", "C"],
+              "GS": ["x0", "B", "+", "x1", "3", "x1", "x2", "x2", "2", "+", "x1", "+", "x0", "A", "x1", "x2", "x0", "+", "3", "x2", "+", "A", "x0", "S"],
+              "DH": ["x3", "J", "D", "x0", "+", "x1", "x1", "x0", "+", "5", "x1", "4", "x1", "+", "x2", "x0", "x1", "3", "+", "x0", "+", "C", "x2", "J"],
+              "MH": ["x1", "D", "C", "x0", "+", "x1", "x1", "x0", "+", "4", "x1", "5", "x1", "+", "x1", "x0", "x3", "2", "+", "x0", "+", "J", "x1", "D"],
+              "GF": ["x0", "+", "A", "x1", "6", "x1", "x0", "x0", "4", "+", "x0", "+", "x1", "B", "x0", "x1", "x0", "+", "+", "x2", "+", "+", "x0", "+"],
+              "GA": ["x0", "A", "S", "x1", "4", "x1", "x1", "x3", "3", "+", "x2", "+", "x2", "S", "x1", "x3", "x0", "+", "4", "x2", "+", "S", "x0", "A"]
+            }
+          },
+          {
+            "title": "Extra Investigation 6",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Music Hall, The Baroness at The Grand Staircase, The Chauffeur at The Grand Foyer, The Detective at The Stage, The Journalist at The Danse Hall, The Servant at The Gallery",
+            "solution": "Who: The Servant",
+            "score": [11, 18],
+            "locations": {
+              "ST": ["x2", "B", "J", "x2", "5", "x1", "x1", "x0", "6", "3", "x0", "+", "x1", "A", "x1", "x1", "x1", "6", "+", "x1", "+", "+", "x1", "C"],
+              "GS": ["x0", "S", "D", "x0", "+", "x1", "x0", "x1", "+", "+", "x0", "4", "x1", "+", "x1", "x0", "x1", "+", "5", "x1", "+", "+", "x0", "+"],
+              "DH": ["x3", "J", "A", "x1", "+", "x1", "x1", "x0", "4", "4", "x1", "+", "x2", "C", "x1", "x2", "x0", "5", "+", "x0", "+", "A", "x2", "J"],
+              "MH": ["x1", "C", "+", "x0", "+", "x1", "x1", "x0", "5", "5", "x1", "+", "x0", "+", "x2", "x3", "x0", "2", "+", "x0", "+", "J", "x1", "A"],
+              "GF": ["x0", "D", "S", "x1", "3", "x1", "x2", "x3", "+", "+", "x1", "3", "x1", "S", "x1", "x0", "x2", "+", "2", "x1", "+", "S", "x1", "D"],
+              "GA": ["x0", "+", "B", "x2", "2", "x1", "x1", "x2", "+", "2", "x3", "2", "x1", "D", "x0", "x0", "x2", "+", "3", "x3", "+", "C", "x1", "S"]
+            }
+          },
+          {
+            "title": "Extra Investigation 7",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Grand Foyer, The Baroness at The Grand Staircase, The Chauffeur at The Gallery, The Detective at The Music Hall, The Journalist at The Danse Hall, The Servant at The Stage",
+            "solution": "Who: The Detective",
+            "score": [12, 19],
+            "locations": {
+              "ST": ["x2", "J", "C", "x1", "+", "x1", "x1", "x1", "+", "4", "x1", "2", "x1", "D", "x1", "x0", "x2", "3", "+", "x0", "+", "D", "x1", "J"],
+              "GS": ["x0", "A", "+", "x2", "3", "x1", "x2", "x2", "2", "6", "x1", "+", "x0", "B", "x2", "x2", "x0", "+", "3", "x3", "+", "A", "x1", "B"],
+              "DH": ["x2", "D", "J", "x0", "+", "x1", "x1", "x0", "+", "+", "x0", "3", "x1", "+", "x1", "x0", "x2", "4", "+", "x0", "+", "+", "x0", "D"],
+              "MH": ["x1", "+", "D", "x0", "+", "x1", "x0", "x0", "+", "+", "x1", "4", "x1", "+", "x0", "x0", "x2", "2", "+", "x0", "+", "J", "x0", "+"],
+              "GF": ["x0", "+", "B", "x0", "2", "x1", "x1", "x0", "3", "2", "x2", "+", "x1", "+", "x0", "x2", "x0", "+", "+", "x2", "+", "C", "x1", "A"],
+              "GA": ["x1", "C", "A", "x3", "5", "x1", "x1", "x3", "4", "3", "x1", "+", "x2", "A", "x2", "x2", "x0", "6", "6", "x1", "+", "S", "x3", "C"]
+            }
+          }
+        ]
+      },
+      {
+        "title": "Scenario III - The Singer's Jewels",
+        "description": "The opera singer Emme Calvé performs at the Paris Opera. A famous soprano, she wears a magnificent diamond necklace, which catches the eye of thieves throughout Paris. On the evening of the 14th of April, a team of burglars, disguised as guests, steals the necklace and passes it from hand to hand to cover their tracks.",
+        "mystery": "At Time 1, the necklace was seen in the Dance Hall. It was stolen by the first character who is found alone in this room. This person departs with the jewelry. Later, each time the holder of the necklace is with only one other Character, the jewels change hands; however, if this Character is alone, or if there are 3 or more Characters in the same place, the holder keeps the necklace. Who has the jewels at Time 6? In which Location should the police intervene at the end of the evening?",
+        "clarifications": "In this scenario, use all of the Time placards and Character placards. Each Character must move at each Time, and always to an adjacent Location. No Character stays in the same Location two Times consecutively. All Characters are present at each Time. The Detective was also on the move at all Times of the evening, since he was not found dead until the next morning at home.",
+        "investigations": [
+          {
+            "title": "Investigation 1",
+            "level": "***",
+            "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Grand Staircase, The Chauffeur at The Stage, The Detective at The Grand Staircase, The Journalist at The Gallery, The Servant at The Danse Hall",
+            "solution": "Who: The Chauffeur - Where: The Grand Foyer",
+            "score": [12, 18],
+            "locations": {
+              "ST": ["x2", "+", "S", "x2", "3", "x2", "x1", "x3", "+", "4", "x2", "4", "x3", "J", "x0", "x1", "x1", "2", "6", "x1", "+", "S", "x2", "B"],
+              "GS": ["x0", "+", "+", "x2", "+", "x2", "x1", "x0", "6", "+", "x0", "6", "x0", "A", "x0", "x2", "x2", "+", "+", "x1", "+", "+", "x0", "A"],
+              "DH": ["x1", "S", "B", "x1", "6", "x1", "x0", "x2", "+", "2", "x1", "+", "x2", "B", "x1", "x0", "x0", "4", "5", "x2", "+", "C", "x1", "+"],
+              "MH": ["x2", "J", "+", "x0", "5", "x0", "x2", "x0", "+", "3", "x0", "+", "x0", "+", "x2", "x0", "x0", "3", "+", "x1", "+", "+", "x1", "J"],
+              "GF": ["x0", "+", "A", "x1", "+", "x0", "x0", "x0", "4", "6", "x1", "2", "x1", "C", "x0", "x1", "x1", "+", "+", "x0", "+", "D", "x1", "+"],
+              "GA": ["x1", "A", "+", "x0", "2", "x1", "x2", "x1", "2", "5", "x2", "5", "x0", "+", "x3", "x2", "x2", "+", "3", "x1", "+", "B", "x1", "S"]
+            }
+          },
+          {
+            "title": "Investigation 2",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Grand Staircase, The Baroness at The Grand Foyer, The Chauffeur at The Stage, The Detective at The Gallery, The Journalist at The Grand Staircase, The Servant at The Gallery",
+            "solution": "Who: The Servant - Where: The Grand Foyer",
+            "score": [18, 25],
+            "locations": {
+              "ST": ["x1", "+", "D", "x3", "4", "x1", "x2", "x0", "+", "3", "x1", "6", "x2", "C", "x0", "x0", "x3", "3", "+", "x2", "+", "D", "x3", "J"],
+              "GS": ["x1", "+", "S", "x1", "2", "x2", "x1", "x2", "6", "+", "x2", "+", "x1", "A", "x0", "x3", "x0", "+", "4", "x1", "+", "S", "x0", "A"],
+              "DH": ["x2", "+", "J", "x1", "+", "x0", "x1", "x0", "+", "4", "x0", "3", "x2", "J", "x0", "x0", "x1", "6", "+", "x0", "+", "+", "x1", "D"],
+              "MH": ["x1", "J", "+", "x0", "+", "x0", "x0", "x0", "+", "5", "x1", "5", "x0", "+", "x3", "x0", "x1", "5", "+", "x0", "+", "C", "x2", "+"],
+              "GF": ["x0", "A", "+", "x1", "+", "x1", "x1", "x2", "5", "+", "x0", "+", "x0", "S", "x1", "x1", "x0", "+", "6", "x1", "+", "+", "x0", "S"],
+              "GA": ["x1", "B", "A", "x0", "5", "x2", "x1", "x2", "2", "+", "x2", "+", "x1", "+", "x2", "x2", "x1", "2", "5", "x2", "+", "A", "x0", "B"]
+            }
+          },
+          {
+            "title": "Investigation 3",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Gallery, The Chauffeur at The Gallery, The Detective at The Grand Staircase",
+            "solution": "Who: The Adventurer - Where: The Stage",
+            "score": [16, 22],
+            "locations": {
+              "ST": ["x3", "S", "A", "x1", "1", "x2", "x2", "x2", "4", "5", "x1", "+", "x1", "A", "x3", "x2", "x0", "5", "3", "x1", "J", "C", "x2", "S"],
+              "GS": ["x0", "+", "+", "x1", "+", "x1", "x1", "x0", "+", "+", "x0", "6", "x0", "D", "x0", "x0", "x3", "+", "+", "x0", "+", "+", "x0", "D"],
+              "DH": ["x1", "A", "C", "x2", "5", "x1", "x1", "x1", "5", "6", "x0", "+", "x1", "C", "x2", "x1", "x0", "6", "1", "x2", "S", "+", "x2", "B"],
+              "MH": ["x2", "+", "B", "x2", "2", "x0", "x1", "x2", "+", "3", "x3", "+", "x2", "B", "x0", "x0", "x0", "2", "6", "x3", "+", "S", "x1", "C"],
+              "GF": ["x0", "+", "D", "x0", "+", "x0", "x0", "x0", "2", "+", "x2", "2", "x1", "+", "x0", "x1", "x2", "+", "+", "x0", "+", "D", "x0", "+"],
+              "GA": ["x0", "D", "S", "x0", "+", "x2", "x1", "x1", "3", "+", "x0", "5", "x1", "+", "x1", "x2", "x1", "+", "4", "x0", "+", "+", "x1", "A"]
+            }
+          },
+          {
+            "title": "Investigation 4",
+            "level": "****",
+            "setup": "Time 1) The Adventurer at The Gallery, The Chauffeur at The Grand Staircase, The Detective at The Grand Staircase",
+            "solution": "Who: The Adventurer - Where: The Grand Staircase",
+            "score": [16, 22],
+            "locations": {
+              "ST": ["x2", "D", "S", "x1", "5", "x1", "x2", "x2", "+", "3", "x2", "3", "x2", "C", "x2", "x0", "x2", "2", "2", "x2", "B", "S", "x2", "D"],
+              "GS": ["x0", "+", "A", "x1", "+", "x2", "x0", "x0", "4", "+", "x0", "+", "x1", "A", "x0", "x2", "x1", "+", "+", "x0", "+", "+", "x1", "+"],
+              "DH": ["x0", "+", "C", "x1", "4", "x0", "x0", "x1", "+", "4", "x1", "+", "x2", "S", "x0", "x0", "x0", "+", "6", "x2", "+", "B", "x1", "+"],
+              "MH": ["x0", "C", "D", "x1", "3", "x1", "x2", "x3", "+", "5", "x0", "4", "x1", "B", "x2", "x0", "x1", "+", "5", "x2", "S", "+", "x1", "B"],
+              "GF": ["x1", "+", "+", "x1", "+", "x0", "x0", "x0", "2", "+", "x1", "+", "x0", "J", "x0", "x1", "x0", "6", "+", "x0", "+", "A", "x0", "+"],
+              "GA": ["x3", "A", "+", "x1", "+", "x2", "x2", "x0", "5", "2", "x2", "2", "x0", "D", "x2", "x3", "x2", "5", "+", "x0", "J", "D", "x1", "A"]
+            }
+          },
+          {
+            "title": "Investigation 5",
+            "level": "*****",
+            "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Grand Staircase, The Servant at The Music Hall",
+            "solution": "Who: The Baroness - Where: The Grand Foyer",
+            "score": [20, 26],
+            "locations": {
+              "ST": ["x2", "D", "+", "x1", "+", "x1", "x2", "x2", "+", "5", "x1", "3", "x0", "S", "x3", "x0", "x3", "5", "6", "x0", "D", "S", "x1", "D"],
+              "GS": ["x0", "A", "+", "x0", "5", "x1", "x1", "x0", "2", "+", "x1", "+", "x0", "+", "x2", "x2", "x0", "+", "+", "x3", "+", "A", "x0", "B"],
+              "DH": ["x1", "+", "D", "x1", "+", "x1", "x1", "x0", "+", "3", "x0", "4", "x1", "J", "x0", "x0", "x1", "6", "+", "x0", "C", "+", "x2", "C"],
+              "MH": ["x0", "+", "C", "x0", "+", "x1", "x0", "x1", "+", "4", "x2", "2", "x1", "+", "x0", "x0", "x1", "+", "+", "x0", "+", "C", "x2", "+"],
+              "GF": ["x1", "+", "B", "x1", "4", "x1", "x1", "x1", "3", "+", "x0", "+", "x2", "B", "x0", "x1", "x0", "1", "4", "x2", "J", "+", "x0", "A"],
+              "GA": ["x2", "S", "A", "x3", "2", "x1", "x1", "x2", "6", "6", "x2", "6", "x2", "A", "x1", "x3", "x1", "4", "5", "x1", "+", "B", "x1", "S"]
+            }
+          },
+          {
+            "title": "Extra Investigation 1",
+            "level": "*****",
+            "setup": "Time 1) The Adventurer at The Grand Foyer, The Baroness at The Gallery, The Chauffeur at The Music Hall, The Detective at The Grand Staircase, The Journalist at The Grand Staircase, The Servant at The Music Hall",
+            "solution": "Who: The Adventurer - Where: The Grand Foyer",
+            "score": [12, 19],
+            "locations": {
+              "ST": ["x0", "S", "C", "x2", "6", "x0", "x1", "x1", "+", "2", "x1", "3", "x2", "C", "x1", "x0", "x1", "+", "5", "x2", "+", "C", "x3", "D"],
+              "GS": ["x3", "+", "+", "x1", "2", "x2", "x2", "x0", "3", "+", "x1", "+", "x0", "J", "x0", "x1", "x1", "3", "+", "x1", "+", "B", "x0", "J"],
+              "DH": ["x0", "D", "S", "x0", "+", "x0", "x0", "x2", "+", "5", "x1", "5", "x1", "+", "x2", "x0", "x1", "+", "2", "x0", "+", "S", "x1", "+"],
+              "MH": ["x0", "+", "D", "x2", "+", "x2", "x2", "x3", "+", "3", "x0", "6", "x1", "D", "x0", "x0", "x2", "+", "6", "x0", "+", "+", "x2", "S"],
+              "GF": ["x2", "J", "A", "x1", "+", "x1", "x0", "x0", "4", "+", "x1", "+", "x1", "A", "x1", "x3", "x0", "5", "+", "x0", "+", "J", "x0", "+"],
+              "GA": ["x1", "A", "J", "x0", "5", "x1", "x1", "x0", "5", "+", "x2", "2", "x1", "+", "x2", "x2", "x1", "4", "+", "x3", "+", "A", "x0", "B"]
+            }
+          },
+          {
+            "title": "Extra Investigation 2",
+            "level": "*****",
+            "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Gallery, The Chauffeur at The Grand Foyer, The Detective at The Gallery, The Journalist at The Stage, The Servant at The Grand Staircase",
+            "solution": "Who: The Chauffeur - Where: The Grand Foyer",
+            "score": [12, 19],
+            "locations": {
+              "ST": ["x1", "S", "B", "x1", "4", "x2", "x0", "x1", "5", "+", "x1", "4", "x2", "B", "x2", "x2", "x2", "+", "5", "x2", "+", "D", "x0", "+"],
+              "GS": ["x0", "+", "+", "x0", "+", "x1", "x0", "x1", "+", "2", "x1", "+", "x0", "+", "x0", "x0", "x0", "+", "+", "x0", "+", "C", "x1", "+"],
+              "DH": ["x3", "+", "J", "x2", "+", "x0", "x0", "x0", "+", "+", "x1", "6", "x1", "J", "x0", "x0", "x1", "6", "+", "x0", "+", "J", "x0", "+"],
+              "MH": ["x2", "D", "+", "x2", "+", "x0", "x2", "x1", "6", "+", "x0", "3", "x0", "A", "x2", "x1", "x2", "5", "6", "x0", "+", "+", "x0", "J"],
+              "GF": ["x0", "+", "C", "x1", "2", "x1", "x2", "x1", "3", "4", "x1", "+", "x1", "C", "x0", "x1", "x0", "+", "3", "x1", "+", "B", "x3", "S"],
+              "GA": ["x0", "C", "S", "x0", "3", "x2", "x2", "x2", "2", "5", "x2", "+", "x2", "+", "x2", "x2", "x1", "+", "2", "x3", "+", "S", "x2", "C"]
+            }
+          },
+          {
+            "title": "Extra Investigation 3",
+            "level": "*****",
+            "setup": "Time 1) The Adventurer at The Gallery, The Baroness at The Grand Staircase, The Chauffeur at The Grand Foyer, The Detective at The Grand Foyer, The Journalist at The Stage, The Servant at The Stage",
+            "solution": "Who: The Detective - Where: The Grand Staircase",
+            "score": [11, 20],
+            "locations": {
+              "ST": ["x3", "S", "+", "x1", "5", "x2", "x2", "x2", "2", "+", "x1", "+", "x0", "J", "x2", "x1", "x0", "3", "5", "x2", "+", "A", "x0", "B"],
+              "GS": ["x0", "A", "D", "x1", "+", "x1", "x0", "x0", "5", "2", "x2", "2", "x1", "D", "x1", "x1", "x3", "+", "+", "x1", "+", "C", "x1", "+"],
+              "DH": ["x2", "+", "J", "x1", "+", "x0", "x1", "x2", "+", "+", "x1", "+", "x1", "S", "x0", "x0", "x0", "4", "3", "x0", "+", "J", "x0", "S"],
+              "MH": ["x1", "J", "S", "x1", "6", "x0", "x0", "x2", "+", "+", "x1", "+", "x1", "B", "x1", "x0", "x0", "5", "2", "x1", "+", "S", "x0", "+"],
+              "GF": ["x0", "D", "A", "x0", "+", "x2", "x2", "x0", "4", "5", "x0", "3", "x1", "+", "x2", "x1", "x3", "+", "+", "x0", "+", "+", "x3", "D"],
+              "GA": ["x0", "+", "B", "x2", "2", "x1", "x1", "x0", "3", "6", "x1", "+", "x2", "A", "x0", "x3", "x0", "+", "+", "x2", "+", "B", "x2", "A"]
+            }
+          },
+          {
+            "title": "Extra Investigation 4",
+            "level": "*****",
+            "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Grand Staircase, The Chauffeur at The Grand Staircase, The Detective at The Music Hall, The Journalist at The Gallery, The Servant at The Music Hall",
+            "solution": "Who: The Chauffeur - Where: The Stage",
+            "score": [9, 17],
+            "locations": {
+              "ST": ["x2", "S", "J", "x1", "+", "x1", "x1", "x1", "5", "6", "x2", "4", "x2", "C", "x2", "x3", "x2", "2", "5", "x0", "+", "D", "x1", "A"],
+              "GS": ["x0", "B", "+", "x1", "3", "x2", "x1", "x0", "+", "+", "x0", "6", "x0", "D", "x1", "x0", "x1", "+", "+", "x3", "+", "+", "x1", "B"],
+              "DH": ["x1", "J", "A", "x0", "+", "x0", "x0", "x2", "4", "+", "x1", "+", "x2", "+", "x1", "x1", "x0", "5", "4", "x0", "+", "S", "x0", "+"],
+              "MH": ["x2", "+", "+", "x3", "+", "x2", "x2", "x3", "6", "+", "x0", "+", "x0", "A", "x0", "x1", "x1", "6", "3", "x0", "+", "+", "x0", "J"],
+              "GF": ["x0", "+", "B", "x1", "4", "x0", "x0", "x0", "+", "4", "x1", "+", "x2", "B", "x0", "x0", "x0", "+", "+", "x2", "+", "C", "x2", "+"],
+              "GA": ["x1", "C", "+", "x0", "2", "x1", "x2", "x0", "2", "3", "x2", "5", "x0", "+", "x2", "x1", "x2", "+", "+", "x1", "+", "A", "x2", "D"]
+            }
+          },
+          {
+            "title": "Extra Investigation 5",
+            "level": "*****",
+            "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Stage, The Chauffeur at The Gallery, The Detective at The Grand Foyer, The Journalist at The Grand Staircase, The Servant at The Grand Staircase",
+            "solution": "Who: The Detective - Where: The Grand Foyer",
+            "score": [11, 18],
+            "locations": {
+              "ST": ["x1", "C", "+", "x1", "5", "x2", "x2", "x0", "3", "2", "x1", "+", "x0", "J", "x3", "x3", "x0", "6", "+", "x3", "+", "C", "x2", "B"],
+              "GS": ["x2", "D", "+", "x0", "+", "x2", "x3", "x3", "+", "+", "x0", "3", "x0", "+", "x2", "x0", "x2", "3", "5", "x0", "+", "+", "x0", "J"],
+              "DH": ["x0", "+", "+", "x1", "6", "x0", "x1", "x0", "+", "3", "x1", "+", "x0", "B", "x0", "x0", "x0", "+", "+", "x2", "+", "B", "x1", "C"],
+              "MH": ["x0", "+", "B", "x0", "4", "x0", "x0", "x0", "+", "4", "x0", "+", "x2", "+", "x0", "x0", "x0", "+", "+", "x1", "+", "+", "x1", "+"],
+              "GF": ["x2", "+", "D", "x1", "+", "x1", "x0", "x1", "+", "+", "x2", "4", "x2", "D", "x0", "x0", "x3", "2", "2", "x0", "+", "S", "x0", "+"],
+              "GA": ["x1", "J", "S", "x3", "+", "x1", "x0", "x2", "4", "6", "x2", "2", "x2", "C", "x1", "x3", "x1", "5", "6", "x0", "+", "D", "x2", "+"]
+            }
+          },
+          {
+            "title": "Extra Investigation 6",
+            "level": "*****",
+            "setup": "Time 1) The Adventurer at The Grand Foyer, The Baroness at The Grand Staircase, The Chauffeur at The Stage, The Detective at The Music Hall, The Journalist at The Grand Foyer, The Servant at The Stage",
+            "solution": "Who: The Journalist - Where: The Gallery",
+            "score": [8, 15],
+            "locations": {
+              "ST": ["x0", "D", "+", "x1", "+", "x2", "x2", "x2", "+", "5", "x0", "3", "x0", "S", "x2", "x0", "x2", "+", "6", "x0", "+", "+", "x3", "C"],
+              "GS": ["x2", "+", "J", "x1", "6", "x1", "x0", "x0", "4", "+", "x1", "+", "x2", "B", "x0", "x1", "x0", "4", "+", "x2", "+", "J", "x0", "+"],
+              "DH": ["x0", "S", "D", "x1", "+", "x0", "x1", "x2", "+", "+", "x1", "6", "x1", "D", "x1", "x0", "x3", "+", "x", "x0", "+", "D", "x0", "S"],
+              "MH": ["x0", "+", "S", "x1", "+", "x1", "x0", "x2", "+", "6", "x2", "+", "x1", "C", "x0", "x0", "x1", "+", "2", "x0", "+", "C", "x2", "+"],
+              "GF": ["x2", "B", "+", "x1", "3", "x2", "x2", "x0", "6", "+", "x0", "+", "x0", "A", "x2", "x3", "x0", "5", "+", "x2", "+", "+", "x0", "A"],
+              "GA": ["x2", "A", "B", "x1", "4", "x0", "x1", "x0", "2", "4", "x2", "+", "x2", "J", "x1", "x2", "x0", "3", "+", "x2", "+", "B", "x1", "J"]
+            }
+          },
+          {
+            "title": "Extra Investigation 7",
+            "level": "*****",
+            "setup": "Time 1) The Adventurer at The Stage, The Baroness at The Gallery, The Chauffeur at The Grand Staircase, The Detective at The Gallery, The Journalist at The Grand Staircase, The Servant at The Grand Foyer",
+            "solution": "Who: The Journalist - Where: The Grand Staircase",
+            "score": [11, 18],
+            "locations": {
+              "ST": ["x0", "C", "+", "x1", "5", "x1", "x2", "x0", "3", "5", "x1", "6", "x0", "D", "x2", "x2", "x1", "+", "+", "x2", "+", "B", "x2", "C"],
+              "GS": ["x3", "+", "J", "x1", "+", "x2", "x0", "x1", "+", "+", "x2", "2", "x2", "J", "x0", "x0", "x2", "4", "2", "x0", "+", "S", "x1", "+"],
+              "DH": ["x0", "A", "B", "x0", "4", "x0", "x0", "x0", "5", "+", "x1", "+", "x1", "+", "x1", "x2", "x0", "+", "+", "x1", "+", "A", "x0", "+"],
+              "MH": ["x0", "+", "A", "x2", "3", "x0", "x1", "x0", "4", "6", "x0", "+", "x1", "A", "x0", "x2", "x0", "+", "+", "x1", "+", "+", "x1", "B"],
+              "GF": ["x2", "S", "+", "x0", "+", "x1", "x3", "x3", "+", "+", "x0", "3", "x0", "+", "x2", "x0", "x1", "5", "3", "x0", "+", "+", "x0", "J"],
+              "GA": ["x1", "D", "C", "x2", "6", "x2", "x0", "x2", "+", "4", "x2", "5", "x2", "B", "x1", "x0", "x2", "2", "6", "x2", "+", "C", "x2", "+"]
+            }
+          }
+        ]
+      }
+    ];
+
+    const timePlacards = {
+      1: [5, 20],
+      2: [10, 21],
+      3: [6, 23],
+      4: [12, 2],
+      5: [14, 1],
+      6: [3, 13]
+    };
+
+    const characterPlacards = {
+      "A": [15, 8],
+      "B": [19, 4],
+      "C": [22, 9],
+      "D": [16, 11],
+      "J": [0, 17],
+      "S": [7, 18]
+    };
+
+    // Game state
+    let currentScenario = null;
+    let currentInvestigation = null;
+    let score = 0;
+    let investigationHistory = [];
+    let historyVisible = true;
+
+    // DOM elements
+    const scenarioSelection = document.getElementById("scenario-selection");
+    const scenarioDescription = document.getElementById(
+      "scenario-description"
+    );
+    const investigationArea = document.getElementById("investigation-area");
+    const investigationName = document.getElementById("investigation-name");
+    const endInvestigationScreen = document.getElementById(
+      "end-investigation-screen"
+    );
+    const historyEntries = document.getElementById("history-entries");
+    const toggleHistoryButton = document.getElementById("toggle-history");
+
+    // Initialize the game
+    function initGame() {
+      createScenarioButtons();
+
+      // Event listeners
+      document
+        .getElementById("back-to-scenarios")
+        .addEventListener("click", showScenarioSelection);
+      document
+        .getElementById("back-to-investigations")
+        .addEventListener("click", showInvestigationSelection);
+      document
+        .getElementById("back-to-scenarios-end")
+        .addEventListener("click", showScenarioSelection);
+      document
+        .getElementById("end-investigation")
+        .addEventListener("click", endInvestigation);
+      document
+        .getElementById("new-investigation")
+        .addEventListener("click", showInvestigationSelection);
+      document
+        .getElementById("investigation-type")
+        .addEventListener("change", toggleInvestigationType);
+      document
+        .getElementById("submit-investigation")
+        .addEventListener("click", submitInvestigation);
+      toggleHistoryButton.addEventListener("click", toggleHistory);
+    }
+
+    function createScenarioButtons() {
+      const buttonsContainer = document.getElementById("scenario-buttons");
+      buttonsContainer.innerHTML = "";
+
+      const buttons = scenarios.map((scenario, index) => {
+        const button = document.createElement("button");
+        button.className = "btn";
+        button.textContent = scenario.title;
+        button.addEventListener("click", () => selectScenario(index));
+        buttonsContainer.appendChild(button);
+        return button;
+      });
+
+      requestAnimationFrame(() => {
+        let maxWidth = 0;
+        let maxHeight = 0;
+
+        buttons.forEach((btn) => {
+          const { offsetWidth, offsetHeight } = btn;
+          if (offsetWidth > maxWidth) maxWidth = offsetWidth;
+          if (offsetHeight > maxHeight) maxHeight = offsetHeight;
+        });
+
+        buttons.forEach((btn) => {
+          btn.style.width = `${maxWidth + 40}px`;
+          btn.style.height = `${maxHeight + 20}px`;
+        });
+      });
+    }
+
+    function selectScenario(index) {
+      currentScenario = scenarios[index];
+
+      document.getElementById("scenario-title").textContent =
+        currentScenario.title;
+      document.getElementById("scenario-desc").textContent =
+        currentScenario.description;
+      document.getElementById("scenario-mystery").textContent =
+        currentScenario.mystery;
+      document.getElementById("scenario-clarifications").textContent =
+        currentScenario.clarifications;
+
+      const buttonsContainer = document.getElementById(
+        "investigation-buttons"
+      );
+      buttonsContainer.innerHTML = "";
+
+      const buttons = currentScenario.investigations.map(
+        (investigation, idx) => {
+          const button = document.createElement("button");
+          button.className = "btn";
+          button.textContent = `${investigation.title} (${investigation.level})`;
+          button.addEventListener("click", () => selectInvestigation(idx));
+          buttonsContainer.appendChild(button);
+          return button;
+        }
+      );
+
+      requestAnimationFrame(() => {
+        let maxWidth = 0;
+        let maxHeight = 0;
+
+        buttons.forEach((btn) => {
+          const { offsetWidth, offsetHeight } = btn;
+          if (offsetWidth > maxWidth) maxWidth = offsetWidth;
+          if (offsetHeight > maxHeight) maxHeight = offsetHeight;
+        });
+
+        buttons.forEach((btn) => {
+          btn.style.width = `${maxWidth + 20}px`;
+          btn.style.height = `${maxHeight + 10}px`;
+        });
+      });
+
+      scenarioSelection.classList.add("hidden");
+      scenarioDescription.classList.remove("hidden");
+    }
+
+    // Select an investigation
+    function selectInvestigation(index) {
+      currentInvestigation = currentScenario.investigations[index];
+      score = 0;
+      investigationHistory = [];
+      updateHistoryDisplay();
+
+      // Update UI
+      document.getElementById(
+        "investigation-title"
+      ).textContent = `${currentScenario.title} | ${currentInvestigation.title}`;
+      document.getElementById("investigation-goal").textContent =
+        currentScenario.mystery;
+      document.getElementById(
+        "investigation-setup"
+      ).textContent = `Starting information: ${currentInvestigation.setup}`;
+      document.getElementById("score").textContent = score;
+
+      // Reset investigation result
+      document.getElementById("investigation-result").classList.add("hidden");
+
+      // Show investigation area
+      scenarioDescription.classList.add("hidden");
+      investigationArea.classList.remove("hidden");
+    }
+
+    // Show scenario selection
+    function showScenarioSelection() {
+      scenarioDescription.classList.add("hidden");
+      investigationArea.classList.add("hidden");
+      endInvestigationScreen.classList.add("hidden");
+      scenarioSelection.classList.remove("hidden");
+    }
+
+    // Show investigation selection
+    function showInvestigationSelection() {
+      investigationArea.classList.add("hidden");
+      endInvestigationScreen.classList.add("hidden");
+      scenarioDescription.classList.remove("hidden");
+    }
+
+    // Toggle investigation type
+    function toggleInvestigationType() {
+      const investigationType =
+        document.getElementById("investigation-type").value;
+      document
+        .getElementById("time-investigation")
+        .classList.toggle("hidden", investigationType !== "time");
+      document
+        .getElementById("character-investigation")
+        .classList.toggle("hidden", investigationType !== "character");
+    }
+
+    // Submit an investigation
+    function submitInvestigation() {
+      const investigationType =
+        document.getElementById("investigation-type").value;
+      let placard, location, investigationText, resultText;
+
+      if (investigationType === "time") {
+        const time = document.getElementById("time-select").value;
+        const locationCode = document.getElementById("time-location").value;
+        placard = timePlacards[parseInt(time)];
+        location = currentInvestigation.locations[locationCode];
+        investigationText = `${getLocationName(
+          locationCode
+        )} at Time ${time}`;
+      } else {
+        const character = document.getElementById("character-select").value;
+        const locationCode =
+          document.getElementById("character-location").value;
+        placard = characterPlacards[character];
+        location = currentInvestigation.locations[locationCode];
+        investigationText = `${getCharacterName(
+          character
+        )} at ${getLocationName(locationCode)}`;
+      }
+      investigationName.textContent = investigationText;
+
+      // Get results
+      const sharedInfo = location[placard[0]];
+      const privateInfo =
+        location[placard[1]] !== "+" ? location[placard[1]] : "go again";
+
+      // Update UI with results
+      document.getElementById(
+        "shared-info"
+      ).textContent = `Shared information: ${sharedInfo}`;
+      document.getElementById(
+        "private-info"
+      ).textContent = `Private information: ${privateInfo}`;
+      document
+        .getElementById("investigation-result")
+        .classList.remove("hidden");
+
+      // Add to history
+      resultText = `Shared: ${sharedInfo}, Private: ${privateInfo}`;
+      investigationHistory.unshift({
+        investigation: investigationText,
+        result: resultText,
+      });
+      updateHistoryDisplay();
+
+      // Update score
+      score++;
+      document.getElementById("score").textContent = score;
+    }
+
+    // Toggle history visibility
+    function toggleHistory() {
+      historyVisible = !historyVisible;
+      historyEntries.style.display = historyVisible ? "block" : "none";
+      toggleHistoryButton.textContent = historyVisible ? "Hide" : "Show";
+    }
+
+    // Update history display
+    function updateHistoryDisplay() {
+      historyEntries.innerHTML = "";
+
+      if (investigationHistory.length === 0) {
+        historyEntries.innerHTML =
+          "<p>No questions yet. Ask a question to see history.</p>";
+        return;
+      }
+
+      investigationHistory.forEach((entry) => {
+        const entryElement = document.createElement("div");
+        entryElement.className = "history-entry";
+        entryElement.innerHTML = `
                     <div class="history-investigation">${entry.investigation}</div>
                     <div class="history-result">${entry.result}</div>
                 `;
-                historyEntries.appendChild(entryElement);
-            });
-        }
+        historyEntries.appendChild(entryElement);
+      });
+    }
 
-        // Helper functions to get character and location names
-        function getCharacterName(code) {
-            const names = {
-                'A': 'The Adventurer',
-                'B': 'The Baroness',
-                'C': 'The Chauffeur',
-                'D': 'The Detective',
-                'J': 'The Journalist',
-                'S': 'The Servant'
-            };
-            return names[code];
-        }
+    // Helper functions to get character and location names
+    function getCharacterName(code) {
+      const names = {
+        A: "The Adventurer",
+        B: "The Baroness",
+        C: "The Chauffeur",
+        D: "The Detective",
+        J: "The Journalist",
+        S: "The Servant",
+      };
+      return names[code];
+    }
 
-        function getLocationName(code) {
-            const names = {
-                'ST': 'The Stage',
-                'GS': 'The Grand Staircase',
-                'DH': 'The Danse Hall',
-                'MH': 'The Music Hall',
-                'GF': 'The Grand Foyer',
-                'GA': 'The Gallery'
-            };
-            return names[code];
-        }
+    function getLocationName(code) {
+      const names = {
+        ST: "The Stage",
+        GS: "The Grand Staircase",
+        DH: "The Danse Hall",
+        MH: "The Music Hall",
+        GF: "The Grand Foyer",
+        GA: "The Gallery",
+      };
+      return names[code];
+    }
 
-        // End investigation
-        function endInvestigation() {
-            investigationArea.classList.add('hidden');
-            endInvestigationScreen.classList.remove('hidden');
+    // End investigation
+    function endInvestigation() {
+      investigationArea.classList.add("hidden");
+      endInvestigationScreen.classList.remove("hidden");
 
-            document.getElementById('solution-text').textContent = currentInvestigation.solution;
+      document.getElementById("solution-text").textContent =
+        currentInvestigation.solution;
 
-            let rank;
-            if (score <= currentInvestigation.score[0]) {
-                rank = "Gold";
-            } else if (score <= currentInvestigation.score[1]) {
-                rank = "Silver";
-            } else {
-                rank = "Bronze";
-            }
+      let rank;
+      if (score <= currentInvestigation.score[0]) {
+        rank = "Gold";
+      } else if (score <= currentInvestigation.score[1]) {
+        rank = "Silver";
+      } else {
+        rank = "Bronze";
+      }
 
-            document.getElementById('rank-display').textContent =
-                `If you played solo, with ${score} question(s) your rank is ${rank} Magnifying Glass.`;
-        }
+      document.getElementById(
+        "rank-display"
+      ).textContent = `If you played solo, with ${score} question(s) your rank is ${rank} Magnifying Glass.`;
+    }
 
-        // Initialize the game when the page loads
-        window.addEventListener('DOMContentLoaded', initGame);
-    </script>
+    // Initialize the game when the page loads
+    window.addEventListener("DOMContentLoaded", initGame);
+  </script>
 </body>
 
 </html>
